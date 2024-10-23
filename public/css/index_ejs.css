@@ -1,0 +1,124 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Para garantir que o body ocupe toda a altura */
+    position: relative; /* Para que o posicionamento absoluto funcione corretamente */
+    overflow-x: hidden;
+    font-family: Calibri;
+}
+
+.container {
+    width: 100%; /* Garantindo que o container ocupe toda a largura */
+    height: 100%; /* Para ocupar toda a altura, se necessário */
+    position: relative; /* Para que o conteúdo dentro possa ser posicionado em relação a ele */
+}
+
+#fullbox {
+    position: absolute; /* Permite posicionar o fullbox em relação ao container */
+    bottom: 0; /* Coloca o fullbox na parte inferior */
+    left: 0; /* Alinha o fullbox à esquerda */
+    width: 100%; /* Para garantir que o fullbox ocupe toda a largura */
+}
+
+#vetor1 {
+    width: 150%; /* A imagem ocupa 150% da largura do fullbox */
+    height: auto; /* Mantém a proporção da imagem */
+    display: block; /* Remove espaços em branco em torno da imagem */
+    position: relative; /* Permite que a imagem seja posicionada em relação ao seu contêiner */
+    left: -25%; /* Move a imagem para a esquerda para que fique centralizada */
+    filter: drop-shadow(0px 0px 10px rgba(36, 10, 10, 0.5));
+}
+#vetor2 {
+    position: absolute; /* Permite posicionar a imagem em relação ao fullbox */
+    top: 50%; /* Move a imagem para o meio da tela verticalmente */
+    left: 50%; /* Move a imagem para o meio da tela horizontalmente */
+    transform: translate(-50%, -50%); /* Ajusta a posição para centralizar a imagem */
+    max-width: 80%; /* Limita a largura máxima da imagem */
+    height: auto; /* Mantém a proporção da imagem */
+}
+
+.btn {
+    font-size: 15px;
+    border-radius: 26px;
+    position: fixed; /* O botão ficará fixo na parte inferior da tela */
+    bottom: 70px; /* Distância do botão em relação à parte inferior da tela */
+    left: 50%; /* Alinha o botão ao centro horizontalmente */
+    transform: translateX(-50%); /* Ajusta a posição do botão para centralizá-lo */
+    background-color: #000000; /* Cor de fundo do botão */
+    color: #ffffff; /* Cor do texto do botão */
+    padding: 20px 40px; /* Espaçamento interno do botão */ /* Remove bordas padrão */ /* Bordas arredondadas */
+    text-decoration: none; /* Remove sublinhado do link */
+    z-index: 10; /* Garante que o botão fique acima de outros elementos */
+}
+
+/* Media Queries para ajustar a imagem em diferentes tamanhos de tela */
+@media screen and (max-width: 768px) {
+    #vetor1 {
+        width: 130%; /* Para telas menores, a imagem ainda ocupa 150% da largura */
+         left: -5%;/* Move a imagem para a esquerda */
+    }
+
+    #vetor2{
+        margin-top: -100px;
+        width: 70%;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1200px) {
+    #vetor1 {
+        width: 110%;
+        height: 100vh; /* Mantém a largura de 150% em telas médias */
+        left: -10%; /* Move a imagem para a esquerda */
+    }
+
+    .btn {
+        padding: 10px 20px; /* Aumenta o padding do botão para torná-lo maior */
+        font-size: 18px; /* Aumenta o tamanho da fonte do botão */
+        border-radius: 55px; /* Aumenta o raio das bordas, se desejado */
+    }
+}
+
+@media screen and (min-width: 1201px) {
+    #vetor1 {
+        width: 125vw;
+        height: 100vh; /* Mantém a largura de 150% em telas grandes */
+        left: -15%; /* Move a imagem para a esquerda */
+    }
+
+    .btn {
+        padding: 20px 40px; /* Aumenta o padding do botão para torná-lo maior */
+        font-size: 18px; /* Aumenta o tamanho da fonte do botão */
+        border-radius: 55px; /* Aumenta o raio das bordas, se desejado */
+    }
+
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0; /* Começa invisível */
+        transform: scale(1.1); /* Começa um pouco maior */
+    }
+    100% {
+        opacity: 1; /* Fica totalmente visível */
+        transform: scale(1); /* Retorna ao tamanho normal */
+    }
+}
+
+/* Classe que será aplicada ao carregar a página */
+.fade-in {
+    animation: fadeIn 3s ease forwards; /* Duração da animação de 1 segundo */
+}
+
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1; /* Começa totalmente visível */
+    }
+    100% {
+        opacity: 0; /* Termina invisível */
+    }
+}
+
+.fade-out {
+    animation: fadeOut 0.5s ease forwards; /* Duração da animação de 0.5 segundos */
+}

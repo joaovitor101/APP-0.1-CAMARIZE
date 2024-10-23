@@ -1,0 +1,22 @@
+{
+  "name": "app-0.1-camarize",
+  "version": "1.0.0",
+  "description": "Aplicativo Camarize By Progresus, 23.10.2024",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx nodemon  index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "mysql2": "^3.11.3",
+    "nodemon": "^3.1.7",
+    "sequelize": "^6.37.4"
+  },
+  "type": "module"
+}

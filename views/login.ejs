@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/login_ejs.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Conecte-se para continuar</h2>
+    <form action="/tanques" method="post">
+
+    <input type="email" id="email" name="email" placeholder="Email" class="form-control" required>
+    <input type="password" id="password" name="senha" placeholder="Senha" class="form-control" required>
+
+    <button type="submit">Entrar</button>
+    </form>
+        <p>Não tem uma conta? <a href="/cadastro">Cadastre-se</a></p>
+    </div>
+</body>
+</html>

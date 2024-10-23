@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/index_ejs.css">
+
+
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div id="fullbox">
+            <img src="imgs/Vector.png" id="vetor1">
+            <img src="imgs/camarize.png" id="vetor2">
+        </div>
+        <a href="/login" class="btn btn-light text-dark" id="botao">Conecte-se</a>
+    </div>
+<!---------------------- SCRIPTS ---------------------->
+<script>
+        window.onload = function() {
+            // Adiciona a classe fade-in ao container quando a página é carregada
+            document.querySelector('.container').classList.add('fade-in');
+        };
+</script>
+
+
+<script>
+    document.getElementById('botao').addEventListener('click', function(event) {
+        event.preventDefault(); // Previne o redirecionamento imediato
+        const button = this;
+
+        // Adiciona a classe de animação de saída
+        button.classList.add('fade-out');
+
+        // Aguarda a animação terminar antes de redirecionar
+        setTimeout(function() {
+            window.location.href = button.href; // Redireciona para a nova página
+        }, 500); // Tempo deve ser igual ou maior que a duração da animação
+    });
+</script>
+
+
+
+</body>
+</html>
