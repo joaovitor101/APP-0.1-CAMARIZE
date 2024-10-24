@@ -28,18 +28,7 @@ body {
     margin: 0;
 }
 
-.search-bar {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
 
-.search-bar input[type="search"] {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
 
 .tanques-list {
     list-style: none;
@@ -67,8 +56,8 @@ body {
 .switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: 40px; /* Ajuste a largura conforme necessário */
+    height: 20px; /* Ajuste a altura conforme necessário */
 }
 
 .switch input {
@@ -86,21 +75,22 @@ body {
     bottom: 0;
     background-color: #ccc;
     transition: 0.4s;
+    border-radius: 20px; /* Adicione bordas arredondadas */
 }
 
 .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
+    height: 16px; /* Ajuste a altura da bolinha */
+    width: 16px; /* Ajuste a largura da bolinha */
+    left: 2px; /* Ajuste a posição */
+    bottom: 2px; /* Ajuste a posição */
     background-color: white;
     transition: 0.4s;
 }
 
 input:checked + .slider {
-    background-color: #2196F3;
+    background-color: #2196F3; /* Cor quando ativo */
 }
 
 input:focus + .slider {
@@ -108,7 +98,7 @@ input:focus + .slider {
 }
 
 input:checked + .slider:before {
-    transform: translateX(26px);
+    transform: translateX(20px); /* Ajuste a distância que a bolinha se move */
 }
 
 .slider.round {
@@ -118,7 +108,14 @@ input:checked + .slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
+.tanque-item a {
+    text-decoration: none; /* Remove o sublinhado */
+    color: inherit; /* Usa a cor do texto */
+}
 
+.tanque-item a:hover {
+    color: #0056b3; /* Altera a cor ao passar o mouse */
+}
 
 .hidden {
     display: none;
@@ -130,27 +127,37 @@ table {
 th, td {
     padding: 8px;
     text-align: left;
-    /* Remover bordas */
-    border: none;
+    border: none; /* Remover bordas padrão */
+    border-bottom: 1px solid #ddd; /* Adicionar borda inferior */
 }
 th {
     background-color: #f2f2f2;
     /* Estilo opcional para diferenciar o cabeçalho */
 }
 /* Estilo para ocultar a borda da tabela */
-table, thead, tbody {
-    border: none;
-}
 
+
+#icone_1{
+    width: 30%;
+}
 @media screen and (max-width: 768px) {
     .container{
-        max-width: 800px;
+        max-width: 1000px;
         font-size: 15px;
+        margin-top: -10%;
     }
 
     #foto{
-        width: 50%;
+        width: 40%;
     }
 
+    #icone_1{
+        width: 80%;
+        
+    }
+
+    #img_2{
+        width: 70%;
+    }
 
 }

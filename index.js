@@ -7,7 +7,7 @@ import TanqueConstrollers from "./Controllers/TanqueControllers.js"
 const app = express()
 
 // Permite capturar dados vindos de formulários
-app.use('/imgs', express.static('views/imgs'));
+app.use('/imgs', express.static('/imgs'));
 app.use(express.urlencoded({extended: false}))
 
 // Realizando a conexão com o banco de dados

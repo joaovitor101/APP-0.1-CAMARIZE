@@ -1,0 +1,99 @@
+@media screen and (max-width: 768px) {
+    .container {
+        width: 90%; /* Ajusta a largura do card para 90% da tela */
+        max-width: 90%; /* Largura máxima do card */
+        padding: 15px; /* Ajusta o padding para um melhor layout em telas menores */
+        
+    }
+
+    .btn {
+        padding: 12px; /* Ajusta o padding do botão */
+        font-size: 16px; /* Tamanho da fonte do botão */
+    }
+}
+@media screen and (min-width: 769px) and (max-width: 1200px) {
+    #vetor1 {
+        width: 110%;
+        height: 100vh; /* Mantém a altura da tela em telas médias */
+        left: -10%; /* Move a imagem para a esquerda */
+    }
+
+    .container {
+        width: 90%; /* Ajusta a largura do card para 90% da tela */
+        max-width: 90%; /* Largura máxima do card */
+        padding: 15px; /* Ajusta o padding para um melhor layout em telas menores */
+    }
+
+    .btn {
+        padding: 10px 20px; /* Aumenta o padding do botão */
+        font-size: 18px; /* Aumenta o tamanho da fonte do botão */
+        border-radius: 55px; /* Aumenta o raio das bordas, se desejado */
+    }
+}
+
+#temp, #ph, #amonia{
+    color: #c0c0c0;
+}
+@media screen and (min-width: 1201px) {
+    #vetor1 {
+        width: 125vw;
+        height: 100vh; /* Mantém a largura em telas grandes */
+        left: -15%; /* Move a imagem para a esquerda */
+    }
+
+    .card {
+        width: 50%; /* Ajusta a largura do card em telas grandes */
+        max-width: 800px; /* Largura máxima do card */
+    }
+
+    .btn {
+        padding: 20px 40px; /* Aumenta o padding do botão */
+        font-size: 18px; /* Aumenta o tamanho da fonte do botão */
+        border-radius: 55px; /* Aumenta o raio das bordas, se desejado */
+    }
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Para garantir que o body ocupe toda a altura */
+    overflow-x: hidden;
+    font-family: Calibri;
+}
+
+.container {
+    position: relative; /* Para posicionar elementos filhos em relação a ele */
+    height: 100vh; /* Para ocupar toda a altura da viewport */
+    display: flex; /* Usar flexbox para centralização */
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: center; /* Centraliza horizontalmente */
+}
+
+#vetor1 {
+    position: absolute; /* A imagem deve ser posicionada absolutamente */
+    width: 100%; /* Ocupa toda a largura do contêiner */
+    height: 100%; /* Ocupa toda a altura do contêiner */
+    top: 0; /* Posiciona a imagem no topo */
+    left: 0; /* Posiciona a imagem à esquerda */
+    z-index: 0; /* Garante que a imagem fique atrás do card */
+    filter: drop-shadow(0px 0px 10px rgba(36, 10, 10, 0.5)); /* Aplica sombra à imagem */
+}
+
+.card {
+    background-color: white; /* Cor de fundo do card */
+    border-radius: 8px; /* Bordas arredondadas */
+    padding: 20px; /* Espaçamento interno */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra do card */
+    width: 400px; /* Largura padrão do card */
+    z-index: 1; /* Coloca o card acima da imagem de fundo */
+}
+
+.form-control {
+    width: 100%; /* Faz os inputs ocuparem 100% da largura do card */
+    margin-bottom: 10px; /* Espaçamento entre os inputs */
+}
+
+.btn {
+    width: 100%; /* Faz o botão ocupar 100% da largura do card */
+    padding: 10px; /* Espaçamento interno do botão */
+}

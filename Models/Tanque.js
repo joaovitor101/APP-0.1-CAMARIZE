@@ -6,7 +6,13 @@ import connection from "../config/sequelize-config.js"
 
 // .define cria a trabela no banco
 const Tanque = connection.define('tanques', {
-    Local:{
+
+    nome:{
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+
+    local:{
         type: Sequelize.STRING,
         allowNull: false
     },
