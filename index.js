@@ -1,7 +1,7 @@
 import express from 'express'
 import connection from './config/sequelize-config.js'
 import ClientesController from "./Controllers/ClientesController.js";
-import FazendaControllers from "./Controllers/FazendaControllers.js" 
+// import FazendaControllers from "./Controllers/FazendaControllers.js" 
 import TanqueConstrollers from "./Controllers/TanqueControllers.js"
 
 const app = express()
@@ -31,7 +31,7 @@ app.use(express.static('public'))
 
 // Definindo o uso das rotas dos Controllers
 app.use("/", ClientesController)
-app.use("/", FazendaControllers)
+// app.use("/", FazendaControllers)
 app.use("/", TanqueConstrollers)
 
 // ROTA PRINCIPAL

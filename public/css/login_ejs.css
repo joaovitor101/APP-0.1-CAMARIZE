@@ -62,3 +62,62 @@ button:hover {
     color: #AED5FF; /* Cor do texto do link */
     font-weight: bold; /* Texto em negrito */
 }
+
+@media screen and (max-width: 768px) {
+    body {
+        padding: 10px; /* Adiciona um pouco de padding nas laterais */
+    }
+
+    .form-container {
+        width: 85%; /* Aumenta a largura da div do formulário para ocupar mais espaço */
+        padding: 20px; /* Reduz o padding interno */
+        min-height: 200px; /* Ajusta a altura mínima da div */
+    }
+
+    input[type="email"],
+    input[type="password"] {
+        width: 90%; /* Largura total do campo de entrada */
+        padding: 8px; /* Reduz o padding dos campos */
+    }
+
+    button {
+        padding: 10px; /* Reduz o padding do botão */
+    }
+
+    .register-container {
+        margin-top: 15px; /* Reduz o espaço acima da seção de cadastro */
+    }
+
+    ul {
+        line-height: 25px; /* Ajusta o espaçamento entre as linhas da lista */
+    }
+}
+
+@media screen and (min-width: 812px) and (max-width: 1200px) {
+    body {
+        padding: 10px; /* Adiciona um pouco de padding nas laterais */
+    }
+    .form-container {
+        width: 50%; /* Aumenta a largura da div do formulário para ocupar mais espaço */
+        padding: 20px; /* Reduz o padding interno */
+        min-height: 200px; /* Ajusta a altura mínima da div */
+    }
+
+    input[type="email"],
+    input[type="password"] {
+        width: 90%; /* Largura total do campo de entrada */
+        padding: 8px; /* Reduz o padding dos campos */
+    }
+
+    button {
+        padding: 10px; /* Reduz o padding do botão */
+    }
+
+    .register-container {
+        margin-top: 15px; /* Reduz o espaço acima da seção de cadastro */
+    }
+
+    ul {
+        line-height: 25px; /* Ajusta o espaçamento entre as linhas da lista */
+    }
+}
