@@ -30,7 +30,8 @@ a {
 }
 
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+input[type="text"] {
     width: 90%; /* Largura total do campo de entrada */
     padding: 10px; /* Espaçamento interno dos campos */
     margin: 10px 0; /* Margem entre os campos */

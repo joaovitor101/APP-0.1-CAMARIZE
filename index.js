@@ -1,14 +1,24 @@
 import express from 'express'
 import connection from './config/sequelize-config.js'
 import ClientesController from "./Controllers/ClientesController.js";
+import CadastroController from "./Controllers/CadastroController.js"
 // import FazendaControllers from "./Controllers/FazendaControllers.js" 
-import TanqueConstrollers from "./Controllers/TanqueControllers.js"
-
+import TanqueConstrollers from "./Controllers/TanqueControllers.js";
+import session from 'express-session';
 const app = express()
+
+app.use(session({
+    secret: 'seloco',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Use secure: true se estiver usando HTTPS
+}));
 
 // Permite capturar dados vindos de formulários
 app.use('/imgs', express.static('/imgs'));
-app.use(express.urlencoded({extended: false}))
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Realizando a conexão com o banco de dados
 connection.authenticate().then(() => {
@@ -33,7 +43,7 @@ app.use(express.static('public'))
 app.use("/", ClientesController)
 // app.use("/", FazendaControllers)
 app.use("/", TanqueConstrollers)
-
+app.use("/", CadastroController)
 // ROTA PRINCIPAL
 app.get("/",function(req,res){
     res.render("index")
@@ -48,3 +58,6 @@ app.listen(8080,function(erro){
         console.log("Servidor iniciado com sucesso!")
     }
 })
+
+
+

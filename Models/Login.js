@@ -11,16 +11,6 @@ const Cliente = connection.define('clientes', {
         allowNull: false
     },
 
-    cpf:{
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-
-    endereco: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-
     email: {
         type: Sequelize.STRING,
         allowNull: false

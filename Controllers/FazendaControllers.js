@@ -1,78 +1,26 @@
-// import express from "express";
-// const router = express.Router();
+import express from 'express';
+const router = express.Router();
 
-// // Importando o model de Cliente
+router.post('/fazenda', (req, res) => {
+    const dadosParte1 = req.session.dadosParte1;
+    const senha = req.body.senha;
 
-// import Fazenda from "../Models/Fazenda.js";
+    // Verifica se os dados do primeiro formulário estão presentes
+    if (!dadosParte1) {
+        return res.redirect('/cadastro'); // Se não, redireciona para o primeiro formulário
+    }
 
-// // ROTA CLIENTES
-// // router.get("/tanques", function (req, res) {
-// //   Cliente.findAll().then((clientes) => {
-// //     res.render("clientes", {
-// //       clientes: clientes,
-// //     });
-// //   });
-// // });
-
-// // ROTA DE CADASTRO DE CLIENTES
-
-// router.post("/clientes/new", (req, res) => {
-//   const nome = req.body.nome;
-//   const cpf = req.body.cpf;
-//   const endereco = req.body.endereco;
-//   Cliente.create({
-//     nome: nome,
-//     cpf: cpf,
-//     endereco: endereco,
-//   }).then(() => {
-//     res.redirect("/clientes");
-//   });
-// });
-
-// router.get("/clientes/delete/:id", (req, res) => {
-//   const id = req.params.id;
-
-//   Cliente.destroy({
-//     where: {
-//       id: id,
-//     },
-//   })
-//     .then(() => {
-//       res.redirect("/clientes");
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-// });
-
-// router.get("/clientes/edit/:id", (req, res) => {
-//   const id = req.params.id;
-//   Cliente.findByPk(id).then((cliente) => {
-//     res.render("clienteEdit", {
-//       cliente: cliente,
-//     });
-//   });
-// });
-
-// router.post("/clientes/update", (req, res) => {
-//   const id = req.body.id;
-//   const nome = req.body.nome;
-//   const cpf = req.body.cpf;
-//   const endereco = req.body.endereco;
-
-//   Cliente.update(
-//     {
-//       nome: nome,
-//       cpf: cpf,
-//       endereco: endereco,
-//     },
-//     { where: { id: id } }
-//   )
-//     .then(() => {
-//       res.redirect("/clientes");
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-// });
-// export default router;
+    // Tenta salvar os dados no banco de dados
+    Login.create({
+        nome: dadosParte1.nome,
+        email: dadosParte1.email,
+        senha: dadosParte1.senha
+    }).then(() => {
+        // Limpa os dados da sessão após salvar
+        req.session.dadosParte1 = null;
+        res.redirect('/tanques');
+    }).catch((error) => {
+        console.log(error);
+        res.status(500).send('Erro ao cadastrar');
+    });
+});
