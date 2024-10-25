@@ -55,9 +55,9 @@
                     
                     <input type="hidden" name="id" value="<%= tanque.id %>">
                     <br>
-                    <input type="submit" class="btn btn-warning" value="Alterar" onclick="return confirm('Confirma as alterações para o produto <%= tanque.nome %>?')">
+                    <input type="submit" class="btn btn-warning" value="Alterar" onclick="return confirm('Você realmente deseja alterar os dados do tanque <%= tanque.nome %>?')">
                 </form>
-                
+                <td><a href="/tanques/delete/<%= tanque.id %>" class="btn btn-danger mt-2" onclick="return confirm('Você realmente deseja excluir o tanque <%= tanque.nome %>?')" style="color:#ffffff">Deletar Tanque</a></td>
             </div>
         </div>
     </div>

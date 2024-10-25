@@ -41,6 +41,24 @@ router.get("/tanques/new", function (req, res) {
     });
   });
 
+
+  router.get("/tanques/delete/:id", (req, res) => {
+    const id = req.params.id;
+  
+    Tanque.destroy({
+      where: {
+        id: id,
+      },
+    })
+      .then(() => {
+        res.redirect("/tanques");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
+
+
   router.get("/tanques/edit/:id", (req, res) => {
     const id = req.params.id;
     Tanque.findByPk(id).then((tanque) => {
@@ -61,7 +79,27 @@ router.get("/tanques/new", function (req, res) {
     });
 });
 
+router.post("/tanques/update", (req, res) => {
+  const id = req.body.id;
+  const nome = req.body.nome;
+  const local = req.body.local;
+  const data = req.body.data;
 
+  Tanque.update(
+    {
+      nome: nome,
+      local : local,
+      data: data,
+    },
+    { where: { id: id } }
+  )
+    .then(() => {
+      res.redirect("/tanques");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
 
 // Rota POST para /tanques (se necessário)
 
