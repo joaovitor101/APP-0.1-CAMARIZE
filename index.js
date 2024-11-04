@@ -1,18 +1,11 @@
-import express from 'express'
+import express from 'express';
 import connection from './config/sequelize-config.js'
 import ClientesController from "./Controllers/ClientesController.js";
 import CadastroController from "./Controllers/CadastroController.js"
-// import FazendaControllers from "./Controllers/FazendaControllers.js" 
+import FazendaControllers from "./Controllers/FazendaControllers.js" 
 import TanqueConstrollers from "./Controllers/TanqueControllers.js";
-import session from 'express-session';
-const app = express()
 
-app.use(session({
-    secret: 'seloco',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false } // Use secure: true se estiver usando HTTPS
-}));
+const app = express()
 
 // Permite capturar dados vindos de formulários
 app.use('/imgs', express.static('/imgs'));
@@ -41,7 +34,7 @@ app.use(express.static('public'))
 
 // Definindo o uso das rotas dos Controllers
 app.use("/", ClientesController)
-// app.use("/", FazendaControllers)
+app.use("/", FazendaControllers)
 app.use("/", TanqueConstrollers)
 app.use("/", CadastroController)
 // ROTA PRINCIPAL

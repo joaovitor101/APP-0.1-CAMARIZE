@@ -1,22 +1,34 @@
-import { Router } from 'express';
-
-const router = Router();
-
+import express from 'express';
+const router = express.Router();
+import Login from '../Models/Login.js';
 // Rota para processar o primeiro formulário
-router.post('/cadastro', (req, res) => {
-    // Verifica se req.session está disponível
-    if (!req.session) {
-        return res.status(500).send('Sessão não inicializada corretamente.');
-    }
 
-    // Armazena os dados do primeiro formulário na sessão
-    req.session.dadosParte1 = {
-        nome: req.body.nome,  // Pega o valor do campo "nome"
-        email: req.body.email // Pega o valor do campo "email"
-    };
-    
-    // Redireciona para o segundo formulário
-    res.redirect('/fazenda');
-});
+router.get("/cadastro", function (req, res) {
+    // Lógica para processar dados, se necessário.
+    res.render("cadastro"); // Redirecionar para a rota GET
+  });
+
+
+//   router.get("/cadastro", function (req, res) {
+//     Login.findAll().then((clientes) => {
+//       res.render("cadastro", {
+//         clientes: clientes,
+//       });
+//     });
+//   });
+
+  router.post("/cadastro/new", (req, res) => {
+    const nome = req.body.nome;
+    const email = req.body.email;
+    const senha = req.body.senha;
+    Login.create({
+      nome: nome,
+      senha: senha,
+      email: email,
+    }).then(() => {
+      res.redirect("/cadastroFazenda");
+    });
+  });
+
 
 export default router;
