@@ -1,8 +1,10 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 body {
-    font-family: calibri;
+
+    font-family: Poppins;
     height: 100vh; /* Garante que o fundo ocupe toda a altura da tela */
     margin: 0; /* Remove margens padrão */
-    background: linear-gradient(to top, #FFC2C2, #AED5FF); /* Gradiente de fundo */
     display: flex; /* Usando flexbox para centralizar */
     justify-content: center; /* Centraliza horizontalmente */
     align-items: center; /* Centraliza verticalmente */
@@ -22,9 +24,8 @@ a {
 .form-container {
     background-color: white; /* Cor de fundo da div do formulário */
     border-radius: 10px; /* Bordas arredondadas */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Sombra da div */
     padding: 30px; /* Espaçamento interno */
-    width: 320px; /* Largura da div */
+    width: 500px; /* Largura da div */
     text-align: center; /* Centraliza o texto dentro da div */
     min-height: 250px; /* Altura mínima da div */
 }
@@ -37,15 +38,19 @@ input[type="password"] {
     border: 1px solid #ccc; /* Borda dos campos */
     border-radius: 5px; /* Bordas arredondadas dos campos */
 }
-
+.gradient-hr {
+    border: none;
+    height: 1.5px; /* Ajuste a altura conforme necessário */
+    background: linear-gradient(to right, #FFC2C2, #AED5FF); /* Gradiente de fundo */
+}
 button {
-    background-color: #000000; /* Cor do botão */
+    background: linear-gradient(to right, #FFC2C2, #AED5FF); /* Gradiente de fundo */
     color: white; /* Cor do texto do botão */
     border: none; /* Remove a borda padrão */
     padding: 12px; /* Espaçamento interno do botão */
     border-radius: 5px; /* Bordas arredondadas do botão */
     cursor: pointer; /* Cursor de mão ao passar sobre o botão */
-    width: 100%; /* Largura total do botão */
+    width: 90%; /* Largura total do botão */
     margin-top: 10px; /* Margem superior para o botão */
 }
 
@@ -69,7 +74,7 @@ button:hover {
     }
 
     .form-container {
-        width: 85%; /* Aumenta a largura da div do formulário para ocupar mais espaço */
+        width: 105%; /* Aumenta a largura da div do formulário para ocupar mais espaço */
         padding: 20px; /* Reduz o padding interno */
         min-height: 200px; /* Ajusta a altura mínima da div */
     }
@@ -98,7 +103,7 @@ button:hover {
         padding: 10px; /* Adiciona um pouco de padding nas laterais */
     }
     .form-container {
-        width: 50%; /* Aumenta a largura da div do formulário para ocupar mais espaço */
+        width: 80%; /* Aumenta a largura da div do formulário para ocupar mais espaço */
         padding: 20px; /* Reduz o padding interno */
         min-height: 200px; /* Ajusta a altura mínima da div */
     }
