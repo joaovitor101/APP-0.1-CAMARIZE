@@ -8,6 +8,9 @@ Mobile - Main Portrait<br>
   
 ![image](https://github.com/user-attachments/assets/88e56ddd-a62c-4edd-8896-8565ca2db01d)
 
+![image](https://github.com/user-attachments/assets/21abd537-ee5c-4642-b9ef-0b1ea14f8dd6)
+
+
 <br>
 ![image](https://github.com/user-attachments/assets/bc2239d7-5c9f-420c-a848-57970d31de1b) 
 </div>
