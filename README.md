@@ -6,7 +6,7 @@ Mobile - Main Portrait<br>
 <div class="dois" style="display: flex;">
 <br>
   
-![image](https://github.com/user-attachments/assets/706d3337-894a-4275-927e-640dae4d2795)
+![image](https://github.com/user-attachments/assets/88e56ddd-a62c-4edd-8896-8565ca2db01d)
 
 <br>
 ![image](https://github.com/user-attachments/assets/bc2239d7-5c9f-420c-a848-57970d31de1b) 
