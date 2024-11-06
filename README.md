@@ -13,8 +13,6 @@ Mobile - Main Portrait<br>
 
 <br>
 
-![image](https://github.com/user-attachments/assets/bc2239d7-5c9f-420c-a848-57970d31de1b) 
-
 </div>
 
 <br><br>
