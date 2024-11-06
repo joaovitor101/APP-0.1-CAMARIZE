@@ -23,5 +23,8 @@ Mobile - Landscape
 Web
 ![image](https://github.com/user-attachments/assets/9b50338d-b72e-48cc-91ce-2b0a726530ef)
 
+![image](https://github.com/user-attachments/assets/a324c62f-55ec-4890-b3eb-71e8e312a75c)
+
+
 
 
