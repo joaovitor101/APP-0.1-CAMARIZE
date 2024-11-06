@@ -4,6 +4,7 @@ import ClientesController from "./Controllers/ClientesController.js";
 import CadastroController from "./Controllers/CadastroController.js"
 import FazendaControllers from "./Controllers/FazendaControllers.js" 
 import TanqueConstrollers from "./Controllers/TanqueControllers.js";
+// import UsersController from "./Controllers/UsersController.js";
 
 const app = express()
 
@@ -37,6 +38,7 @@ app.use("/", ClientesController)
 app.use("/", FazendaControllers)
 app.use("/", TanqueConstrollers)
 app.use("/", CadastroController)
+// app.use("/", UsersController)
 // ROTA PRINCIPAL
 app.get("/",function(req,res){
     res.render("index")

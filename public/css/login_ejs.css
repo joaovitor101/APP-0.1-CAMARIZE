@@ -54,9 +54,6 @@ button {
     margin-top: 10px; /* Margem superior para o botão */
 }
 
-button:hover {
-    background-color: #000000; /* Cor do botão ao passar o mouse */
-}
 
 .register-container {
     margin-top: 20px; /* Espaçamento acima da seção de cadastro */

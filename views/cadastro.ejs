@@ -4,19 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/cadastro_ejs.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <title>Document</title>
 </head>
 <body>
     <div class="form-container">
-        <h2>Cadastre-se para continuar</h2>
+        <h2 class="text-left text-2xl font-bold p-4">Cadastre-se para continuar</h2>
+        <hr class="gradient-hr mb-4">
     <form action="/cadastro/new" method="post">
     <input type="text" id="nome" name="nome" placeholder="Nome" class="form-control" required>
     <input type="email" id="email" name="email" placeholder="Email" class="form-control" required>
     <input type="password" id="password" name="senha" placeholder="Senha" class="form-control" required>
 
-    <button type="submit">Prosseguir</button>
+    <button type="submit" class="btn-custom">Prosseguir</button>
+    <hr class="gradient-hr mb-4 mt-4">
     </form>
+    <p class="mt-2">Já tem uma conta? <a href="/login" class="text-[#6691FF]">Conecte-se</a></p>
+
     </div>
+    <img src="/imgs/camarize.png" class="w-48 mt-4" alt="">
 </body>
 </html>
 
