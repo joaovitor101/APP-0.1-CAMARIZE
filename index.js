@@ -4,7 +4,7 @@ import ClientesController from "./Controllers/ClientesController.js";
 import CadastroController from "./Controllers/CadastroController.js"
 import FazendaControllers from "./Controllers/FazendaControllers.js" 
 import TanqueConstrollers from "./Controllers/TanqueControllers.js";
-// import UsersController from "./Controllers/UsersController.js";
+import UsersController from "./Controllers/UsersController.js";
 
 const app = express()
 
@@ -38,12 +38,15 @@ app.use("/", ClientesController)
 app.use("/", FazendaControllers)
 app.use("/", TanqueConstrollers)
 app.use("/", CadastroController)
-// app.use("/", UsersController)
+app.use("/", UsersController)
 // ROTA PRINCIPAL
 app.get("/",function(req,res){
     res.render("index")
 })
 
+// app.post("/upload", upload.single("file"), (req, res) =>{
+//     res.send("Arquivo Recebido !")
+// })
 // INICIA O SERVIDOR NA PORTA 8080
 app.listen(8080,function(erro){
     if(erro) {

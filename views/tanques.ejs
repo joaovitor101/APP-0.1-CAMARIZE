@@ -37,12 +37,12 @@
         <tbody id="tanquesList">
           <% tanques.forEach(tanque => { %>
           <tr class="tanque-item">
-            <td id="celula">
+            <td id="celula" style="width: 130px;">
               <img
-                src="<%= tanque.imagem %>"
-                alt=""
+               src="<%= '/uploads/' + tanque.imagem %>"
+                alt=""    
                 id="img_2"
-                class="img-fluid"
+               
               />
             </td>
             <td class="tanque-local">
@@ -50,12 +50,12 @@
               <span style="color: #c0c0c0"> <%= tanque.local %> </span>
             </td>
 
-            <td class="tanque-data">
+            <!-- <td class="tanque-data">
               <span
                 ><%= tanque.data ? new
                 Date(tanque.data).toLocaleDateString('pt-BR') : '' %></span
               >
-            </td>
+            </td> -->
             <td>
               <a href="/tanques/edit/<%= tanque.id %>" style="color: #77a5fa"
                 >editar</a

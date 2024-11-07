@@ -1,6 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import Login from '../Models/Login.js';
+
 // Rota para processar o primeiro formulário
 
 router.get("/cadastro", function (req, res) {

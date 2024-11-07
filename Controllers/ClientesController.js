@@ -5,15 +5,6 @@ const router = express.Router();
 
 import Login from "../Models/Login.js";
 
-// ROTA CLIENTES
-router.get("/login", function (req, res) {
-  Login.findAll().then((clientes) => {
-    res.render("login", {
-      clientes: clientes,
-    });
-  });
-});
-
 
 // ROTA DE CADASTRO DE CLIENTES
 

@@ -1,74 +1,72 @@
 import express from "express";
 const router = express.Router();
-import User from "../models/User.js";
-import bcrypt from "bcrypt"
-// ROTA DE LOGIN
-router.get("/login", (req,res) => {
-    res.render("login");
+
+// Importando o model de Cliente
+
+import Login from "../Models/Login.js";
+
+// ROTA CLIENTES
+router.get("/login", function (req, res) {
+  Login.findAll().then((clientes) => {
+    res.render("login", {
+      clientes: clientes,
+    });
+  });
 });
 
-// ROTA DE CADASTRO
-router.get("/cadastro", (req,res) => {
-    res.render("cadastro");
-});
 
-// ROTA DE CRIAÇÃO DE USUÁRIO
-router.post("/createUser", (req,res) => {
+router.post("/cadastro/new", (req, res) => {
+    const nome = req.body.nome;
     const email = req.body.email;
-    const password = req.body.password;
-    // VERIFICAR SE O USUÁRIOI JÁ ESTÁ CADASTRADO
-    User.findOne({where: {email: email}}).then((user) => {
-        if(user == undefined){
-            // AQUI É FEITO O CADASTRO E O HASH DE SENHA
-            const salt = bcrypt.genSaltSync(10)
-            const hash = bcrypt.hashSync(password, salt)
-      User.create({
-        email: email,
-        password: hash,
+    const senha = req.body.senha;
+    Login.create({
+      nome: nome,
+      senha: senha,
+      email: email,
     }).then(() => {
-        res.redirect("/login");
+      res.redirect("/cadastroFazenda");
     });
-       // CASO O USUÁRIO JÁ ESTEJA CADASTRADO:
-    } else {
+  });
 
-        res.send('Usuário já cadastrado. <br> <a href ="/login">Faça login!</a>');
-     }
-    }); 
+  router.post("/authenticate", async (req, res) => {
+	const { email, senha } = req.body;
+	try {
+		const user = await User.findOne({
+			where: {
+				email: email,
+			},
+		});
+		if (user != undefined) {
+			// compara a senha
+			const correct = bcrypt.compareSync(senha, user.senha);
+			// se estiver correta então...
+			if (correct) {
+				req.session.user = {
+					id: user.id,
+					email: user.email,
+				};
+				// res.send(`Usuário logado:<br>
+				// 	ID: ${req.session.user["id"]}<br>
+				// 	E-mail: ${req.session.user["email"]}`);
+				// ENVIAR UMA MENSAGEM DE SUCESSO
+				req.flash("success", "Login efetuado com sucesso!");
+				res.redirect("/");
+			} else {
+				req.flash(
+					"error",
+					"A senha informada está incorreta. Tente novamente!"
+				);
+				res.redirect("/login");
+			}
+		} else {
+			req.flash(
+				"error",
+				"O usuário informado não existe. Tente novamente!"
+			);
+			res.redirect("/login");
+		}
+	} catch (error) {
+		console.log(error);
+	}
 });
-
-// ROTA DE AUTENTICAÇÃO
-router.post("/authenticate", (req,res) => {
-    const email = req.body.email
-    const password = req.body.password
-    // BUSCA O USUÁRIO NO BANCO
-    User.findOne({
-        where:{
-            email : email
-        }
-    }).then((user => {
-        // SE O USUÁRIO TIVER CADASTRADO:
-        if(user != undefined){
-            // VALIDA A SENHA (VERIFICA O HASH)
-            const correct = bcrypt.compareSync(password, user.password)
-            if(correct){
-                // AUTORIZA O LOGIN
-             req.session.user = {
-                id: user.id,
-                email: user.email
-             }
-             res.redirect("/");
-            } else{
-                res.send('Senha inválida! <br><a href="/login">Tente novamente!</a>')
-            }
-        }
-        else{
-            // SE O USUÁRIO NÃO EXISTE 
-            res.send('Usuário não cadastrado. <br>                       <a href ="/login">Tente novamente!</a>');
-        }
-    })).catch((error) => {
-        console.log(error);
-    });
-})
-
-
-export default router;
+export default router

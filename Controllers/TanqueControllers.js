@@ -1,11 +1,20 @@
 import express from 'express';
 const router = express.Router();
 import Tanque from '../models/Tanque.js';
+import multer from 'multer';
+import path from 'path'
+
+
+
+const upload = multer({dest: "public/uploads"})
+
 
 router.post("/tanques", function (req, res) {
   // Lógica para processar dados, se necessário.
   res.redirect('/tanques'); // Redirecionar para a rota GET
 });
+
+
 // Rota GET para /tanques
 router.get("/tanques", function (req, res) {
     Tanque.findAll().then((tanques) => {
@@ -24,12 +33,17 @@ router.get("/tanques/new", function (req, res) {
   });
 });
 
-  router.post("/tanques/new", (req, res) => {
+  router.post("/tanques/new", upload.single('file'),(req, res) => {
+    const imagem = req.file ? req.file.filename : null;
     const nome = req.body.nome;
     const local = req.body.local;
     const data = req.body.data;
-  
+    const fileExtension = path.extname(req.file.originalname);  // Ex: ".jpg", ".png"
+    const fileName = req.file.filename;  // Nome único do arquivo 
+    console.log('Arquivo:', req.file);
+    console.log('Extensão do arquivo:', fileExtension);
     Tanque.create({
+      imagem: imagem,
       nome: nome,
       local: local,
       data: data,
