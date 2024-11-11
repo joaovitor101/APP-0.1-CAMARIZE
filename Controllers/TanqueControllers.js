@@ -3,7 +3,7 @@ const router = express.Router();
 import Tanque from '../models/Tanque.js';
 import multer from 'multer';
 import path from 'path'
-
+import Auth from "../middleware/Auth.js";
 
 
 const upload = multer({dest: "public/uploads"})

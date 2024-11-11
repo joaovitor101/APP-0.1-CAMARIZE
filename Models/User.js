@@ -7,7 +7,7 @@ const User = connection.define('users' ,{
         allowNull: false,
     },
 
-    password: {
+    senha: {
         type: Sequelize.STRING,
         allowNull: false,
     },

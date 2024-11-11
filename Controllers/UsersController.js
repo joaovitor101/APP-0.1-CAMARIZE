@@ -1,34 +1,74 @@
 import express from "express";
 const router = express.Router();
+import User from "../models/User.js";
+import bcrypt from "bcrypt";
 
-// Importando o model de Cliente
-
-import Login from "../Models/Login.js";
-
-// ROTA CLIENTES
-router.get("/login", function (req, res) {
-  Login.findAll().then((clientes) => {
-    res.render("login", {
-      clientes: clientes,
-    });
-  });
+// ROTA DE LOGIN
+router.get("/login", async (req, res) => {
+	try {
+		res.render("login", {
+			errorMessage: req.flash("error"),
+			successMessage: req.flash("success"),
+			loggedOut: true,
+		});
+	} catch (error) {
+		console.log(error);
+	}
 });
 
+// ROTA DE LOGOUT
+router.get("/logout", (req, res) => {
+	req.session.user = undefined;
+	req.flash("success", "Logout efetuado com sucesso!");
+	res.redirect("/");
+});
 
-router.post("/cadastro/new", (req, res) => {
-    const nome = req.body.nome;
-    const email = req.body.email;
-    const senha = req.body.senha;
-    Login.create({
-      nome: nome,
-      senha: senha,
-      email: email,
-    }).then(() => {
-      res.redirect("/cadastroFazenda");
-    });
-  });
+// ROTA DE REGISTRO
+router.get("/register", async (req, res) => {
+	try {
+		res.render("register", {
+			successMessage: req.flash("success"),
+			errorMessage: req.flash("error"),
+			loggedOut: true,
+		});
+	} catch (error) {
+		console.log(error);
+	}
+});
 
-  router.post("/authenticate", async (req, res) => {
+// ROTA DE CRIAÇÃO DE USUÁRIO
+router.post("/createUser", async (req, res) => {
+	const { email, senha } = req.body;
+	try {
+		const buscaUm = await User.findOne({
+			where: {
+				email: email,
+			},
+		});
+		if (buscaUm == undefined) {
+			const salt = bcrypt.genSaltSync(10);
+			const hash = bcrypt.hashSync(senha, salt);
+			try {
+				const novo = await User.create({
+					email: email,
+					senha: hash,
+				});
+				if (novo) {
+					res.redirect("/login");
+				}
+			} catch (error) {
+				console.log(error);
+			}
+			// caso o usuário já es teja cadastrado
+		} else {
+			req.flash("error", "O usuário informado já existe. Faça o login!");
+			res.redirect("/register");
+		}
+	} catch {}
+});
+
+// ROTA DE AUTENTICAÇÃO
+router.post("/authenticate", async (req, res) => {
 	const { email, senha } = req.body;
 	try {
 		const user = await User.findOne({
@@ -69,4 +109,5 @@ router.post("/cadastro/new", (req, res) => {
 		console.log(error);
 	}
 });
-export default router
+
+export default router;

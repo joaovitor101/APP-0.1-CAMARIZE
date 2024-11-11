@@ -1,12 +1,24 @@
 import express from 'express';
 import connection from './config/sequelize-config.js'
 import ClientesController from "./Controllers/ClientesController.js";
-import CadastroController from "./Controllers/CadastroController.js"
 import FazendaControllers from "./Controllers/FazendaControllers.js" 
 import TanqueConstrollers from "./Controllers/TanqueControllers.js";
 import UsersController from "./Controllers/UsersController.js";
+import flash from "express-flash";
+import session from "express-session";
+
 
 const app = express()
+app.use(flash());
+
+app.use(
+	session({
+		secret: "lojasecret",
+		cookie: { maxAge: 3600000 },
+		saveUninitialized: false,
+		resave: false,
+	})
+);
 
 // Permite capturar dados vindos de formulários
 app.use('/imgs', express.static('/imgs'));
@@ -37,12 +49,14 @@ app.use(express.static('public'))
 app.use("/", ClientesController)
 app.use("/", FazendaControllers)
 app.use("/", TanqueConstrollers)
-app.use("/", CadastroController)
 app.use("/", UsersController)
 // ROTA PRINCIPAL
-app.get("/",function(req,res){
-    res.render("index")
-})
+app.get("/", (req, res) => {
+	res.render("index", {
+		successMessage: req.flash("success"),
+		errorMessage: req.flash("error"),
+	});
+});
 
 // app.post("/upload", upload.single("file"), (req, res) =>{
 //     res.send("Arquivo Recebido !")

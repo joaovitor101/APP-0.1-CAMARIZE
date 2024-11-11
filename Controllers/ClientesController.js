@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-
+import Auth from "../middleware/Auth.js";
 // Importando o model de Cliente
 
 import Login from "../Models/Login.js";
