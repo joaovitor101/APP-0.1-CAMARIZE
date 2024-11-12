@@ -16,7 +16,7 @@ router.post("/tanques", function (req, res) {
 
 
 // Rota GET para /tanques
-router.get("/tanques", function (req, res) {
+router.get("/tanques", Auth, function (req, res) {
     Tanque.findAll().then((tanques) => {
       res.render("tanques", {
         tanques: tanques,

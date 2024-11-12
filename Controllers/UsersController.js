@@ -10,6 +10,7 @@ router.get("/login", async (req, res) => {
 			errorMessage: req.flash("error"),
 			successMessage: req.flash("success"),
 			loggedOut: true,
+			username: req.session.username
 		});
 	} catch (error) {
 		console.log(error);
@@ -69,7 +70,7 @@ router.post("/createUser", async (req, res) => {
 
 // ROTA DE AUTENTICAÇÃO
 router.post("/authenticate", async (req, res) => {
-	const { email, senha } = req.body;
+	const {email, senha } = req.body;
 	try {
 		const user = await User.findOne({
 			where: {
@@ -89,8 +90,9 @@ router.post("/authenticate", async (req, res) => {
 				// 	ID: ${req.session.user["id"]}<br>
 				// 	E-mail: ${req.session.user["email"]}`);
 				// ENVIAR UMA MENSAGEM DE SUCESSO
-				req.flash("success", "Login efetuado com sucesso!");
-				res.redirect("/");
+				
+				req.flash("success", `Bem-vindo, ${user}!`);
+				res.redirect("/tanques");
 			} else {
 				req.flash(
 					"error",

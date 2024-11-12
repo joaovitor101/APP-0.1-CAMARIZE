@@ -1,7 +1,8 @@
 import express from 'express';
 const router = express.Router();
 import Auth from "../middleware/Auth.js";
-router.post('/fazenda', (req, res) => {
+
+router.post('/fazenda', Auth, (req, res) => {
     const dadosParte1 = req.session.dadosParte1;
     const senha = req.body.senha;
 
