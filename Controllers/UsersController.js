@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import User from "../models/User.js";
+import User from "../Models/User.js";
 import bcrypt from "bcrypt";
 
 // ROTA DE LOGIN
