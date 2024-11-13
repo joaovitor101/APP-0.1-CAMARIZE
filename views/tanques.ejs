@@ -39,12 +39,13 @@
           <% tanques.forEach(tanque => { %>
           <tr class="tanque-item">
             <td id="celula">
+            <a href="/dashboard">
               <img
-               src="<%= '/uploads/' + tanque.imagem %>"
+               src="<%= '/uploads/' + tanque.foto_cativeiro %>"
                 alt=""    
                 id="img_2"
-               
               />
+            </a>
             </td>
             <!-- <td class="tanque-data">
               <span

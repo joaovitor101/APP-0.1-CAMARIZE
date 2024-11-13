@@ -4,6 +4,7 @@ import ClientesController from "./Controllers/ClientesController.js";
 import FazendaControllers from "./Controllers/FazendaControllers.js" 
 import TanqueConstrollers from "./Controllers/TanqueControllers.js";
 import UsersController from "./Controllers/UsersController.js";
+import DashboardControllers from "./Controllers/dashboardControllers.js";
 import flash from "express-flash";
 import session from "express-session";
 
@@ -50,6 +51,7 @@ app.use("/", ClientesController)
 app.use("/", FazendaControllers)
 app.use("/", TanqueConstrollers)
 app.use("/", UsersController)
+app.use("/", DashboardControllers)
 // ROTA PRINCIPAL
 app.get("/", (req, res) => {
 	res.render("index", {

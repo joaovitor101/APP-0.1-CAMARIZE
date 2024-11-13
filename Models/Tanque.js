@@ -18,17 +18,17 @@ const Tanque = connection.define('tanques', {
     },
 
     temp_media_diaria: {
-        type: Sequelize.FLOAT, // Usando FLOAT para armazenar valores numéricos
+        type: Sequelize.STRING, // Usando FLOAT para armazenar valores numéricos
         allowNull: false
     },
 
     ph_medio_diario: {
-        type: Sequelize.FLOAT, // Usando FLOAT para valores de pH
+        type: Sequelize.STRING, // Usando FLOAT para valores de pH
         allowNull: false
     },
 
     amonia_media_diaria: {
-        type: Sequelize.FLOAT, // Usando FLOAT para valores de amônia
+        type: Sequelize.STRING, // Usando FLOAT para valores de amônia
         allowNull: false
     },
 }, {
