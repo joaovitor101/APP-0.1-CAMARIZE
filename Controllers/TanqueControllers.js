@@ -9,7 +9,7 @@ import Auth from "../middleware/Auth.js";
 const upload = multer({dest: "public/uploads"})
 
 
-router.post("/tanques", function (req, res) {
+router.post("/tanques", Auth, function (req, res) {
   // Lógica para processar dados, se necessário.
   res.redirect('/tanques'); // Redirecionar para a rota GET
 });
@@ -25,7 +25,7 @@ router.get("/tanques", Auth, function (req, res) {
   });
 // Rota GET para exibir o formulário de criação de um novo tanque
 
-router.get("/tanques/new", function (req, res) {
+router.get("/tanques/new", Auth, function (req, res) {
   Tanque.findAll().then((tanques) => {
     res.render("tanquesNew", {
       tanques: tanques,
@@ -33,20 +33,26 @@ router.get("/tanques/new", function (req, res) {
   });
 });
 
-  router.post("/tanques/new", upload.single('file'),(req, res) => {
-    const imagem = req.file ? req.file.filename : null;
-    const nome = req.body.nome;
-    const local = req.body.local;
-    const data = req.body.data;
+  router.post("/tanques/new", Auth, upload.single('file'),(req, res) => {
+    const codigo = req.body.codigo;
+    const foto_cativeiro = req.file ? req.file.filename : null;
+    const data_instalacao = req.body.data;
+    const temp_media_diaria = req.body.temp;
+    const ph_medio_diario = req.body.ph;
+    const amonia_media_diaria = req.body.amonia
     const fileExtension = path.extname(req.file.originalname);  // Ex: ".jpg", ".png"
     const fileName = req.file.filename;  // Nome único do arquivo 
+
+      
     console.log('Arquivo:', req.file);
     console.log('Extensão do arquivo:', fileExtension);
     Tanque.create({
-      imagem: imagem,
-      nome: nome,
-      local: local,
-      data: data,
+      codigo:codigo,
+      foto_cativeiro: foto_cativeiro,
+      data_instalacao: data_instalacao,
+      temp_media_diaria: temp_media_diaria,
+      ph_medio_diario: ph_medio_diario,
+      amonia_media_diaria: amonia_media_diaria,
     }).then(() => {
       res.redirect("/tanques");
     }).catch((error) => {

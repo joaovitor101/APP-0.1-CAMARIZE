@@ -11,15 +11,23 @@ const Fazenda = connection.define('fazendas', {
         allowNull: false
     },
 
-    cpf:{
+    rua:{
         type: Sequelize.STRING,
         allowNull: false
     },
 
-    endereco: {
+    bairro: {
         type: Sequelize.STRING,
         allowNull: false
-    }
+    },
+    cidade: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    numero: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
 })
 
 // Não força a criação da tabela caso já exista

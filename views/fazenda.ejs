@@ -8,26 +8,29 @@
     <title>Document</title>
 </head>
 <body>
-    <% if(successMessage.length) { %>
+            <!-- Exibir mensagens de flash -->
+    <% if (success && success.length) { %>
         <div id="flash-message" class="alert alert-success mx-4">
-            <%= successMessage[0] %>
+            <%= success[0] %>
         </div>
-        <% } else if(errorMessage.length) { %>
+    <% } %>
+    <% if (error && error.length) { %>
         <div id="flash-message" class="alert alert-danger mx-4">
-            <%= errorMessage[0] %>
+            <%= error[0] %>
         </div>
-        <% } %>
-        
+    <% } %>
+    
     <div class="form-container">
         <h2 class="text-left text-2xl font-bold p-4">Cadastre-se para continuar</h2>
         <hr class="gradient-hr mb-4">
-    <form action="/createUser" method="post">
-    <input type="text" id="nome" name="nome" placeholder="Nome" class="form-control" required>
-    <input type="email" id="email" name="email" placeholder="Email" class="form-control" required>
-    <input type="password" id="senha" name="senha" placeholder="Senha" class="form-control" required>
+    <form action="/createFazenda" method="post">
+    <input type="text" id="nome" name="nome" placeholder="Nome da fazenda" class="form-control" required>
+    <input type="text" id="rua" name="rua" placeholder="Rua" class="form-control" required>
+    <input type="text" id="bairro" name="bairro" placeholder="Bairro" class="form-control" required>
+    <input type="text" id="cidade" name="cidade" placeholder="Cidade" class="form-control" required>
+    <input type="text" id="numero" name="numero" placeholder="Número" class="form-control" required>
 
-    <a href="/fazenda"><button type="submit" class="btn-custom">Prosseguir</button></a>
-
+    <button type="submit" class="btn-custom">Prosseguir</button>
     <hr class="gradient-hr mb-4 mt-4">
     </form>
     <p class="mt-2">Já tem uma conta? <a href="/login" class="text-[#6691FF]">Conecte-se</a></p>

@@ -29,7 +29,6 @@
     <div class="container">
         <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
             <h1 class="h5" id="aaa">Tanques
-              Bem-vindo, <%= user ? user : "usuário" %>!
             </h1>
             <a href="/tanques/new" class="btn" style="margin-left: auto; font-size: 20px; color: white ;background-color: black;">+</a>
         </div>
@@ -39,7 +38,7 @@
         <tbody id="tanquesList">
           <% tanques.forEach(tanque => { %>
           <tr class="tanque-item">
-            <td id="celula" style="width: 130px;">
+            <td id="celula">
               <img
                src="<%= '/uploads/' + tanque.imagem %>"
                 alt=""    
@@ -47,18 +46,13 @@
                
               />
             </td>
-            <td class="tanque-local">
-              <%= tanque.nome %> <br />
-              <span style="color: #c0c0c0"> <%= tanque.local %> </span>
-            </td>
-
             <!-- <td class="tanque-data">
               <span
                 ><%= tanque.data ? new
                 Date(tanque.data).toLocaleDateString('pt-BR') : '' %></span
               >
             </td> -->
-            <td>
+            <td class="text-center"> 
               <a href="/tanques/edit/<%= tanque.id %>" style="color: #77a5fa"
                 >editar</a
               >

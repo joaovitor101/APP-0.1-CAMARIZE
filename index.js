@@ -62,7 +62,7 @@ app.get("/", (req, res) => {
 //     res.send("Arquivo Recebido !")
 // })
 // INICIA O SERVIDOR NA PORTA 8080
-app.listen(4040,function(erro){
+app.listen(8080,function(erro){
     if(erro) {
         console.log("Ocorreu um erro!")
 

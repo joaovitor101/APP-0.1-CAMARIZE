@@ -55,7 +55,7 @@ router.post("/createUser", async (req, res) => {
 					senha: hash,
 				});
 				if (novo) {
-					res.redirect("/login");
+					res.redirect("/fazenda");
 				}
 			} catch (error) {
 				console.log(error);
