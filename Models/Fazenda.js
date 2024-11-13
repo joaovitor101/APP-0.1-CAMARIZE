@@ -4,7 +4,7 @@ import Sequelize from "sequelize"
 // Configuração do Sequelize
 import connection from "../config/sequelize-config.js"
 
-// .define cria a trabela no banco
+// .define cria a trabela no banco AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 const Fazenda = connection.define('fazendas', {
     nome:{
         type: Sequelize.STRING,
