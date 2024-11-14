@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/tanqueEdit_ejs.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <title>Editar Produto</title>
+    <title>Editar Tanque</title>
 </head>
 <body>
     <img src="/imgs/Vector.png" alt="" id="vetor1">
@@ -16,17 +16,17 @@
                 <h3 class="text-center">Editar Informações</h3> 
             </div>
             <div class="card-body">
-                <form action="/tanques/update" method="post">
+                <form action="/cativeiros/update" method="post">
                     <label>Nome do tanque</label>
-                    <input class="form-control" type="text" name="nome" id="nome" value="<%= tanque.nome %>" required>
+                    <input class="form-control" type="text" name="nome" id="nome" value="<%= cativeiro.nome %>" required>
                     
-                    <label>Local do tanque</label>
-                    <input class="form-control" type="text" name="local" id="local" value="<%= tanque.local %>" required>
+                    <label>Local do cativeiro</label>
+                    <input class="form-control" type="text" name="local" id="local" value="<%= cativeiro.local %>" required>
                     
                     <label>Data de Instalação</label>
-                    <input class="form-control" type="date" name="data" id="data" value="<%= tanque.data instanceof Date && !isNaN(tanque.data) ? tanque.data.toISOString().split('T')[0] : '' %>" required>
+                    <input class="form-control" type="date" name="data" id="data" value="<%= cativeiro.data instanceof Date && !isNaN(cativeiro.data) ? cativeiro.data.toISOString().split('T')[0] : '' %>" required>
                     <br>
-                    <label>Relacione o tanque aos sensores</label>
+                    <label>Relacione o cativeiro aos sensores</label>
                     <select class="form-control" name="tipo" required>
                         <option value="">Sensor de temperatura</option>
                         <option value="tipo1">Tipo 1</option>
@@ -53,11 +53,11 @@
                         <!-- Adicione mais opções conforme necessário -->
                     </select>
                     
-                    <input type="hidden" name="id" value="<%= tanque.id %>">
+                    <input type="hidden" name="id" value="<%= cativeiro.id %>">
                     <br>
-                    <input type="submit" class="btn btn-warning" value="Alterar" onclick="return confirm('Você realmente deseja alterar os dados do tanque <%= tanque.nome %>?')">
+                    <input type="submit" class="btn btn-warning" value="Alterar" onclick="return confirm('Você realmente deseja alterar os dados do cativeiro <%= cativeiro.nome %>?')">
                 </form>
-                <td><a href="/tanques/delete/<%= tanque.id %>" class="btn btn-danger mt-2" onclick="return confirm('Você realmente deseja excluir o tanque <%= tanque.nome %>?')" style="color:#ffffff">Deletar Tanque</a></td>
+                <td><a href="/cativeiros/delete/<%= cativeiro.id %>" class="btn btn-danger mt-2" onclick="return confirm('Você realmente deseja excluir o cativeiro <%= cativeiro.nome %>?')" style="color:#ffffff">Deletar Tanque</a></td>
             </div>
         </div>
     </div>

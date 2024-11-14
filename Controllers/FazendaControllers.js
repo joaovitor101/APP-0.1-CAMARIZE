@@ -39,7 +39,7 @@ router.post("/createFazenda", async (req, res) => {
 
             // Se criada com sucesso, redirecione para a página desejada
             req.flash("success", "Fazenda cadastrada com sucesso!");
-            return res.redirect("/tanques");  // Redireciona para uma página de sucesso
+            return res.redirect("/cativeiros");  // Redireciona para uma página de sucesso
         }
     } catch (error) {
         console.log(error);
