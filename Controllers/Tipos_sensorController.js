@@ -6,13 +6,22 @@ const router = express.Router();
 
 
 // Rota principal para listar os tipos de sensor
+// Rota principal para listar os tipos de sensor
 router.get("/tipos_sensor", (req, res) => {
-  // Passa as mensagens de flash para o EJS
-  res.render("tipos_sensor", {
-    successMessage: req.flash('success'),
-      errorMessage: req.flash('error')
+  // Buscar todos os tipos de sensor no banco de dados
+  Tipos_sensor.findAll().then(tipos_sensor => {
+    // Passar os dados para a view
+    res.render("tipos_sensor", {
+      successMessage: req.flash('success'),
+      errorMessage: req.flash('error'),
+      tipos_sensor: tipos_sensor // Passando os dados para a view
+    });
+  }).catch((error) => {
+    console.log("Erro ao buscar tipos de sensor:", error);
+    res.status(500).send("Erro ao buscar tipos de sensor.");
   });
 });
+
 
 // Rota para cadastrar um novo tipo de sensor
 router.post("/tipos_sensor/new", (req, res) => {
