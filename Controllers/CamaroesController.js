@@ -1,7 +1,7 @@
 import express from 'express';
 import Tipos_camarao from "../Models/Camarao.js";  
 import flash from 'connect-flash';
-import { validationResult } from 'express-validator'
+import { validationResult } from 'express-validator';
 import { Op } from 'sequelize'; 
 const router = express.Router();
 
