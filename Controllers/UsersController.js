@@ -92,7 +92,7 @@ router.post("/authenticate", async (req, res) => {
 				// ENVIAR UMA MENSAGEM DE SUCESSO
 				
 				req.flash("success", `Bem-vindo, ${user}!`);
-				res.redirect("/tanques");
+				res.redirect("/cativeiros");
 			} else {
 				req.flash(
 					"error",

@@ -29,23 +29,32 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);  /* Duas colunas com tamanho igual */
   gap: 20px;  /* Espaçamento entre as divs */
-  margin: 20px;
+  
 }
 
 .grid-item {
-  padding: 25px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
+  gap: 20px;
+  padding: 40px ;
   box-sizing: border-box;
   text-align: center;
-  background-color: #f0f0f0;
+  border-radius: 26px;
 }
-
+.selecionado{
+  background: linear-gradient(to bottom, #FFC2C2, #AED5FF); /* Gradiente de fundo */
+}
 /* Media query para telas menores, como smartphones */
 @media (max-width: 768px) {
   .grid-container {
     grid-template-columns: repeat(2, 1fr);  /* Duas colunas com tamanho igual */
   }
+
+  .grid-item{
+  padding: 35px ;
+  box-sizing: border-box;
+  text-align: center;
+  border-radius: 26px;
+  }
+
 }
 
   </style>
@@ -60,7 +69,11 @@
       <hr />
       <table>
         <div class="grid-container">
-            <div class="grid-item">Informações 1</div>
+            <div class="grid-item selecionado d-flex">
+              <img src="./imgs/Sol.png" alt="icone_temp" id="icon_temp">
+              Informações 1
+
+            </div>
             <div class="grid-item">Informações 2</div>
             <div class="grid-item">Informações 3</div>
             <div class="grid-item">Informações 4</div>

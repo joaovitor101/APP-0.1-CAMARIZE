@@ -7,6 +7,8 @@ import Tipos_camarao from "./Models/Camarao.js";
 import Cativeiros from "./Models/Cativeiro.js"; 
 import Dietas from "./Models/Dieta.js";
 import Condicoes_ideais from "./Models/Condicao_ideal.js";
+import Tipos_sensor from './Models/Tipos_sensor.js';
+import Especif_camarao from './Models/Especif_camarao.js';
 
 
 //importar controllers aqui
@@ -18,6 +20,8 @@ import ClientesController from "./Controllers/ClientesController.js";
 import FazendaControllers from "./Controllers/FazendaControllers.js" 
 import UsersController from "./Controllers/UsersController.js";
 import DashboardControllers from "./Controllers/dashboardControllers.js";
+import Tipos_sensorController from "./Controllers/Tipos_sensorController.js";
+import Especif_camaraoController from "./Controllers/Especif_camaraoController.js";
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -54,8 +58,10 @@ app.use("/", UsersController)
 app.use("/", DashboardControllers)
 app.use("/", CamaroesController);
 app.use("/", CativeirosController);
-app.use("/",DietasController);
+app.use("/", DietasController);
 app.use("/", Condicoes_ideaisController);
+app.use("/", Tipos_sensorController);
+app.use("/", Especif_camaraoController);
 
 // Realizando a conexão com o banco de dados
 connection.authenticate().then(() => {
@@ -68,14 +74,14 @@ connection.authenticate().then(() => {
     return Promise.all([
         Tipos_camarao.sync({ force: false }), 
         Condicoes_ideais.sync({ force: false }), 
-        //Especif_camarao.sync({ force: false }),
+        Especif_camarao.sync({ force: false }),
         Dietas.sync({ force: false }), 
         Cativeiros.sync({ force: false }), 
         //Dispensadores.sync({ force: false }), 
         //Alimentacao.sync({ force: false }),
         //SensoresXcativeiros.sync({ force: false }),
         //Sensores.sync({ force: false }), 
-        //Tipos_sensor.sync({ force: false }), 
+        Tipos_sensor.sync({ force: false }), 
         //Relatorio_individual.sync({ force: false }), 
         //Parametros_atuais.sync({ force: false }), 
         //SitiosxCativeiros.sync({ force: false }), 
@@ -111,7 +117,7 @@ app.get("/", function(req, res) {
     res.render("index");
 });
 
-app.listen(3000, function(erro) {
+app.listen(8080, function(erro) {
     if (erro) {
         console.log("Ocorreu um erro!");
     } else {
