@@ -3,6 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script
+    src="https://cdn.jsdelivr.net/npm/chart.js"
+    integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMPj1B7F+IC2RC3ZrW/9f3JW5c5y00PYkN6Bf3"
+    crossorigin="anonymous"
+  ></script>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -33,12 +40,41 @@
 }
 
 .grid-item {
-  gap: 20px;
-  padding: 40px ;
+  padding: 20px;
   box-sizing: border-box;
-  text-align: center;
-  border-radius: 26px;
+  border-radius: 13px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: left; /* Alinha o conteúdo à esquerda */
 }
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espaçamento entre a imagem e o valor */
+}
+
+.icon {
+  width: 40px; /* Tamanho da imagem */
+  height: auto;
+}
+
+.value {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.description {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #555;
+}
+
+
+.grid-item:hover {
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3); /* Sombra maior ao passar o mouse */
+}
+
 .selecionado{
   background: linear-gradient(to bottom, #FFC2C2, #AED5FF); /* Gradiente de fundo */
 }
@@ -49,7 +85,7 @@
   }
 
   .grid-item{
-  padding: 35px ;
+  padding: 30px ;
   box-sizing: border-box;
   text-align: center;
   border-radius: 26px;
@@ -69,21 +105,112 @@
       <hr />
       <table>
         <div class="grid-container">
-            <div class="grid-item selecionado d-flex">
-              <img src="./imgs/Sol.png" alt="icone_temp" id="icon_temp">
-              Informações 1
-
+          <div class="grid-item selecionado">
+            <div class="content d-flex align-items-center">
+              <img src="./imgs/Sol.png" alt="icone_temp" class="icon">
+              <span class="value">27°</span>
             </div>
-            <div class="grid-item">Informações 2</div>
-            <div class="grid-item">Informações 3</div>
-            <div class="grid-item">Informações 4</div>
+            <div class="description">Temperatura</div>
           </div>
-          
+        
+          <div class="grid-item">
+            <div class="content d-flex align-items-center">
+              <img src="./imgs/ph.png" alt="icone_temp" class="icon">
+              <span class="value">7.5</span>
+            </div>
+            <div class="description">Nível de pH</div>
+          </div>
+        
+          <div class="grid-item">
+            <div class="content d-flex align-items-center">
+              <img src="./imgs/amonia.png" alt="icone_temp" class="icon">
+              <span class="value">0,05 mg/L</span>
+            </div>
+            <div class="description">Amônia Ionizada</div>
+          </div>
+        
+          <div class="grid-item">
+            <div class="content d-flex align-items-center">
+              <img src="./imgs/amonia.png" alt="icone_temp" class="icon">
+              <span class="value">0,05 mg/L</span>
+            </div>
+            <div class="description">Amônia Não Ionizada</div>
+          </div>
+        </div>
+        <hr>
+          <p style="font-size: 20px;" class="p-2">Ultimos Dias - Nome aqui</p>
+         
+          <div class="chart-container p-3" style="width: 100%; max-width: 800px; margin: auto;">
+            <canvas id="weeklyChart"></canvas> 
+          </div>
           
       </table>
     </div>
 
 
+
+
+    <script>
+      // Pegue o contexto do canvas
+      const ctx = document.getElementById('weeklyChart').getContext('2d');
+    
+      // Dados do gráfico
+      const data = {
+        labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'], // Dias da semana
+        datasets: [
+          {
+            label: 'Temperatura',
+            data: [25, 27, 26, 28, 29, 30, 28],
+            borderColor: 'rgba(255, 99, 132, 1)',
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderWidth: 2,
+            tension: 0.4,
+          },
+          {
+            label: 'pH',
+            data: [7.2, 7.5, 7.3, 7.4, 7.6, 7.8, 7.5],
+            borderColor: 'rgba(54, 162, 235, 1)',
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderWidth: 2,
+            tension: 0.4,
+          },
+          {
+            label: 'Amônia',
+            data: [0.02, 0.03, 0.05, 0.04, 0.03, 0.06, 0.05],
+            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderWidth: 2,
+            tension: 0.4,
+          },
+        ],
+      };
+    
+      // Configuração do gráfico
+      const config = {
+        type: 'line',
+        data: data,
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            title: {
+              display: true,
+              text: 'Dados Semanais',
+            },
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      };
+    
+      // Renderize o gráfico
+      const weeklyChart = new Chart(ctx, config);
+    </script>
     
   </body>
 </html>
