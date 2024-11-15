@@ -35,7 +35,7 @@ const Condicoes_ideais = connection.define('Condicoes_ideais',{
       tableName: 'Condicoes_ideais'
     });
     Condicoes_ideais.belongsTo(Tipos_camarao, {
-        foreignKey: 'id_tipo_camaraoxcondicao',  // A chave estrangeira
+        foreignKey: 'id_tipo_camarao',  // A chave estrangeira
         as: 'camarao',  // Alias para a relação reversa
       });
     

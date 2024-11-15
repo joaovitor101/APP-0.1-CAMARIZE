@@ -59,7 +59,7 @@ router.post("/cativeiros/new", Auth, upload.single('file'), (req, res) => {
     data_instalacao: data_instalacao,
   })
   .then(() => {
-    res.redirect("/cativeiros");  // Redireciona após o cadastro
+    res.redirect("/parametros_atuais/new");  // Redireciona após o cadastro
   })
   .catch((error) => {
     console.log("Erro ao cadastrar o cativeiro:", error);

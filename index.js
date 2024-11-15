@@ -9,6 +9,7 @@ import Dietas from "./Models/Dieta.js";
 import Condicoes_ideais from "./Models/Condicao_ideal.js";
 import Tipos_sensor from './Models/Tipos_sensor.js';
 import Especif_camarao from './Models/Especif_camarao.js';
+import SitiosxCativeiros from './Models/SitiosxCativeiros.js';
 
 
 //importar controllers aqui
@@ -17,11 +18,12 @@ import CativeirosController from "./Controllers/CativeirosController.js";
 import DietasController from "./Controllers/DietasController.js";
 import Condicoes_ideaisController from "./Controllers/Condicoes_ideaisController.js"
 import ClientesController from "./Controllers/ClientesController.js";
-import FazendaControllers from "./Controllers/FazendaControllers.js" 
+import SitiosController from "./Controllers/SitiosController.js" 
 import UsersController from "./Controllers/UsersController.js";
 import DashboardControllers from "./Controllers/dashboardControllers.js";
 import Tipos_sensorController from "./Controllers/Tipos_sensorController.js";
 import Especif_camaraoController from "./Controllers/Especif_camaraoController.js";
+import SitiosxCativeirosControlller from './Controllers/SitiosxCativeirosController.js';
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -53,7 +55,7 @@ app.use('/imgs', express.static('/imgs'));
 
 // Definindo o uso das rotas dos Controllers
 app.use("/", ClientesController)
-app.use("/", FazendaControllers)
+app.use("/", SitiosController)
 app.use("/", UsersController)
 app.use("/", DashboardControllers)
 app.use("/", CamaroesController);
@@ -62,6 +64,7 @@ app.use("/", DietasController);
 app.use("/", Condicoes_ideaisController);
 app.use("/", Tipos_sensorController);
 app.use("/", Especif_camaraoController);
+app.use("/", SitiosxCativeirosControlller);
 
 // Realizando a conexão com o banco de dados
 connection.authenticate().then(() => {
@@ -84,8 +87,8 @@ connection.authenticate().then(() => {
         Tipos_sensor.sync({ force: false }), 
         //Relatorio_individual.sync({ force: false }), 
         //Parametros_atuais.sync({ force: false }), 
-        //SitiosxCativeiros.sync({ force: false }), 
-        //Sitios.sync({ force: false }), 
+        SitiosxCativeiros.sync({ force: false }), 
+        Sitios.sync({ force: false }), 
         //UsuariosxSitios.sync({ force: false }), 
         //Usuarios.sync({ force: false }), 
         //Recomendacoes.sync({ force: false }), 

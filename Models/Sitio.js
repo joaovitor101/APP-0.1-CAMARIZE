@@ -4,8 +4,15 @@ import Sequelize from "sequelize"
 // Configuração do Sequelize
 import connection from "../config/sequelize-config.js"
 
-// .define cria a trabela no banco AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-const Fazenda = connection.define('fazendas', {
+// .define cria a trabela no banco
+const Sitios = connection.define('Sitios', {
+
+    id_sitio: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+      },
     nome:{
         type: Sequelize.STRING,
         allowNull: false
@@ -28,9 +35,12 @@ const Fazenda = connection.define('fazendas', {
         type: Sequelize.INTEGER,
         allowNull: false
     },
-})
+    }, 
+    {
+    tableName: 'Sitios',
+    });
 
 // Não força a criação da tabela caso já exista
-Fazenda.sync({force: false})
+Sitios.sync({force: false})
 
-export default Fazenda
+export default Sitios;
