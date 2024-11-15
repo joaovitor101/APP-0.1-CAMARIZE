@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <link rel="stylesheet" href="css/dashboard_ejs.css">
     <script
     src="https://cdn.jsdelivr.net/npm/chart.js"
     integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMPj1B7F+IC2RC3ZrW/9f3JW5c5y00PYkN6Bf3"
@@ -30,81 +30,19 @@
     <link rel="stylesheet" href="/css/tanque_ejs.css" />
     <title>Document</title>
   </head>
-  <style>
-/* Estilos gerais para o grid */
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);  /* Duas colunas com tamanho igual */
-  gap: 20px;  /* Espaçamento entre as divs */
-  
-}
 
-.grid-item {
-  padding: 20px;
-  box-sizing: border-box;
-  border-radius: 13px;
-  background-color: #ffffff;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  text-align: left; /* Alinha o conteúdo à esquerda */
-}
-
-.content {
-  display: flex;
-  align-items: center;
-  gap: 10px; /* Espaçamento entre a imagem e o valor */
-}
-
-.icon {
-  width: 40px; /* Tamanho da imagem */
-  height: auto;
-}
-
-.value {
-  font-size: 22px;
-  font-weight: bold;
-}
-
-.description {
-  margin-top: 10px;
-  font-size: 16px;
-  color: #555;
-}
-
-
-.grid-item:hover {
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3); /* Sombra maior ao passar o mouse */
-}
-
-.selecionado{
-  background: linear-gradient(to bottom, #FFC2C2, #AED5FF); /* Gradiente de fundo */
-}
-/* Media query para telas menores, como smartphones */
-@media (max-width: 768px) {
-  .grid-container {
-    grid-template-columns: repeat(2, 1fr);  /* Duas colunas com tamanho igual */
-  }
-
-  .grid-item{
-  padding: 30px ;
-  box-sizing: border-box;
-  text-align: center;
-  border-radius: 26px;
-  }
-
-}
-
-  </style>
   <body>
-    <div class="p-5">
+    <div class="p-1">
     </div>
     <div class="container">
+      <img class="mt-3" id="imagem_logo" src="./imgs/logo_camarize.png" alt="">
         <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
 
         </div>
         
-      <hr />
+      
       <table>
-        <div class="grid-container">
+        <div class="grid-container mt-4">
           <div class="grid-item selecionado">
             <div class="content d-flex align-items-center">
               <img src="./imgs/Sol.png" alt="icone_temp" class="icon">
@@ -143,8 +81,9 @@
           <div class="chart-container p-3" style="width: 100%; max-width: 800px; margin: auto;">
             <canvas id="weeklyChart"></canvas> 
           </div>
-          
+          <div style="font-size: 20px;" class="rel">Relatorio Individual Detalhado</div>
       </table>
+      <%- include('partials/nav_bottom') %>
     </div>
 
 

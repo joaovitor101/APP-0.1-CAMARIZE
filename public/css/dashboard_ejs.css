@@ -1,0 +1,124 @@
+/* Estilos gerais para o grid */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);  /* Duas colunas com tamanho igual */
+  gap: 20px;  /* Espaçamento entre as divs */
+  padding-bottom: 80px; /* Adiciona espaço na parte inferior para a navegação não se sobrepor */
+}
+
+.grid-item {
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 13px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: left; /* Alinha o conteúdo à esquerda */
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espaçamento entre a imagem e o valor */
+}
+
+.icon {
+  width: 40px; /* Tamanho da imagem */
+  height: auto;
+}
+
+.value {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.description {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #555;
+}
+
+.grid-item:hover {
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3); /* Sombra maior ao passar o mouse */
+}
+
+.selecionado {
+  background: linear-gradient(to bottom, #FFC2C2, #AED5FF); /* Gradiente de fundo */
+}
+
+#imagem_logo {
+  width: 20%;
+}
+
+/* Media query para telas menores, como smartphones */
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);  /* Duas colunas com tamanho igual */
+  }
+
+  /* Aumenta o tamanho do logo no mobile */
+  #imagem_logo {
+    width: 30%;
+  }
+
+  .grid-item {
+    padding: 30px;
+    box-sizing: border-box;
+    text-align: center;
+    border-radius: 26px;
+  }
+
+  /* Estilo da navigation bottom */
+  .bottom-navigation {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 20px 20px 0 0; /* Bordas arredondadas no topo */
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px; /* Espaçamento interno */
+    z-index: 1000;
+  }
+
+  /* Botões de navegação */
+  .nav-btn {
+    flex: 1; /* Divide o espaço igualmente entre os botões */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    outline: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  /* Imagens dentro dos botões */
+
+  /* Efeito ao passar o mouse */
+  .nav-btn:hover {
+    transform: scale(1.1); /* Pequeno efeito de aumento */
+  }
+
+  /* Botão adicionar destacado */
+  .add-btn {
+    margin-top: -30px; /* Eleva o botão acima da barra */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+
+  /* Efeito ao passar o mouse no botão adicionar */
+
+}
+
+/* Esconder a bottom-navigation em telas maiores (desktops) */
+@media (min-width: 769px) {
+  .bottom-navigation {
+    display: none; /* A navegação será escondida em telas maiores */
+  }
+}

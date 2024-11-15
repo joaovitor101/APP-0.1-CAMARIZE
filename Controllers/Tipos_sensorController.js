@@ -22,6 +22,21 @@ router.get("/tipos_sensor", (req, res) => {
   });
 });
 
+router.get("/tipos_sensor/new", async (req, res) => {
+  try {
+    // Buscar todos os tipos de sensor
+    const tipos_sensor = await Tipos_sensor.findAll();
+    // Renderizar a view com os dados
+    res.render("sensorNew", {
+      successMessage: req.flash("success"),
+      errorMessage: req.flash("error"),
+      tipos_sensor: tipos_sensor, // Passando os dados para a view
+    });
+  } catch (error) {
+    console.log("Erro ao carregar a página de cadastro de sensores:", error);
+    res.status(500).send("Erro ao carregar a página de cadastro de sensores.");
+  }
+});
 
 // Rota para cadastrar um novo tipo de sensor
 router.post("/tipos_sensor/new", (req, res) => {

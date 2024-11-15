@@ -25,71 +25,58 @@
   </head>
   <style>
     @media screen and (max-width: 768px) {
-    #filter, #updown{
-      width: 30px;
+      #filter,
+      #updown {
+        width: 30px;
+      }
     }
-}
   </style>
   <body>
-    <div class="p-5">
-    </div>
+    <div class="p-5"></div>
     <div class="container">
       <div class="card-header" style="display: flex; justify-content: center; align-items: center; color: black;">
-        <h2>
-          Sistema
-        </h2>
+        <h2>Sistema</h2>
       </div>
-        <div class="card-header mt-4" style="display: flex; justify-content: space-between; align-items: center;">
-            <h1 class="h5" id="aaa">Sensores
-            </h1>
+      <div class="card-header mt-4" style="display: flex; justify-content: space-between; align-items: center;">
+        <h1 class="h5" id="aaa">Sensores</h1>
 
-            <div class="botoes">
-              <a href="/tipos_sensor" class="btn" style="margin-left: auto; font-size: 20px; color: white ;">
-                <img src="./imgs/updown.png" id="updown" alt="">
-              </a>
-              <a href="/tipos_sensor" class="btn" style="margin-left: auto; font-size: 20px; color: white ;">
-                <img src="./imgs/filter.png" id="filter" alt="">
-              </a>
-          </div>
+        <div class="botoes">
+          <a href="/tipos_sensor" class="btn" style="margin-left: auto; font-size: 20px; color: white ;">
+            <img src="./imgs/updown.png" id="updown" alt="" />
+          </a>
+          <a href="/tipos_sensor" class="btn" style="margin-left: auto; font-size: 20px; color: white ;">
+            <img src="./imgs/filter.png" id="filter" alt="" />
+          </a>
+          <a href="/tipos_sensor/new" class="btn" style="margin-left:12px ; font-size: 20px; color: white ;background-color: rgb(0, 0, 0);">+</a>
         </div>
-        
+      </div>
+
       <hr />
       <table>
         <tbody id="tanquesList">
-          <% tipos_sensor.forEach(cativeiro => { %>
-          <tr class="tanque-item">
-            <td id="celula">
-            <a href="/dashboard">
-              <img
-               src="<%= '/uploads/' + tanque.foto_cativeiro %>"
-                alt=""    
-                id="img_2"
-              />
-            </a>
-            </td>
-            <!-- <td class="tanque-data">
-              <span
-                ><%= tanque.data ? new
-                Date(tanque.data).toLocaleDateString('pt-BR') : '' %></span
-              >
-            </td> -->
-            <td class="text-center"> 
-              <a href="/cativeiros/edit/<%= cativeiro.id %>" style="color: #77a5fa"
-                >editar</a
-              >
-              <br />
-              <label class="switch">
-                <input type="checkbox" />
-                <span class="slider round"></span>
-              </label>
-            </td>
-          </tr>
+          <% tipos_sensor.forEach(sensor => { %>
+            <tr class="sensor-item">
+              <td id="celula">
+                <a href="/dashboard">
+                  <img
+                    src="<%= '/uploads/' + sensor.foto_sensor %>" <!-- Substitua foto_sensor pelo campo correto -->
+                    alt=""
+                    id="img_2"
+                  />
+                </a>
+              </td>
+              <td class="text-center">
+                <a href="/tipos_sensor/edit/<%= sensor.id_tipo_sensor %>" style="color: #77a5fa">editar</a>
+                <br />
+                <label class="switch">
+                  <input type="checkbox" />
+                  <span class="slider round"></span>
+                </label>
+              </td>
+            </tr>
           <% }) %>
         </tbody>
       </table>
     </div>
-
-
-    
   </body>
 </html>
