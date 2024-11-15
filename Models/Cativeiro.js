@@ -45,7 +45,7 @@ const Cativeiros = connection.define('Cativeiros', {
   timestamps: false // Definindo que a tabela não vai ter os campos de timestamps (createdAt, updatedAt)
 });
 Cativeiros.belongsTo(Tipos_camarao, {
-  foreignKey: 'id_tipo_camaraoxcativeiro',  // A chave estrangeira
+  foreignKey: 'id_tipo_camarao',  // A chave estrangeira
   as: 'camarao',  // Alias para a relação reversa
 });
 

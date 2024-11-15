@@ -3,7 +3,7 @@ import connection from "../config/sequelize-config.js";
 
 // Importação dos modelos relacionados
 import Dietas from './Dieta.js';
-import CondicoesIdeais from './Condicao_ideal.js';
+import Condicoes_ideais from './Condicao_ideal.js';
 
 const EspecifCamarao = connection.define(
   'Especif_camarao',
@@ -28,7 +28,7 @@ const EspecifCamarao = connection.define(
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
-        model: CondicoesIdeais, // Referência direta ao modelo importado
+        model: Condicoes_ideais, // Referência direta ao modelo importado
         key: 'id_condicao',
       },
       onDelete: 'CASCADE',

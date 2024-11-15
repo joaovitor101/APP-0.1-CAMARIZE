@@ -15,10 +15,13 @@
             </div>
             <div class="card-body">
                 <form action="/cativeiros/new" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id_tipo_camarao" value="<%= tipoId %>">
                     <div class="form-group">
+                        <label for="data"><p>Data de Instalação:</p></label>
                         <input type="date" name="data" id="data" class="form-control" placeholder="Data de Instalação" required>
                     </div>
                     <div class="form-group">
+                        <label for="data"><p>Imagem do tanque:</p></label>
                         <input type="file" name="file" id="file" class="form-control" placeholder="Imagem do Tanque" required>
                     </div>
                     <hr class="gradient-hr mb-4 mt-4">

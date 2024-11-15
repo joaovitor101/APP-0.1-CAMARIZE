@@ -11,9 +11,11 @@ import Auth from "../middleware/Auth.js";
 const upload = multer({dest: "public/uploads"})
 
 
+
+
 // Rota GET para /tanques
 router.get("/cativeiros", Auth, function (req, res) {
-    Tanque.findAll().then((cativeiros) => {
+    Cativeiros.findAll().then((cativeiros) => {
       res.render("cativeiros", {
         cativeiros: cativeiros,
       });
@@ -22,39 +24,48 @@ router.get("/cativeiros", Auth, function (req, res) {
 // Rota GET para exibir o formulário de criação de um novo tanque
 
 router.get("/cativeiros/new", Auth, function (req, res) {
-  Tanque.findAll().then((cativeiros) => {
-    res.render("cativeirosNew", {
+  const tipoId = req.query.tipoId;  // Captura o tipoId passado pela URL
+  Cativeiros.findAll().then((cativeiros) => {
+    res.render("tanquesNew", {
       cativeiros: cativeiros,
+      tipoId: tipoId,  
     });
   });
 });
 
 
 // Cadastro de cativeiros
-router.post("/cativeiros/new", Auth, upload.single('file'),(req, res) => {
-    const id_tipo_camarao = req.body.id_tipo_camarao;
-    const data_instalacao = req.body.data;
-    const foto_cativeiro = req.file ? req.file.filename : null;
-    const fileExtension = path.extname(req.file.originalname);  // Ex: ".jpg", ".png"
-    const fileName = req.file.filename;  // Nome único do arquivo 
+router.post("/cativeiros/new", Auth, upload.single('file'), (req, res) => {
+  const { id_tipo_camarao, data } = req.body;  // Dados enviados no formulário
 
-      
-    console.log('Arquivo:', req.file);
-    console.log('Extensão do arquivo:', fileExtension);
-    Cativeiros.create({
-      id_tipo_camarao:id_tipo_camarao,
-      foto_cativeiro: foto_cativeiro,
-      data_instalacao: data_instalacao,
+  //verificacoes
+  console.log("ID Tipo de Camarão:", id_tipo_camarao);  
+  console.log("Data de Instalação:", data);  
 
-    }).then(() => {
-      res.redirect("/cativeiros");
-    }).catch((error) => {
-      console.log(error);
-      res.status(500).send("Erro ao cadastrar o cativeiro.");
-    });
+  //validacao
+  if (!id_tipo_camarao || !data) {
+    return res.status(400).send("Erro: Tipo de camarão e data de instalação são obrigatórios.");
+  }
+
+  const data_instalacao = new Date(data); // Converte a data para o formato adequado
+  if (isNaN(data_instalacao)) {
+    return res.status(400).send("Erro: Data inválida.");
+  }
+
+  // Criar o cativeiro
+  Cativeiros.create({
+    id_tipo_camarao: id_tipo_camarao,
+    foto_cativeiro: req.file ? req.file.filename : null,
+    data_instalacao: data_instalacao,
+  })
+  .then(() => {
+    res.redirect("/cativeiros");  // Redireciona após o cadastro
+  })
+  .catch((error) => {
+    console.log("Erro ao cadastrar o cativeiro:", error);
+    res.status(500).send("Erro ao cadastrar o cativeiro.");
   });
-
-
+});
 
 // Excluir cativeiro
 router.get("/cativeiros/delete/:id_cativeiro", (req, res) => {
@@ -86,7 +97,7 @@ router.get("/cativeiros/edit/:id_cativeiro", (req, res) => {
         const formattedDate = cativeiro.data ? new Date(cativeiro.data).toLocaleDateString('pt-BR') : null;
         cativeiro.data = formattedDate;
 
-        res.render("cativeiroEdit", {
+        res.render("tanqueEdit", {
             cativeiro: cativeiro,
         });
     }).catch((error) => {
