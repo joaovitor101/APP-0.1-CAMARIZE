@@ -26,6 +26,11 @@ router.get("/tipos_sensor/new", async (req, res) => {
   try {
     // Buscar todos os tipos de sensor
     const tipos_sensor = await Tipos_sensor.findAll();
+    const tipos_sensorSimple = tipos_sensor.map(sensor => sensor.get({ plain: true }));
+
+    // Ordenar os sensores por ID de forma decrescente usando mergeSort
+    const tipos_sensorOrdenados = mergeSort(tipos_sensorSimple);
+
     // Renderizar a view com os dados
     res.render("sensorNew", {
       successMessage: req.flash("success"),
@@ -38,18 +43,7 @@ router.get("/tipos_sensor/new", async (req, res) => {
   }
 });
 
-// Rota para cadastrar um novo tipo de sensor
-router.post("/tipos_sensor/new", (req, res) => {
-  const { descricao } = req.body;  
-  Tipos_sensor.create({
-    descricao
-  }).then(() => {
-    res.redirect("/cativeiros");
-  }).catch((error) => {
-    console.log("Erro ao criar sensor:", error);
-    res.status(500).send("Erro ao criar sensor.");
-  });
-});
+
 
 // Rota para excluir um tipo de sensor
 router.get("/tipos_sensor/delete/:id_tipo_sensor", (req, res) => {
