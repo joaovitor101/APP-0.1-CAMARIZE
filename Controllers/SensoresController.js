@@ -21,7 +21,7 @@ router.get("/sensores", (req, res) => {
   });
   
 
-router.get("/tipos_sensor/new", async (req, res) => {
+router.get("/sensores/new", async (req, res) => {
     try {
       // Buscar todos os tipos de sensor
       const sensores = await Sensores.findAll();

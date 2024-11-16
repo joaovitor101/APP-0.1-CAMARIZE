@@ -125,10 +125,10 @@
 
       // Evento de clique no ícone UpDown
       document.getElementById('updown').addEventListener('click', function() {
-  const sensorItems = document.querySelectorAll('.sensor-item');
-  const sensorArray = Array.from(sensorItems).map(item => {
-    const id = parseInt(item.querySelector('p').textContent.replace('ID: ', ''));
-    const foto_sensor = item.querySelector('img').src.split('/').pop();
+       const sensorItems = document.querySelectorAll('.sensor-item');
+       const sensorArray = Array.from(sensorItems).map(item => {
+       const id = parseInt(item.querySelector('p').textContent.replace('ID: ', ''));
+       const foto_sensor = item.querySelector('img').src.split('/').pop();
     return { id_tipo_sensor: id, foto_sensor: foto_sensor };
   });
 
