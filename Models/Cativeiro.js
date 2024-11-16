@@ -1,7 +1,7 @@
 import Sequelize from "sequelize";
 import DataTypes from 'sequelize';
 import connection from "../config/sequelize-config.js";
-import Tipos_camarao from './Camarao.js';  // Importa o modelo de Tipos_camarao
+import Tipos_camarao from './Camarao.js';  
 
 const Cativeiros = connection.define('Cativeiros', {
   id_cativeiro: {
@@ -25,7 +25,7 @@ const Cativeiros = connection.define('Cativeiros', {
     allowNull: false,
   },
   foto_cativeiro: {
-    type: DataTypes.BLOB('long'), // Usando BLOB para armazenar arquivos binários
+    type: DataTypes.BLOB('long'),
     allowNull: true,
   },
   temp_media_diaria: {
@@ -42,11 +42,11 @@ const Cativeiros = connection.define('Cativeiros', {
   },
 }, {
   tableName: 'Cativeiros',
-  timestamps: false // Definindo que a tabela não vai ter os campos de timestamps (createdAt, updatedAt)
+  timestamps: false 
 });
 Cativeiros.belongsTo(Tipos_camarao, {
-  foreignKey: 'id_tipo_camarao',  // A chave estrangeira
-  as: 'camarao',  // Alias para a relação reversa
+  foreignKey: 'id_tipo_camarao',  
+  as: 'camarao',  
 });
 
 

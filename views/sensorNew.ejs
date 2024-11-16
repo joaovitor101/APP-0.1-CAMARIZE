@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/login_ejs.css">
-    <title>Login</title>
+    <title>Cadastro de sensor</title>
 </head>
 <body>
     <% if(successMessage.length) { %>
@@ -21,15 +21,15 @@
     <div class="form-container">
         <h2 class="text-left text-2xl font-bold p-2">Cadastro de sensores</h2>
         <hr class="gradient-hr mb-4">
-        <form action="/tipos_sensor/new" method="post" enctype="multipart/form-data">
+        <form action="/ method="post" enctype="multipart/form-data">
             <!-- Dropdown -->
             <div class="mb-4">
                 <label for="tipo_sensor" class="block text-gray-700 font-bold text-xl text-left">Sensor</label>
                 <select id="tipo_sensor" name="tipo_sensor" class="block w-full p-3 border rounded-lg text-gray-700 bg-gray-100 focus:ring focus:ring-blue-300 mt-3" required>
                     <option value="" disabled selected>Selecione o sensor</option>
-                    <% tipos_sensor.forEach(sensor => { %>
-                        <option value="<%= sensor.id_tipo_sensor %>"><%= sensor.descricao %></option>
-                    <% }) %>
+                        <option value="ph">Sensor medidor de PH</option>
+                        <option value="amonia">Sensor medidor de amônia</option>
+                        <option value="temp">Sensor medidor de temperatura</option>
                 </select>
             </div>
             
