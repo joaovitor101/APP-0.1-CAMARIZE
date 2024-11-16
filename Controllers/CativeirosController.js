@@ -87,24 +87,25 @@ router.get("/cativeiros/delete/:id_cativeiro", (req, res) => {
 
 // Editar cativeiro
 router.get("/cativeiros/edit/:id_cativeiro", (req, res) => {
-    const id = req.params.id_cativeiro;
-    Cativeiros.findByPk(id).then((cativeiro) => {
-        if (!cativeiro) {
-            return res.status(404).send("Tanque não encontrado");
-        }
+  const id = req.params.id_cativeiro;
+  Cativeiros.findByPk(id).then((cativeiro) => {
+      if (!cativeiro) {
+          return res.status(404).send("Tanque não encontrado");
+      }
 
-        // Formatar a data no backend
-        const formattedDate = cativeiro.data ? new Date(cativeiro.data).toLocaleDateString('pt-BR') : null;
-        cativeiro.data = formattedDate;
+      // Formatar a data no backend
+      const formattedDate = cativeiro.data ? new Date(cativeiro.data).toLocaleDateString('pt-BR') : null;
+      cativeiro.data = formattedDate;
 
-        res.render("tanqueEdit", {
-            cativeiro: cativeiro,
-        });
-    }).catch((error) => {
-        console.error("Erro ao buscar o cativeiro:", error);
-        res.status(500).send("Erro ao buscar o cativeiro");
-    });
+      res.render("cativeiroEdit", {
+          cativeiro: cativeiro,
+      });
+  }).catch((error) => {
+      console.error("Erro ao buscar o cativeiro:", error);
+      res.status(500).send("Erro ao buscar o cativeiro");
+  });
 });
+
 
 
 // Atualizar cativeiro

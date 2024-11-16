@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+    <link rel="stylesheet" href="css/dashboard_ejs.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/tanque_ejs.css" />
+    <title>Document</title>
+  </head>
+  <style>
+    body {
+      background-color: #E0E0E0;
+    }
+    .container {
+      background-color: #fff;
+      border-radius: 0px;
+    }
+
+    @media screen and (max-width: 768px) {
+      .container {
+        margin-top: 15px;
+        width: 90%;
+      }
+
+      #rel {
+        font-size: 16px;
+      }
+
+    }
+
+    /* Centralizando o botão */
+    #btn_rel {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+      width: 30%;
+      background-color: #000;
+      border-radius: 10px;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <img class="mt-3" id="imagem_logo" src="./imgs/logo_camarize.png" alt="Logo">
+      <p class="text-center text-lg mt-3" id="rel">Relatório Geral Detalhado</p>
+      <p class="text-center text-lg mt-3 p-4" id="rel">Cativeiro X (backend)</p>
+      Imagem
+      <p>Periodo de Monitoramento: <-backend></p>
+    </div>
+
+    <div class="container">
+      <img class="mt-1" id="imagem_logo" src="./imgs/logo_camarize.png" alt="Logo">
+      <p>(texto do banco construído pela IA ? ¹)</p> <!-- Este é o conteúdo que você quer exportar para o PDF -->
+    </div>
+
+    <!-- Botão para gerar o PDF -->
+    <button class="mx-auto text-center py-3 text-white font-medium" id="btn_rel">
+      Download PDF
+    </button>
+
+    <script>
+     document.getElementById('btn_rel').addEventListener('click', function () {
+    downloadPdf(); // Função para download
+});
+
+// Adicionar também o evento touchend para dispositivos móveis
+document.getElementById('btn_rel').addEventListener('touchend', function () {
+    downloadPdf(); // Função para download
+});
+
+function downloadPdf() {
+    const content = document.createElement('div');
+    const containers = document.querySelectorAll('.container');
+    containers.forEach(container => {
+        content.appendChild(container.cloneNode(true));
+    });
+
+    html2pdf(content, {
+        filename: 'relatorio.pdf',
+        margin: 10,
+        jsPDF: { unit: 'mm', format: 'a4' },
+        html2canvas: {
+            scale: 4,
+        }
+    });
+}
+
+
+    </script>
+  </body>
+</html>

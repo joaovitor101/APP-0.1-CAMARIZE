@@ -21,21 +21,20 @@
     <div class="form-container">
         <h2 class="text-left text-2xl font-bold p-2">Cadastro de sensores</h2>
         <hr class="gradient-hr mb-4">
-        <form action="/ method="post" enctype="multipart/form-data">
+        <form action="/tipos_sensor/new" method="post" enctype="multipart/form-data">
             <!-- Dropdown -->
             <div class="mb-4">
                 <label for="tipo_sensor" class="block text-gray-700 font-bold text-xl text-left">Sensor</label>
                 <select id="tipo_sensor" name="tipo_sensor" class="block w-full p-3 border rounded-lg text-gray-700 bg-gray-100 focus:ring focus:ring-blue-300 mt-3" required>
                     <option value="" disabled selected>Selecione o sensor</option>
-                        <option value="ph">Sensor medidor de PH</option>
-                        <option value="amonia">Sensor medidor de amônia</option>
-                        <option value="temp">Sensor medidor de temperatura</option>
+                    <option value="ph">Sensor medidor de PH</option>
+                    <option value="amonia">Sensor medidor de amônia</option>
+                    <option value="temp">Sensor medidor de temperatura</option>
                 </select>
             </div>
             
             <!-- Upload -->
             <div class="mb-6">
-            
                 <label class="flex items-center justify-between p-3 border rounded-lg bg-gray-100 cursor-pointer">
                     <span class="text-gray-500">Selecionar foto</span>
                     <input type="file" id="foto_sensor" name="foto_sensor" class="hidden" accept="image/*" required>
@@ -43,6 +42,10 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
                 </label>
+                <!-- Área de preview da imagem -->
+                <div class="mt-4" id="image-preview-container" style="display: none;">
+                    <img id="image-preview" src="" alt="Preview da imagem" class="max-w-xs" />
+                </div>
             </div>
             
             <!-- Botão -->
@@ -50,9 +53,6 @@
                 Cadastrar
             </button>
         </form>
-          
-
-
     </div>
     <img src="/imgs/camarize.png" class="w-48 mt-4" alt="">
 
@@ -70,9 +70,28 @@
                     }, 500);
                 }, 1500);
             }
+
+            // Preview da imagem
+            const fileInput = document.getElementById('foto_sensor');
+            const imagePreviewContainer = document.getElementById('image-preview-container');
+            const imagePreview = document.getElementById('image-preview');
+
+            fileInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        // Exibe o container e a imagem
+                        imagePreviewContainer.style.display = 'block';
+                        imagePreview.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    imagePreviewContainer.style.display = 'none';  // Oculta se não houver arquivo
+                }
+            });
         });
     </script>
-
 </body>
 </html>
-

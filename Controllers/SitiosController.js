@@ -13,6 +13,14 @@ router.get("/sitio", (req, res) => {
   });
 });
 
+router.get("/meuSitio", (req, res) => {
+    // Passa as mensagens de flash para o EJS
+    res.render("meuSitio", {
+        success: req.flash('success'),
+        error: req.flash('error')
+    });
+  });
+
 router.post("/createSitio", async (req, res) => {
     const { nome, rua, bairro, cidade, numero } = req.body;
     try {

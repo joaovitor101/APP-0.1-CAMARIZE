@@ -17,6 +17,17 @@ router.get("/login", async (req, res) => {
 	}
 });
 
+router.get("/perfil", async (req, res) => {
+	try {
+		res.render("perfil", {
+			errorMessage: req.flash("error"),
+			successMessage: req.flash("success"),
+		});
+	} catch (error) {
+		console.log(error);
+	}
+});
+
 // ROTA DE LOGOUT
 router.get("/logout", (req, res) => {
 	req.session.user = undefined;

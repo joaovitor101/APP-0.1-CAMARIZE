@@ -20,6 +20,20 @@ router.get("/tipos_sensor", (req, res) => {
   });
 });
 
+router.get("/tipos_sensor/new", (req, res) => {
+  // Buscar todos os tipos de sensor no banco de dados
+  Tipos_sensor.findAll().then(tipos_sensor => {
+    // Passar os dados para a view
+    res.render("sensorNew", {
+      successMessage: req.flash('success'),
+      errorMessage: req.flash('error'),
+      tipos_sensor: tipos_sensor // Passando os dados para a view
+    });
+  }).catch((error) => {
+    console.log("Erro ao buscar tipos de sensor:", error);
+    res.status(500).send("Erro ao buscar tipos de sensor.");
+  });
+});
 
 
 export default router;

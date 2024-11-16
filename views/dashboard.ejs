@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="css/dashboard_ejs.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script
     src="https://cdn.jsdelivr.net/npm/chart.js"
     integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMPj1B7F+IC2RC3ZrW/9f3JW5c5y00PYkN6Bf3"
@@ -36,10 +37,8 @@
     </div>
     <div class="container">
       <img class="mt-3" id="imagem_logo" src="./imgs/logo_camarize.png" alt="">
-        <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
-
-        </div>
-        
+      <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+      </div>
       
       <table>
         <div class="grid-container mt-4">
@@ -76,15 +75,20 @@
           </div>
         </div>
         <hr>
-          <p style="font-size: 20px;" class="p-2">Ultimos Dias - Nome aqui</p>
+        <p style="font-size: 20px;" class="p-2">Últimos Dias - Nome aqui</p>
          
-          <div class="chart-container p-3" style="width: 100%; max-width: 800px; margin: auto;">
-            <canvas id="weeklyChart"></canvas> 
-          </div>
-          <div style="font-size: 20px;" class="rel">Relatorio Individual Detalhado</div>
+        <div class="chart-container p-3" style="width: 100%; max-width: 800px; margin: auto;">
+          <canvas id="weeklyChart"></canvas> 
+        </div>
       </table>
+    
+      <!-- Centralizando o botão -->
+      <div class="d-flex justify-content-center mt-4 p-4">
+        <a href="/rel_periodo"><button class="relatorio bg-dark text-white p-3" id="btn_rel" >Relatório Individual Detalhado</button></a>
+      </div>
       <%- include('partials/nav_bottom') %>
     </div>
+    
 
 
 

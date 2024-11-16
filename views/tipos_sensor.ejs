@@ -23,16 +23,33 @@
     <link rel="stylesheet" href="/css/tanque_ejs.css" />
     <title>Document</title>
   </head>
-  <style>
-    @media screen and (max-width: 768px) {
-      #filter,
-      #updown {
-        width: 30px;
-      }
+<style>
+  /* Flexbox para alinhar os itens */
+  .botoes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Responsividade para telas menores que 768px */
+  @media screen and (max-width: 768px) {
+    .botoes {
+      flex-wrap: wrap; /* Permite que os itens se ajustem quando não houver espaço suficiente */
+      gap: 10px; /* Adiciona um pequeno espaço entre os botões */
     }
 
-    
-  </style>
+    #filter,
+    #updown {
+      width: 30px;
+    }
+
+    .botoes a {
+      margin-left: 0; /* Remove margens desnecessárias em dispositivos móveis */
+      margin-right: 0; /* Remove margens desnecessárias em dispositivos móveis */
+    }
+  }
+</style>
+
   <body>
     <div class="p-5"></div>
     <div class="container">
@@ -44,13 +61,13 @@
 
         <div class="botoes">
           <!-- Ícone UpDown com id para seleção -->
-          <a href="#" id="updown" class="btn" style="margin-left: auto; font-size: 20px; color: white ;">
-            <img src="./imgs/updown.png" alt="" />
+          <a href="#" id="updown" >
+            <img src="./imgs/updown.png" alt=""/>
           </a>
           <a href="/tipos_sensor" class="btn" style="margin-left: auto; font-size: 20px; color: white ;">
             <img src="./imgs/filter.png" id="filter" alt="" />
           </a>
-          <a href="/tipos_sensor/new" class="btn" style="margin-left:12px ; font-size: 20px; color: white ;background-color: rgb(0, 0, 0);">+</a>
+          <a href="/tipos_sensor/new" class="btn" style="margin-left:auto; font-size: 20px; color: white ;background-color: rgb(0, 0, 0);">+</a>
         </div>
       </div>
 
@@ -70,12 +87,7 @@
                 <p>ID: <%= sensor.id_tipo_sensor %></p>
               </td>
               <td class="text-center">
-                <a href="/tipos_sensor/edit/<%= sensor.id_tipo_sensor %>" style="color: #77a5fa">editar</a>
-                <br />
-                <label class="switch">
-                  <input type="checkbox" />
-                  <span class="slider round"></span>
-                </label>
+                  
               </td>
             </tr>
           <% }) %>
@@ -124,27 +136,27 @@
 
   // Atualizando a tabela com os sensores ordenados
   const tanquesList = document.getElementById('tanquesList');
-  tanquesList.innerHTML = '';  // Limpa a tabela
-  sortedSensors.forEach(sensor => {
-    const row = document.createElement('tr');
-    row.classList.add('sensor-item');
-    row.innerHTML = `
-      <td id="celula">
-        <a href="/dashboard">
-          <img src="/uploads/${sensor.foto_sensor}" alt="" id="img_2" style="border-radius: 0;" /> <!-- Garantir que a imagem não tenha borda arredondada -->
-        </a>
-        <p>ID: ${sensor.id_tipo_sensor}</p>
-      </td>
-      <td class="text-center">
-        <a href="/tipos_sensor/edit/${sensor.id_tipo_sensor}" style="color: #77a5fa">editar</a>
-        <br />
-        <label class="switch">
-          <input type="checkbox" />
-          <span class="slider round"></span>
-        </label>
-      </td>
-    `;
-    tanquesList.appendChild(row);
+tanquesList.innerHTML = '';  // Limpa a tabela
+sortedSensors.forEach(sensor => {
+  const row = document.createElement('tr');
+  row.classList.add('sensor-item');
+  row.innerHTML = `
+    <td id="celula">
+      <a href="/dashboard">
+        <img src="/uploads/${sensor.foto_sensor}" alt="" id="img_2" style="border-radius: 0; width: 100px; height: 100px;" /> <!-- Garantir que a imagem mantenha o estilo desejado -->
+      </a>
+      <p>ID: ${sensor.id_tipo_sensor}</p>
+    </td>
+    <td class="text-center">
+      <a href="/tipos_sensor/edit/${sensor.id_tipo_sensor}" style="color: #77a5fa">editar</a>
+      <br />
+      <label class="switch">
+        <input type="checkbox" />
+        <span class="slider round"></span>
+      </label>
+    </td>
+  `;
+  tanquesList.appendChild(row);
   });
 });
     </script>

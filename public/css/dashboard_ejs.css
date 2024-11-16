@@ -48,7 +48,9 @@
 #imagem_logo {
   width: 20%;
 }
-
+#btn_rel{
+  border-radius: 30px;
+}
 /* Media query para telas menores, como smartphones */
 @media (max-width: 768px) {
   .grid-container {

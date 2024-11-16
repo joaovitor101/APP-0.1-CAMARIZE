@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relatório</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<style>
+    #btn_rel{
+        background: linear-gradient(to right, #FFC2C2, #AED5FF); /* Gradiente de fundo */
+    }
+
+    @media screen and (max-width: 768px) {
+        #btn_rel{
+            width: 80%;
+        }
+
+        #hr{
+            width: 80%;
+        }
+    }
+
+</style>
+<body class="flex items-center justify-center h-screen">
+  <div class="max-w-md w-full text-center">
+    <!-- Título -->
+    <h1 class="text-2xl font-bold mb-2">Relatório</h1>
+    <p class="text-gray-600 mb-4">Selecione um período</p>
+    
+    <hr class="border-gray-200 mb-4 mx-auto" id="hr">
+
+    <!-- Botões -->
+    <div class="space-y-4">
+    <a href="/rel_individual">
+      <button class="w-full py-3 bg-gradient-to-b text-white font-medium rounded-lg shadow hover:opacity-90" id="btn_rel">
+        Semanal
+      </button>
+    </a>
+
+    <a href="/rel_individual">
+      <button class="w-full py-3 mt-3 bg-gradient-to-b text-white font-medium rounded-lg shadow hover:opacity-90" id="btn_rel">
+        Mensal
+      </button>
+    </a>
+    <a href="/rel_individual">
+      <button class="w-full py-3 mt-3 bg-gradient-to-b text-white font-medium rounded-lg shadow hover:opacity-90" id="btn_rel">
+        Anual
+      </button>
+    </a>
+    </div>
+    
+    <hr class="border-gray-200 mt-4 mx-auto" id="hr">
+    <img src="/imgs/camarize.png" class="w-48 mt-12 mx-auto mt-5" alt="">
+  </div>
+</body>
+</html>
