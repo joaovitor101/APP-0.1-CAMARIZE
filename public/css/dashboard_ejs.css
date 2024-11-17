@@ -7,7 +7,7 @@
 }
 
 .grid-item {
-  padding: 20px;
+  padding-left: 5px; /* Ajuste conforme necessário para mover para a esquerda */
   box-sizing: border-box;
   border-radius: 13px;
   background-color: #ffffff;
@@ -21,10 +21,7 @@
   gap: 10px; /* Espaçamento entre a imagem e o valor */
 }
 
-.icon {
-  width: 40px; /* Tamanho da imagem */
-  height: auto;
-}
+
 
 .value {
   font-size: 22px;
