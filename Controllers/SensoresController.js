@@ -1,45 +1,105 @@
 import express from 'express';
 import Sensores from "../Models/Sensor.js";  
 import flash from 'connect-flash';
-import { validationResult } from 'express-validator'
+import multer from 'multer';
+import Auth from "../middleware/Auth.js";
 const router = express.Router();
 
-// Rota principal para listar os tipos de sensor
-router.get("/sensores", (req, res) => {
-    // Buscar todos os tipos de sensor no banco de dados
-    Sensores.findAll().then(sensores => {
-      // Passar os dados para a view
-      res.render("sensores", {
-        successMessage: req.flash('success'),
-        errorMessage: req.flash('error'),
-        tipos_sensor: tipos_sensor // Passando os dados para a view
-      });
-    }).catch((error) => {
-      console.log("Erro ao buscar sensores:", error);
-      res.status(500).send("Erro ao buscar sensores.");
+const upload = multer({ dest: 'public/uploads/' });
+
+// Rota principal para listar os sensores
+router.get("/sensores", async (req, res) => {
+  try {
+    const sensores = await Sensores.findAll();
+    const sensoresSimple = sensores.map(sensor => sensor.get({ plain: true }));
+
+    // Ordenar os sensores por ID de forma decrescente
+    const sensoresOrdenados = sensoresSimple.sort((a, b) => b.id_sensor - a.id_sensor);
+
+    res.render("sensorNew", {
+      successMessage: req.flash("success"),
+      errorMessage: req.flash("error"),
+      sensores: sensoresOrdenados, // Passando os dados ordenados para a view
     });
-  });
-  
+  } catch (error) {
+    res.redirect("/sensores/new");
+  }
+});
 
-router.get("/sensores/new", async (req, res) => {
-    try {
-      // Buscar todos os tipos de sensor
-      const sensores = await Sensores.findAll();
-      const sensoresSimple = sensores.map(sensor => sensor.get({ plain: true }));
-  
-      // Ordenar os sensores por ID de forma decrescente usando mergeSort
-      const sensoresOrdenados = mergeSort(sensoresSimple);
-  
-      // Renderizar a view com os dados
-      res.render("sensorNew", {
-        successMessage: req.flash("success"),
-        errorMessage: req.flash("error"),
-        tipos_sensor: sensores, // Passando os dados para a view
-      });
-    } catch (error) {
-      console.log("Erro ao carregar a página de cadastro de sensores:", error);
-      res.status(500).send("Erro ao carregar a página de cadastro de sensores.");
-    }
+// Rota para exibir o formulário de cadastro de sensor
+router.get("/sensores/new", (req, res) => {
+  res.render("sensorNew", {
+    successMessage: req.flash("success"),
+    errorMessage: req.flash("error"),
   });
+});
 
-  export default router;
+// Cadastro de sensores
+router.post("/sensores/new", Auth, upload.single('foto_sensor'), (req, res) => {
+  const { id_tipo_sensor, apelido } = req.body;  // Dados enviados no formulário
+
+  // Verificações
+  if (!id_tipo_sensor || !apelido) {
+    return res.status(400).send("Erro: Dados obrigatórios não foram preenchidos.");
+  }
+
+  // Criar o sensor
+  Sensores.create({
+    id_tipo_sensor,
+    apelido,
+    foto_sensor: req.file ? req.file.filename : null,  // Usando req.file para salvar o arquivo
+  })
+  .then(() => {
+    res.redirect("/sensores");  // Redireciona após o cadastro
+    console.log("Sensor cadastrado com sucesso!");
+  })
+  .catch((error) => {
+    console.log("Erro ao cadastrar sensor:", error);
+    res.status(500).send("Erro ao cadastrar o sensor.");
+  });
+});
+
+// Rota para excluir um sensor
+router.get("/sensores/delete/:id_sensor", (req, res) => {
+  const id = req.params.id_sensor;
+
+  Sensores.destroy({
+    where: { id_sensor: id }
+  }).then(() => {
+    res.redirect("/sensores");
+  }).catch((error) => {
+    console.log("Erro ao excluir sensor:", error);
+    res.status(500).send("Erro ao excluir sensor.");
+  });
+});
+
+// Rota para editar sensor
+router.get("/sensores/edit/:id_sensor", (req, res) => {
+  const id = req.params.id_sensor;
+
+  Sensores.findByPk(id).then((sensor) => {
+    res.render("sensorEdit", {
+      sensor: sensor
+    });
+  }).catch((error) => {
+    console.log("Erro ao buscar sensor para edição:", error);
+    res.status(500).send("Erro ao buscar sensor para edição.");
+  });
+});
+
+// Rota para atualizar sensor
+router.post("/sensores/update", (req, res) => {
+  const { id_sensor, id_tipo_sensor, apelido, foto_sensor } = req.body;
+
+  Sensores.update(
+    { id_tipo_sensor, apelido, foto_sensor },
+    { where: { id_sensor } }
+  ).then(() => {
+    res.redirect("/sensores");
+  }).catch((error) => {
+    console.log("Erro ao atualizar sensor:", error);
+    res.status(500).send("Erro ao atualizar sensor.");
+  });
+});
+
+export default router;

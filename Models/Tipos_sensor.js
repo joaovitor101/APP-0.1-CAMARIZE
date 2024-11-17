@@ -14,7 +14,8 @@ const Tipos_sensor = connection.define('Tipos_sensor', {
       allowNull: true,
     },
   }, {
-    tableName: 'Tipos_sensor'
+    tableName: 'Tipos_sensor',
+    timestamps: false // Adicionei para garantir que não haja colunas 'createdAt' e 'updatedAt' automaticamente
   });
   
 // Adicionar valores iniciais
@@ -27,9 +28,9 @@ const Tipos_sensor = connection.define('Tipos_sensor', {
     const count = await Tipos_sensor.count();
     if (count === 0) {
       await Tipos_sensor.bulkCreate([
-        { descricao: 'Temperatura', foto_sensor: null },
-        { descricao: 'PH', foto_sensor: null },
-        { descricao: 'Amonia', foto_sensor: null },
+        { descricao: 'Temperatura' },
+        { descricao: 'PH' },
+        { descricao: 'Amonia' },
       ]);
       console.log("Valores iniciais adicionados com sucesso!");
     } else {
@@ -40,5 +41,4 @@ const Tipos_sensor = connection.define('Tipos_sensor', {
   }
 })();
 
-  export default Tipos_sensor;
-  
+export default Tipos_sensor;

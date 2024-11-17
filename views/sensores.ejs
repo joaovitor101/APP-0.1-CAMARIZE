@@ -74,23 +74,29 @@
       <hr />
       <table>
         <tbody id="tanquesList">
-          <% tipos_sensor.forEach(sensor => { %>
-            <tr class="sensor-item">
-              <td id="celula">
-                <a href="/dashboard">
-                  <img
-                    src="<%= '/uploads/' + sensor.foto_sensor %>" <!-- Substitua foto_sensor pelo campo correto -->
-                    alt=""
-                    id="img_2"
-                  />
-                </a>
-                <p>ID: <%= sensor.id_tipo_sensor %></p>
-              </td>
-              <td class="text-center">
-                  
-              </td>
+          <% if (sensores.length === 0) { %>
+            <tr>
+              <td colspan="2" class="text-center">Nenhum sensor cadastrado ainda.</td>
             </tr>
-          <% }) %>
+          <% } else { %>
+            <% sensores.forEach(sensor => { %>
+              <tr class="sensor-item">
+                <td id="celula">
+                  <a href="/dashboard">
+                    <img
+                      src="<%= '/uploads/' + sensor.foto_sensor %>" <!-- Substitua foto_sensor pelo campo correto -->
+                      alt=""
+                      id="img_2"
+                    />
+                  </a>
+                  <p>ID: <%= sensor.id_tipo_sensor %></p>
+                </td>
+                <td class="text-center">
+                  <!-- Botões para editar e alternar o status -->
+                </td>
+              </tr>
+            <% }) %>
+          <% } %>
         </tbody>
       </table>
     </div>
