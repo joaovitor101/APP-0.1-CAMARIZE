@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMPj1B7F+IC2RC3ZrW/9f3JW5c5y00PYkN6Bf3"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/css/tanque_ejs.css" />
+    <title>Document</title>
+  </head>
+<style>
+  /* Flexbox para alinhar os itens */
+  .botoes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Responsividade para telas menores que 768px */
+  @media screen and (max-width: 768px) {
+    .botoes {
+      flex-wrap: wrap; /* Permite que os itens se ajustem quando não houver espaço suficiente */
+      gap: 10px; /* Adiciona um pequeno espaço entre os botões */
+    }
+
+    #filter,
+    #updown {
+      width: 30px;
+    }
+
+    .botoes a {
+      margin-left: 0; /* Remove margens desnecessárias em dispositivos móveis */
+      margin-right: 0; /* Remove margens desnecessárias em dispositivos móveis */
+    }
+  }
+</style>
+
+  <body>
+    <div class="p-5"></div>
+    <div class="container">
+      <div class="card-header" style="display: flex; justify-content: center; align-items: center; color: black;">
+        <h2>Sistema</h2>
+      </div>
+      <div class="card-header mt-4" style="display: flex; justify-content: space-between; align-items: center;">
+        <h1 class="h5" id="aaa">Sensores</h1>
+
+        <div class="botoes">
+          <!-- Ícone UpDown com id para seleção -->
+          <a href="#" id="updown" >
+            <img src="./imgs/updown.png" alt=""/>
+          </a>
+          <a href="/tipos_sensor" class="btn" style="margin-left: auto; font-size: 20px; color: white ;">
+            <img src="./imgs/filter.png" id="filter" alt="" />
+          </a>
+          <a href="/tipos_sensor/new" class="btn" style="margin-left:auto; font-size: 20px; color: white ;background-color: rgb(0, 0, 0);">+</a>
+        </div>
+      </div>
+
+      <hr />
+      <table>
+        <tbody id="tanquesList">
+          <% tipos_sensor.forEach(sensor => { %>
+            <tr class="sensor-item">
+              <td id="celula">
+                <a href="/dashboard">
+                  <img
+                    src="<%= '/uploads/' + sensor.foto_sensor %>" <!-- Substitua foto_sensor pelo campo correto -->
+                    alt=""
+                    id="img_2"
+                  />
+                </a>
+                <p>ID: <%= sensor.id_tipo_sensor %></p>
+              </td>
+              <td class="text-center">
+                  
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Script MERGE SORT POR ID DECRESCENTE -->
+    <script>
+      function mergeSort(arr) {
+        if (arr.length <= 1) return arr;
+
+        const mid = Math.floor(arr.length / 2);
+        const left = mergeSort(arr.slice(0, mid));
+        const right = mergeSort(arr.slice(mid));
+
+        return merge(left, right);
+      }
+
+      function merge(left, right) {
+        let result = [], leftIndex = 0, rightIndex = 0;
+
+        while (leftIndex < left.length && rightIndex < right.length) {
+          if (left[leftIndex].id_tipo_sensor > right[rightIndex].id_tipo_sensor) {
+            result.push(left[leftIndex]);
+            leftIndex++;
+          } else {
+            result.push(right[rightIndex]);
+            rightIndex++;
+          }
+        }
+
+        return result.concat(left.slice(leftIndex), right.slice(rightIndex));
+      }
+
+      // Evento de clique no ícone UpDown
+      document.getElementById('updown').addEventListener('click', function() {
+  console.log("Botão clicado!");
+
+  const sensorItems = document.querySelectorAll('.sensor-item');
+  const sensorArray = Array.from(sensorItems).map(item => {
+    const id = parseInt(item.querySelector('p').textContent.replace('ID: ', ''));
+    const foto_sensor = item.querySelector('img').src.split('/').pop();
+    return { id_tipo_sensor: id, foto_sensor: foto_sensor };
+  });
+
+  const startTime = performance.now();
+  const sortedSensors = mergeSort(sensorArray);
+  const endTime = performance.now();
+
+  const executionTime = (endTime - startTime).toFixed(6); // 6 casas decimais
+  console.log(`Merge Sort executado em ${executionTime} milissegundos`);
+
+  // Atualizando a tabela com os sensores ordenados
+  const tanquesList = document.getElementById('tanquesList');
+  tanquesList.innerHTML = '';
+  sortedSensors.forEach(sensor => {
+    const row = document.createElement('tr');
+    row.classList.add('sensor-item');
+    row.innerHTML = `
+      <td id="celula">
+        <a href="/dashboard">
+          <img src="/uploads/${sensor.foto_sensor}" alt="" id="img_2" style="border-radius: 0; width: 100px; height: 100px;" />
+        </a>
+        <p>ID: ${sensor.id_tipo_sensor}</p>
+      </td>
+      <td class="text-center">
+        <a href="/tipos_sensor/edit/${sensor.id_tipo_sensor}" style="color: #77a5fa">editar</a>
+        <br />
+        <label class="switch">
+          <input type="checkbox" />
+          <span class="slider round"></span>
+        </label>
+      </td>
+    `;
+    tanquesList.appendChild(row);
+  });
+});
+
+
+    </script>
+  </body>
+</html>

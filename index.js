@@ -10,7 +10,7 @@ import Condicoes_ideais from "./Models/Condicao_ideal.js";
 import Tipos_sensor from './Models/Tipos_sensor.js';
 import Especif_camarao from './Models/Especif_camarao.js';
 import SitiosxCativeiros from './Models/SitiosxCativeiros.js';
-import Sensores from './Models/Sensor.js';
+
 
 
 //importar controllers aqui
@@ -26,7 +26,7 @@ import Tipos_sensorController from "./Controllers/Tipos_sensorController.js";
 import Especif_camaraoController from "./Controllers/Especif_camaraoController.js";
 import SitiosxCativeirosControlller from './Controllers/SitiosxCativeirosController.js';
 import RelatoriosController from "./Controllers/relatoriosController.js"
-import SensoresController from "./Controllers/SensoresController.js";
+import NotificacoesController from './Controllers/NotificacoesController.js'
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -68,8 +68,9 @@ app.use("/", Condicoes_ideaisController);
 app.use("/", Tipos_sensorController);
 app.use("/", Especif_camaraoController);
 app.use("/", SitiosxCativeirosControlller);
-app.use("/", RelatoriosController);
-app.use("/", SensoresController);
+app.use("/", RelatoriosController)
+app.use("/", NotificacoesController)
+
 
 // Realizando a conexão com o banco de dados
 connection.authenticate().then(() => {
@@ -88,8 +89,8 @@ connection.authenticate().then(() => {
         //Dispensadores.sync({ force: false }), 
         //Alimentacao.sync({ force: false }),
         //SensoresXcativeiros.sync({ force: false }),
+        //Sensores.sync({ force: false }), 
         Tipos_sensor.sync({ force: false }), 
-        Sensores.sync({ force: false }), 
         //Relatorio_individual.sync({ force: false }), 
         //Parametros_atuais.sync({ force: false }), 
         SitiosxCativeiros.sync({ force: false }), 
