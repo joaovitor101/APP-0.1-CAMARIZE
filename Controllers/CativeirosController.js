@@ -2,6 +2,7 @@ import express from 'express';
 const router = express.Router();
 
 import Cativeiros from "../Models/Cativeiro.js";
+import Tipos_camarao from '../Models/Camarao.js';
 
 import multer from 'multer';
 import path from 'path';
@@ -13,14 +14,23 @@ const upload = multer({dest: "public/uploads"})
 
 
 
-// Rota GET para /tanques
+// Rota GET para /cativeiros
 router.get("/cativeiros", Auth, function (req, res) {
-    Cativeiros.findAll().then((cativeiros) => {
-      res.render("cativeiros", {
-        cativeiros: cativeiros,
-      });
-    });
+  Cativeiros.findAll({
+    include: {
+      model: Tipos_camarao, // Relacionamento com o modelo Tipos_camarao
+      as: 'camarao',        // Nome da associação (usado no 'belongsTo')
+      attributes: ['nome'], // Campos que você quer trazer da tabela 'Tipos_camarao'
+    }
+  })
+  .then((cativeiros) => {
+    res.render("cativeiros", { cativeiros: cativeiros });
+  })
+  .catch((error) => {
+    console.error("Erro ao buscar cativeiros:", error);
+    res.status(500).send("Erro ao buscar cativeiros.");
   });
+});
 // Rota GET para exibir o formulário de criação de um novo tanque
 
 router.get("/cativeiros/new", Auth, function (req, res) {

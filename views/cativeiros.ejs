@@ -126,6 +126,10 @@
                 <img src="<%= '/uploads/' + cativeiro.foto_cativeiro %>" alt="" id="img_2" />
               </a>
             </td>
+            <td style=" justify-content: flex-start;">
+              <h6>#<%= cativeiro.id_cativeiro%></h6>
+              <p>Cultivo de camarão: <%= cativeiro.camarao.nome %></p>
+            </td>
             <td class="text-center">
               <a href="/cativeiros/edit/<%= cativeiro.id_cativeiro %>" style="color: #77a5fa">editar</a>
               <br />
