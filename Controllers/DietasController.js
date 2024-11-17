@@ -1,5 +1,7 @@
 import express from 'express';
 import Dietas from "../Models/Dieta.js";  
+import Especif_camarao from "../Models/Especif_camarao.js";
+import Condicoes_ideais from "../Models/Condicao_ideal.js"; // Certifique-se de importar o modelo de Condições Ideais
 
 const router = express.Router();
 
@@ -15,73 +17,59 @@ router.get("/dietas", (req, res) => {
   });
 });
 
-// GET para exibir o formulário de dietas
+// Rota para exibir o formulário de dietas
 router.get("/dietas/new", (req, res) => {
-  const id_tipo_camarao = req.query.id_tipo_camarao; // Obtendo o parâmetro da query string
-  
+  const { id_tipo_camarao } = req.query; // Captura o id_tipo_camarao da query string
+
   if (!id_tipo_camarao) {
-      return res.status(400).send("ID do tipo de camarão não fornecido.");
+    return res.status(400).send("ID do tipo de camarão não fornecido.");
   }
 
-  // Renderiza o formulário passando o id_tipo_camarao
+  // Renderiza a página de dietas passando o id_tipo_camarao
   res.render("dietas", { id_tipo_camarao });
 });
 
-// Rota para cadastrar dieta
+
+// Cadastro de dieta e criação de registros na tabela Especif_camarao
 router.post("/dietas/new", (req, res) => {
-  const { descricao } = req.body;  
+  const { descricao, id_tipo_camarao } = req.body;
 
-  Dietas.create({
-    descricao
-  }).then(() => {
-    res.redirect("/dietas");
-  }).catch((error) => {
-    console.log("Erro ao criar dieta:", error);
-    res.status(500).send("Erro ao criar dieta.");
-  });
-});
+  // Verificar se o id_tipo_camarao foi passado corretamente
+  if (!id_tipo_camarao) {
+    return res.status(400).send("ID do tipo de camarão não foi fornecido.");
+  }
 
-// Rota para excluir dieta
-router.get("/dietas/delete/:id_dieta", (req, res) => {
-  const id = req.params.id_dieta;
+  // Cria a dieta sem associar diretamente o id_tipo_camarao
+  Dietas.create({ descricao })
+    .then(async (novaDieta) => {
+      try {
+        // Agora buscamos as condições ideais para o tipo de camarão
+        const condicoes = await Condicoes_ideais.findAll({ where: { id_tipo_camarao } });
 
-  Dietas.destroy({
-    where: { id_dieta: id }
-  }).then(() => {
-    res.redirect("/dietas");
-  }).catch((error) => {
-    console.log("Erro ao excluir dieta:", error);
-    res.status(500).send("Erro ao excluir dieta.");
-  });
-});
+        // Verifica se foram encontradas condições ideais
+        if (condicoes.length === 0) {
+          return res.status(404).send("Nenhuma condição ideal encontrada para este tipo de camarão.");
+        }
 
-// Rota para editar dieta
-router.get("/dietas/edit/:id_dieta", (req, res) => {
-  const id = req.params.id_dieta;
+        // Após encontrar as condições ideais, criamos os registros na tabela Especif_camarao
+        for (const condicao of condicoes) {
+          await Especif_camarao.create({
+            id_tipo_camarao,   // Passa o id_tipo_camarao
+            id_dieta: novaDieta.id_dieta,
+            id_condicao: condicao.id_condicao,
+          });
+        }
 
-  Dietas.findByPk(id).then((dieta) => {
-    res.render("dietaEdit", {  
-        dieta: dieta
+        res.redirect('/cativeiros');
+      } catch (error) {
+        console.error('Erro ao realizar cadastro automático:', error);
+        res.status(500).send('Erro ao realizar cadastro automático.');
+      }
+    })
+    .catch((error) => {
+      console.log('Erro ao criar dieta:', error);
+      res.status(500).send('Erro ao criar dieta.');
     });
-  }).catch((error) => {
-    console.log("Erro ao buscar dieta para edição:", error);
-    res.status(500).send("Erro ao buscar dieta para edição.");
-  });
-});
-
-// Rota para atualizar dieta
-router.post("/dietas/update", (req, res) => {
-  const { id_dieta, descricao } = req.body;
-
-  Dietas.update(
-    { descricao },
-    { where: { id_dieta } }
-  ).then(() => {
-    res.redirect("/dietas");
-  }).catch((error) => {
-    console.log("Erro ao atualizar dieta:", error);
-    res.status(500).send("Erro ao atualizar dieta.");
-  });
 });
 
 export default router;

@@ -10,6 +10,7 @@ import Condicoes_ideais from "./Models/Condicao_ideal.js";
 import Tipos_sensor from './Models/Tipos_sensor.js';
 import Especif_camarao from './Models/Especif_camarao.js';
 import SitiosxCativeiros from './Models/SitiosxCativeiros.js';
+import Sitios from './Models/Sitio.js';
 import Sensores from './Models/Sensor.js';
 
 
@@ -84,8 +85,8 @@ connection.authenticate().then(() => {
     return Promise.all([
         Tipos_camarao.sync({ force: false }), 
         Condicoes_ideais.sync({ force: false }), 
-        Especif_camarao.sync({ force: false }),
         Dietas.sync({ force: false }), 
+        Especif_camarao.sync({ force: false }),
         Sitios.sync({ force: false }), 
         Cativeiros.sync({ force: false }),
         SitiosxCativeiros.sync({ force: false }),  
@@ -96,8 +97,6 @@ connection.authenticate().then(() => {
         Sensores.sync({ force: false }), 
         //Relatorio_individual.sync({ force: false }), 
         //Parametros_atuais.sync({ force: false }), 
-        
-
         //UsuariosxSitios.sync({ force: false }), 
         //Usuarios.sync({ force: false }), 
         //Recomendacoes.sync({ force: false }), 

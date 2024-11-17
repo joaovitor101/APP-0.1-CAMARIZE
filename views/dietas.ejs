@@ -23,23 +23,19 @@
                 <hr>
 
             <div class="card-body">
-                <form action="/dietas/new" method="post">
+                <form action="/dietas/new" method="POST">
                     <!-- Campo de texto com várias linhas -->
-                    <textarea 
-                    class="form-control" 
-                    name="descricao" 
-                    placeholder="Descrição" 
-                    id="dietas" 
-                    required
-                    rows="4" 
-                    cols="50">
-                </textarea>
+                    <textarea class="form-control" name="descricao" placeholder="Descrição" id="dietas" required rows="4" cols="50"></textarea>
+                    
+                    <!-- Campo hidden para enviar o id_tipo_camarao -->
+                    <input type="hidden" name="id_tipo_camarao" value="<%= id_tipo_camarao %>">
                 
                     <hr>
                     <!-- Área de preview da imagem -->
                     <br>
-                    <input type="submit" class="btn" id="save" value="Salvar">
-                  </form>
+                    <input type="submit" class="btn" id="save" value="Salvar" style="color: white;">
+                </form>
+                
                   
             </div>
         </div>
