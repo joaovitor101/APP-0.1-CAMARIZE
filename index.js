@@ -10,7 +10,7 @@ import Condicoes_ideais from "./Models/Condicao_ideal.js";
 import Tipos_sensor from './Models/Tipos_sensor.js';
 import Especif_camarao from './Models/Especif_camarao.js';
 import SitiosxCativeiros from './Models/SitiosxCativeiros.js';
-
+import Sensores from './Models/Sensor.js';
 
 
 //importar controllers aqui
@@ -27,6 +27,7 @@ import Especif_camaraoController from "./Controllers/Especif_camaraoController.j
 import SitiosxCativeirosControlller from './Controllers/SitiosxCativeirosController.js';
 import RelatoriosController from "./Controllers/relatoriosController.js"
 import NotificacoesController from './Controllers/NotificacoesController.js'
+import SensoresController from "./Controllers/SensoresController.js";
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -70,7 +71,7 @@ app.use("/", Especif_camaraoController);
 app.use("/", SitiosxCativeirosControlller);
 app.use("/", RelatoriosController)
 app.use("/", NotificacoesController)
-
+app.use("/", SensoresController);
 
 // Realizando a conexão com o banco de dados
 connection.authenticate().then(() => {
@@ -85,16 +86,18 @@ connection.authenticate().then(() => {
         Condicoes_ideais.sync({ force: false }), 
         Especif_camarao.sync({ force: false }),
         Dietas.sync({ force: false }), 
-        Cativeiros.sync({ force: false }), 
+        Sitios.sync({ force: false }), 
+        Cativeiros.sync({ force: false }),
+        SitiosxCativeiros.sync({ force: false }),  
         //Dispensadores.sync({ force: false }), 
         //Alimentacao.sync({ force: false }),
         //SensoresXcativeiros.sync({ force: false }),
-        //Sensores.sync({ force: false }), 
         Tipos_sensor.sync({ force: false }), 
+        Sensores.sync({ force: false }), 
         //Relatorio_individual.sync({ force: false }), 
         //Parametros_atuais.sync({ force: false }), 
-        SitiosxCativeiros.sync({ force: false }), 
-        Sitios.sync({ force: false }), 
+        
+
         //UsuariosxSitios.sync({ force: false }), 
         //Usuarios.sync({ force: false }), 
         //Recomendacoes.sync({ force: false }), 

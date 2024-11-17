@@ -23,15 +23,18 @@
 
             <div class="card-body">
                 <form action="/condicoes/new" method="post">
+                    <!-- O campo hidden agora corretamente usa a variável id_tipo_camarao -->
+                    <input type="hidden" name="id_tipo_camarao" value="<%= typeof id_tipo_camarao !== 'undefined' ? id_tipo_camarao : '' %>">
                     
-                    <input class="form-control" type="text" name="temp_ideal" placeholder="Temperatura Ideal" id="temp_ideal" required>
-                    <input class="form-control" type="text" name="ph_ideal" placeholder="Ph ideal" id="local" required>
-                    <input class="form-control" type="text" name="amonia_ideal" placeholder="Amônia Ideal" id="local" required>
-                    <hr>
-                    <!-- Área de preview da imagem -->
-                    <br>
-                    <input type="submit" class="btn" id="save" value="Salvar">
+                    <input class="form-control" type="number" name="temp_ideal" placeholder="Temperatura Ideal (°C)" id="temp_ideal" step="0.1" required>
+                    <input class="form-control" type="number" name="ph_ideal" placeholder="pH Ideal" id="ph_ideal" step="0.1" required>
+                    <input class="form-control" type="number" name="amonia_ideal" placeholder="Amônia Ideal (ppm)" id="amonia_ideal" step="0.1" required>
+                    
+                    <button type="submit" class="btn" id="save" style="color: white;">Salvar</button>
                 </form>
+                
+                
+                
             </div>
         </div>
     </div>

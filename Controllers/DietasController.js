@@ -15,6 +15,18 @@ router.get("/dietas", (req, res) => {
   });
 });
 
+// GET para exibir o formulário de dietas
+router.get("/dietas/new", (req, res) => {
+  const id_tipo_camarao = req.query.id_tipo_camarao; // Obtendo o parâmetro da query string
+  
+  if (!id_tipo_camarao) {
+      return res.status(400).send("ID do tipo de camarão não fornecido.");
+  }
+
+  // Renderiza o formulário passando o id_tipo_camarao
+  res.render("dietas", { id_tipo_camarao });
+});
+
 // Rota para cadastrar dieta
 router.post("/dietas/new", (req, res) => {
   const { descricao } = req.body;  

@@ -25,14 +25,20 @@
             <!-- Dropdown -->
             <div class="mb-4">
                 <label for="tipo_sensor" class="block text-gray-700 font-bold text-xl text-left">Sensor</label>
-                <select id="tipo_sensor" name="tipo_sensor" class="block w-full p-3 border rounded-lg text-gray-700 bg-gray-100 focus:ring focus:ring-blue-300 mt-3" required>
+                <select id="id_tipo_sensor" name="id_tipo_sensor" class="block w-full p-3 border rounded-lg text-gray-700 bg-gray-100 focus:ring focus:ring-blue-300 mt-3" required>
                     <option value="" disabled selected>Selecione o sensor</option>
                     <option value="1">Sensor medidor de PH</option>
                     <option value="2">Sensor medidor de temperatura</option>
                     <option value="3">Sensor medidor de amônia</option>     
                 </select>
             </div>
-            
+            <!-- Apelido     -->
+            <div class="mb-4">
+                <label for="apelido" class="block text-gray-700 font-bold text-xl text-left">Apelido do Sensor</label>
+                <input type="text" id="apelido" name="apelido" 
+                    class="block w-full p-3 border rounded-lg text-gray-700 bg-gray-100 focus:ring focus:ring-blue-300 mt-3" 
+                    placeholder="Digite o apelido do sensor" required>
+            </div>
             <!-- Upload -->
             <div class="mb-6">
                 <label class="flex items-center justify-between p-3 border rounded-lg bg-gray-100 cursor-pointer">

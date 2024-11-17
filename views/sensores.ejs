@@ -21,101 +21,196 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="/css/tanque_ejs.css" />
-    <title>Document</title>
+    <title>Sensores</title>
   </head>
-<style>
-  /* Flexbox para alinhar os itens */
-  .botoes {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  /* Responsividade para telas menores que 768px */
-  @media screen and (max-width: 768px) {
-    .botoes {
-      flex-wrap: wrap; /* Permite que os itens se ajustem quando não houver espaço suficiente */
-      gap: 10px; /* Adiciona um pequeno espaço entre os botões */
+  <style>
+    /* Estilo geral para os itens da tabela (card) */
+    .sensor-item {
+        display: flex;               /* Usamos flex para distribuir o conteúdo */
+        align-items: center;         /* Alinha o conteúdo verticalmente */
+        padding: 10px;               /* Espaçamento interno */
+        border-radius: 10px;         /* Bordas arredondadas */
+        background-color: #fff;      /* Fundo branco */
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        margin: 10px 0;              /* Espaçamento entre os cards */
+        transition: transform 0.3s ease; /* Efeito de transição para hover */
+        position: relative;          /* Para garantir que o SVG tenha um posicionamento relativo ao card */
+      }
+  
+    /* Efeito de hover para os cards */
+    .sensor-item:hover {
+      transform: translateY(-5px); /* Levanta o card quando o mouse passa sobre */
     }
-
-    #filter,
-    #updown {
-      width: 30px;
+  
+    /* SVG na lateral esquerda */
+    .sensor-item .svg-left {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 15px;                   /* Largura do SVG */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+}
+    .sensor-item .svg-left img {
+      height: 115px;                  /* Faz com que a altura da imagem ocupe toda a altura do contêiner */
+      width: 20px; 
+      border-radius: 5px 0px 0px 5px;              
     }
-
+    /* Estilo da imagem dentro do card */
+    .sensor-item img {
+      width: 80px;                   /* Tamanho da imagem */
+      height: 80px;                  /* Tamanho da imagem */
+      border-radius: 5px;            /* Bordas arredondadas na imagem */
+      object-fit: cover;             /* Faz a imagem cobrir bem a área */
+      margin-right: 20px;            /* Espaço à direita da imagem */
+    }
+  
+    /* Estilo para a descrição (ID) dentro do card */
+    .sensor-item p {
+      font-size: 14px;
+      font-weight: 600;
+      margin: 0;
+    }
+  
+    /* Estilo das ações (botões) no card */
+    .sensor-item .text-center {
+      display: flex;
+      flex-direction: column;   /* Empilha os botões verticalmente */
+      align-items: flex-end;    /* Alinha os botões à direita */
+      justify-content: flex-start; /* Garante que os botões fiquem no topo */
+      gap: 5px;                 /* Espaçamento entre os botões */
+      width: 100%;     
+    }
+  
+    .sensor-item .btn {
+      font-size: 12px;
+      padding: 6px 12px;
+    }
+  
+    /* Estilo para os botões (flexbox para alinhamento) */
     .botoes a {
-      margin-left: 0; /* Remove margens desnecessárias em dispositivos móveis */
-      margin-right: 0; /* Remove margens desnecessárias em dispositivos móveis */
+      display: flex;               /* Garante que a âncora seja um flex container */
+      align-items: center;         /* Alinha as imagens verticalmente */
+      justify-content: center;     /* Alinha as imagens horizontalmente */
+      width: 50px;                 /* Define um tamanho fixo para os botões */
+      height: 50px;                /* Define um tamanho fixo para os botões */
+      border-radius: 5px;          /* Bordas arredondadas para estética */
+      text-decoration: none;       /* Remove sublinhado de links */
     }
-  }
-</style>
-
+  
+    /* Responsividade para telas menores que 768px */
+    @media screen and (max-width: 768px) {
+      .botoes {
+        flex-wrap: wrap; /* Permite que os itens se ajustem quando não houver espaço suficiente */
+        gap: 10px; /* Adiciona um pequeno espaço entre os botões */
+      }
+  
+      #filter,
+      #updown {
+        width: 30px;  /* Ajusta o tamanho dos ícones em telas menores */
+      }
+  
+      .botoes a {
+        margin-left: 0; /* Remove margens desnecessárias em dispositivos móveis */
+        margin-right: 0; /* Remove margens desnecessárias em dispositivos móveis */
+      }
+    }
+  </style>
+  
   <body>
     <div class="p-5"></div>
     <div class="container">
+
+      <% if (successMessage.length) { %>
+        <div class="alert alert-success text-center">
+            <%= successMessage[0] %>
+        </div>
+    <% } %>
+
       <div class="card-header" style="display: flex; justify-content: center; align-items: center; color: black;">
         <h2>Sistema</h2>
       </div>
       <div class="card-header mt-4" style="display: flex; justify-content: space-between; align-items: center;">
         <h1 class="h5" id="aaa">Sensores</h1>
 
-        <div class="botoes">
+        <div class="botoes" style="margin-left: 20px; display: flex; justify-content: flex-start; gap: 0px;">
           <!-- Ícone UpDown com id para seleção -->
-          <a href="#" id="updown" >
-            <img src="./imgs/updown.png" alt=""/>
+          <a href="#" id="updown" class="btn">
+            <img src="./imgs/pepicons-pop_down-up.svg" alt=""/>
           </a>
-          <a href="/tipos_sensor" class="btn" style="margin-left: auto; font-size: 20px; color: white ;">
-            <img src="./imgs/filter.png" id="filter" alt="" />
+          <a href="/sensores" class="btn">
+            <img src="./imgs/vector.svg" id="filter" alt=""/>
           </a>
-          <a href="/tipos_sensor/new" class="btn" style="margin-left:auto; font-size: 20px; color: white ;background-color: rgb(0, 0, 0);">+</a>
+          <a href="/sensores/new" class="btn">
+            <img src="./imgs/icon_add.svg" alt="Adicionar" />
+          </a>
         </div>
       </div>
 
       <hr />
-      <table>
+      <table class="table table-bordered">
         <tbody id="tanquesList">
-          <% if (sensores.length === 0) { %>
-            <tr>
-              <td colspan="2" class="text-center">Nenhum sensor cadastrado ainda.</td>
-            </tr>
-          <% } else { %>
-            <% sensores.forEach(sensor => { %>
-              <tr class="sensor-item">
-                <td id="celula">
-                  <a href="/dashboard">
-                    <img
-                      src="<%= '/uploads/' + sensor.foto_sensor %>" <!-- Substitua foto_sensor pelo campo correto -->
-                      alt=""
-                      id="img_2"
-                    />
-                  </a>
-                  <p>ID: <%= sensor.id_tipo_sensor %></p>
-                </td>
-                <td class="text-center">
-                  <!-- Botões para editar e alternar o status -->
-                </td>
-              </tr>
-            <% }) %>
-          <% } %>
+            <% if (sensores.length === 0) { %>
+                <tr>
+                    <td colspan="2" class="text-center">Nenhum sensor cadastrado ainda.</td>
+                </tr>
+            <% } else { %>
+                <% sensores.forEach(sensor => { %>
+                  <tr class="sensor-item <%= sensor.id_sensor == highlight ? 'highlight' : '' %>">
+                    <td style="position: relative; display: flex; align-items: center;">
+                      <!-- SVG na lateral esquerda -->
+                      <div class="svg-left">
+                        <img src="./imgs/canto_colorido.svg" alt="">
+                      </div>
+                      <!-- Imagem do sensor -->
+                      <img src="/uploads/<%= sensor.foto_sensor %>" alt="Sensor Image" />
+                      
+                      <!-- Contêiner para os dois parágrafos -->
+                      <div style="display: flex; flex-direction: column;">
+                        <p style="color: #333; font-size: 14px; margin: 0;"><%= sensor.tipo_sensor.descricao %></p>
+                        <p style="color: #555; margin: 0;">#<%= sensor.id_sensor %></p>
+                      </div>
+                    </td>                    
+                    <td class="text-center">
+                      <a href="/sensores/edit/<%= sensor.id_sensor %>" class="editar">
+                        <img src="./imgs/edit-pencil.svg" alt="" style="width: 30px; height: 30px;">
+                      </a>
+                      <a href="/sensores/delete/<%= sensor.id_sensor %>" class="excluir">
+                        <img src="./imgs/pink-trash.svg" alt="" style="width: 30px; height: 30px;">
+                      </a>
+                    </td>
+                  </tr>
+                <% }) %>
+            <% } %>
         </tbody>
-      </table>
+    </table>
     </div>
 
-    <!-- Script MERGE SORT POR ID DECRESCENTE -->
+    
     <script>
+      // Verifica se há um elemento com a classe 'highlight' e faz o scroll até ele
+      const highlight = document.querySelector(".highlight");
+      if (highlight) {
+        highlight.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    
+      // Script MERGE SORT POR ID DECRESCENTE
       function mergeSort(arr) {
         if (arr.length <= 1) return arr;
-
+    
         const mid = Math.floor(arr.length / 2);
         const left = mergeSort(arr.slice(0, mid));
         const right = mergeSort(arr.slice(mid));
-
+    
         return merge(left, right);
       }
-
+    
       function merge(left, right) {
         let result = [], leftIndex = 0, rightIndex = 0;
-
+    
         while (leftIndex < left.length && rightIndex < right.length) {
           if (left[leftIndex].id_tipo_sensor > right[rightIndex].id_tipo_sensor) {
             result.push(left[leftIndex]);
@@ -125,46 +220,64 @@
             rightIndex++;
           }
         }
-
+    
         return result.concat(left.slice(leftIndex), right.slice(rightIndex));
       }
-
-      // Evento de clique no ícone UpDown
+    
+      // Evento de clique no ícone UpDown para ordenar os sensores
       document.getElementById('updown').addEventListener('click', function() {
-       const sensorItems = document.querySelectorAll('.sensor-item');
-       const sensorArray = Array.from(sensorItems).map(item => {
-       const id = parseInt(item.querySelector('p').textContent.replace('ID: ', ''));
-       const foto_sensor = item.querySelector('img').src.split('/').pop();
-    return { id_tipo_sensor: id, foto_sensor: foto_sensor };
-  });
-
-  const sortedSensors = mergeSort(sensorArray);
-
-  // Atualizando a tabela com os sensores ordenados
-  const tanquesList = document.getElementById('tanquesList');
-tanquesList.innerHTML = '';  // Limpa a tabela
-sortedSensors.forEach(sensor => {
-  const row = document.createElement('tr');
-  row.classList.add('sensor-item');
-  row.innerHTML = `
-    <td id="celula">
-      <a href="/dashboard">
-        <img src="/uploads/${sensor.foto_sensor}" alt="" id="img_2" style="border-radius: 0; width: 100px; height: 100px;" /> <!-- Garantir que a imagem mantenha o estilo desejado -->
-      </a>
-      <p>ID: ${sensor.id_tipo_sensor}</p>
-    </td>
-    <td class="text-center">
-      <a href="/tipos_sensor/edit/${sensor.id_tipo_sensor}" style="color: #77a5fa">editar</a>
-      <br />
-      <label class="switch">
-        <input type="checkbox" />
-        <span class="slider round"></span>
-      </label>
-    </td>
-  `;
-  tanquesList.appendChild(row);
-  });
-});
+        const sensorItems = document.querySelectorAll('.sensor-item');
+        const sensorArray = Array.from(sensorItems).map(item => {
+          const id = parseInt(item.querySelector('p').textContent.replace('ID: ', ''));
+          const foto_sensor = item.querySelector('img').src.split('/').pop();
+          return { id_tipo_sensor: id, foto_sensor: foto_sensor, element: item }; // Incluindo o próprio elemento
+        });
+    
+        const sortedSensors = mergeSort(sensorArray);
+    
+        // Atualizando a tabela com os sensores ordenados
+        const tanquesList = document.getElementById('tanquesList');
+        tanquesList.innerHTML = ''; // Limpa a tabela antes de adicionar os sensores ordenados
+    
+        sortedSensors.forEach(sensor => {
+          const row = document.createElement('tr');
+          row.classList.add('sensor-item');
+    
+          // Adiciona a classe highlight se o sensor for o destacado
+          const highlightClass = highlight && sensor.id_tipo_sensor === parseInt(highlight.dataset.sensorId) ? 'highlight' : '';
+          row.classList.add(highlightClass);
+    
+          row.innerHTML = `
+            <td style="position: relative; display: flex; align-items: center;">
+              <!-- SVG na lateral esquerda -->
+              <div class="svg-left">
+                <img src="./imgs/canto_colorido.svg" alt="">
+              </div>
+              <!-- Imagem do sensor -->
+              <img src="/uploads/${sensor.foto_sensor}" alt="Sensor Image" />
+              
+              <!-- Contêiner para os dois parágrafos -->
+              <div style="display: flex; flex-direction: column;">
+                <p style="color: #333; font-size: 14px; margin: 0;">Sensor ${sensor.id_tipo_sensor}</p>
+                <p style="color: #555; margin: 0;">#${sensor.id_sensor}</p>
+              </div>
+            </td>
+            <td class="text-center">
+              <a href="/sensores/edit/${sensor.id_tipo_sensor}" class="editar">
+                <img src="./imgs/edit-pencil.svg" alt="" style="width: 30px; height: 30px;">
+              </a>
+              <a href="/sensores/delete/${sensor.id_tipo_sensor}" class="excluir">
+                <img src="./imgs/pink-trash.svg" alt="" style="width: 30px; height: 30px;">
+              </a>
+            </td>
+          `;
+          tanquesList.appendChild(row);
+        });
+      });
     </script>
+    
+    
+    
+    
   </body>
 </html>

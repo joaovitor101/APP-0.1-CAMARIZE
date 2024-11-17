@@ -4,7 +4,7 @@ import Tipos_camarao from './Camarao.js';  // Importa o modelo de Tipos_camarao
 
 const Condicoes_ideais = connection.define('Condicoes_ideais',{
     id_condicao:{
-        type: Sequelize.INTEGER,
+    type: Sequelize.INTEGER,
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,

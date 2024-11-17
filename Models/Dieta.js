@@ -11,10 +11,11 @@ const Dietas = connection.define('Dietas',{
     descricao: {
         type: Sequelize.STRING(100),
         allowNull: true,
-      }
+    },
     }, {
       tableName: 'Dietas'
     });
+
     
     export default Dietas;
     

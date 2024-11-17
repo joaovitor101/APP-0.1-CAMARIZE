@@ -1,5 +1,6 @@
 import express from 'express';
-import Sensores from "../Models/Sensor.js";  
+import Sensores from "../Models/Sensor.js"; // Certifique-se de que esse caminho está correto
+import Tipos_sensor from "../Models/Tipos_sensor.js"; 
 import flash from 'connect-flash';
 import multer from 'multer';
 import Auth from "../middleware/Auth.js";
@@ -10,18 +11,30 @@ const upload = multer({ dest: 'public/uploads/' });
 // Rota principal para listar os sensores
 router.get("/sensores", async (req, res) => {
   try {
-    const sensores = await Sensores.findAll();
+    const sensores = await Sensores.findAll({
+      include: {
+        model: Tipos_sensor, // Relacionamento com o modelo Tipos_camarao
+        as: 'tipo_sensor',        // Nome da associação (usado no 'belongsTo')
+        attributes: ['descricao'], // Campos que você quer trazer da tabela 'Tipos_camarao'
+      }
+    });
+
     const sensoresSimple = sensores.map(sensor => sensor.get({ plain: true }));
 
     // Ordenar os sensores por ID de forma decrescente
     const sensoresOrdenados = sensoresSimple.sort((a, b) => b.id_sensor - a.id_sensor);
 
-    res.render("sensorNew", {
+    // Obter o parâmetro de destaque
+    const highlight = req.query.highlight;
+
+    res.render("sensores", {
       successMessage: req.flash("success"),
       errorMessage: req.flash("error"),
-      sensores: sensoresOrdenados, // Passando os dados ordenados para a view
+      sensores: sensoresOrdenados,  // Passando os dados ordenados para a view
+      highlight: highlight,  // Passando o ID do sensor a ser destacado
     });
   } catch (error) {
+    console.log("Erro ao buscar sensores:", error);
     res.redirect("/sensores/new");
   }
 });
@@ -49,9 +62,9 @@ router.post("/sensores/new", Auth, upload.single('foto_sensor'), (req, res) => {
     apelido,
     foto_sensor: req.file ? req.file.filename : null,  // Usando req.file para salvar o arquivo
   })
-  .then(() => {
-    res.redirect("/sensores");  // Redireciona após o cadastro
-    console.log("Sensor cadastrado com sucesso!");
+  .then((sensor) => {
+    req.flash("success", "Sensor cadastrado com sucesso!");
+    res.redirect(`/sensores?highlight=${sensor.id_sensor}`);  // Passa o ID do sensor para destaque
   })
   .catch((error) => {
     console.log("Erro ao cadastrar sensor:", error);
