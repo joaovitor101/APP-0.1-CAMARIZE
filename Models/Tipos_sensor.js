@@ -30,6 +30,8 @@ const Tipos_sensor = connection.define('Tipos_sensor', {
         { descricao: 'Temperatura', foto_sensor: null },
         { descricao: 'PH', foto_sensor: null },
         { descricao: 'Amonia', foto_sensor: null },
+        { descricao: 'Nível de raçao', foto_sensor: null },
+        { descricao: 'Motor dispensador de raçao', foto_sensor: null },
       ]);
       console.log("Valores iniciais adicionados com sucesso!");
     } else {

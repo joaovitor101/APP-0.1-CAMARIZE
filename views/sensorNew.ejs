@@ -19,17 +19,19 @@
     <% } %>
 
     <div class="form-container">
-        <h2 class="text-left text-2xl font-bold p-2">Cadastro de sensores</h2>
+        <h2 class="text-left text-2xl font-bold p-2">Cadastro de Componentes IOT</h2>
         <hr class="gradient-hr mb-4">
         <form action="/sensores/new" method="post" enctype="multipart/form-data">
             <!-- Dropdown -->
             <div class="mb-4">
                 <label for="tipo_sensor" class="block text-gray-700 font-bold text-xl text-left">Sensor</label>
                 <select id="id_tipo_sensor" name="id_tipo_sensor" class="block w-full p-3 border rounded-lg text-gray-700 bg-gray-100 focus:ring focus:ring-blue-300 mt-3" required>
-                    <option value="" disabled selected>Selecione o sensor</option>
+                    <option value="" disabled selected>Selecione o componente</option>
                     <option value="1">Sensor medidor de PH</option>
                     <option value="2">Sensor medidor de temperatura</option>
-                    <option value="3">Sensor medidor de amônia</option>     
+                    <option value="3">Sensor medidor de amônia</option>  
+                    <option value="3">Sensor medidor de nível de ração</option>
+                    <option value="3">Motor dispensador de ração</option>   
                 </select>
             </div>
             <!-- Apelido     -->

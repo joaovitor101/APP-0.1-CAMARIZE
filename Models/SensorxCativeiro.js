@@ -2,23 +2,23 @@ import Sequelize from "sequelize";
 import connection from "../config/sequelize-config.js";
 
 // Importação dos modelos relacionados
-import Sitios from './Sitio.js';
+import Sensores from './Sensor.js';
 import Cativeiros from './Cativeiro.js';
 
-const SitiosxCativeiros = connection.define('SitiosxCativeiros',
+const SensoresxCativeiros = connection.define('SensoresxCativeiros',
     {
-        id_sitio_cativeiro: {
+        id_sensor_cativieiro: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
-      id_sitio: {
+      id_sensor: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: Sitios, // Referência direta ao modelo importado
-          key: 'id_sitio',
+          model: Sensores, // Referência direta ao modelo importado
+          key: 'id_sensor',
         },
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
@@ -35,11 +35,11 @@ const SitiosxCativeiros = connection.define('SitiosxCativeiros',
       },
     },
     {
-      tableName: 'SitiosxCativeiros', // Usar nome em caixa baixa por padrão para tabelas
+      tableName: 'SensoresxCativeiros', // Usar nome em caixa baixa por padrão para tabelas
       timestamps: false, // Caso sua tabela não tenha colunas createdAt e updatedAt
     }
   );
   
   // Exportando o modelo
-  export default SitiosxCativeiros;
+  export default SensoresxCativeiros;
   

@@ -12,6 +12,8 @@ import Especif_camarao from './Models/Especif_camarao.js';
 import SitiosxCativeiros from './Models/SitiosxCativeiros.js';
 import Sitios from './Models/Sitio.js';
 import Sensores from './Models/Sensor.js';
+import UsuariosxSitios from './Models/UsuarioxSitio.js';
+
 
 
 //importar controllers aqui
@@ -29,6 +31,7 @@ import SitiosxCativeirosControlller from './Controllers/SitiosxCativeirosControl
 import RelatoriosController from "./Controllers/relatoriosController.js"
 import NotificacoesController from './Controllers/NotificacoesController.js'
 import SensoresController from "./Controllers/SensoresController.js";
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -74,6 +77,7 @@ app.use("/", RelatoriosController)
 app.use("/", NotificacoesController)
 app.use("/", SensoresController);
 
+
 // Realizando a conexão com o banco de dados
 connection.authenticate().then(() => {
     console.log("Conexão feita com sucesso");
@@ -90,15 +94,15 @@ connection.authenticate().then(() => {
         Sitios.sync({ force: false }), 
         Cativeiros.sync({ force: false }),
         SitiosxCativeiros.sync({ force: false }),  
-        //Dispensadores.sync({ force: false }), 
-        //Alimentacao.sync({ force: false }),
-        //SensoresXcativeiros.sync({ force: false }),
         Tipos_sensor.sync({ force: false }), 
         Sensores.sync({ force: false }), 
+        UsuariosxSitios.sync({ force: false }), 
+        //Alimentacao.sync({ force: false }), futuramente teremos essa tabela, pois armazenara dados a partir dos sensores 
+        //SensoresXcativeiros.sync({ force: false }),
         //Relatorio_individual.sync({ force: false }), 
         //Parametros_atuais.sync({ force: false }), 
-        //UsuariosxSitios.sync({ force: false }), 
-        //Usuarios.sync({ force: false }), 
+        
+        
         //Recomendacoes.sync({ force: false }), 
         //Relatorio_geral.sync({ force: false }), 
         //Notificacoes.sync({ force: false })

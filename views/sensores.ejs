@@ -21,6 +21,7 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="/css/tanque_ejs.css" />
+    <link rel="stylesheet" href="/css/dashboard_ejs.css" />
     <title>Sensores</title>
   </head>
   <style>
@@ -134,7 +135,7 @@
         <h2>Sistema</h2>
       </div>
       <div class="card-header mt-4" style="display: flex; justify-content: space-between; align-items: center;">
-        <h1 class="h5" id="aaa">Sensores</h1>
+        <h1 class="h5" id="aaa">Componentes</h1>
 
         <div class="botoes" style="margin-left: 20px; display: flex; justify-content: flex-start; gap: 0px;">
           <!-- Ícone UpDown com id para seleção -->
@@ -185,10 +186,7 @@
                   </tr>
                 <% }) %>
             <% } %>
-        </tbody>
-    </table>
-    </div>
-
+   
     
     <script>
       // Verifica se há um elemento com a classe 'highlight' e faz o scroll até ele
@@ -275,9 +273,10 @@
         });
       });
     </script>
-    
-    
-    
+         </tbody>
+        </table>
+        <%- include('partials/nav_bottom_sem') %>
+        </div>
     
   </body>
 </html>

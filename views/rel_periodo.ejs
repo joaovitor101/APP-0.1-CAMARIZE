@@ -5,10 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Relatório</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/dashboard_ejs.css">
 </head>
 <style>
     #btn_rel{
         background: linear-gradient(to right, #FFC2C2, #AED5FF); /* Gradiente de fundo */
+        border-radius: 5px;
     }
 
     @media screen and (max-width: 768px) {
@@ -52,6 +54,7 @@
     
     <hr class="border-gray-200 mt-4 mx-auto" id="hr">
     <img src="/imgs/camarize.png" class="w-48 mt-12 mx-auto mt-5" alt="">
+    <%- include('partials/nav_bottom_sem') %>
   </div>
 </body>
 </html>
