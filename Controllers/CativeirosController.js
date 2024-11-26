@@ -3,6 +3,8 @@ const router = express.Router();
 
 import Cativeiros from "../Models/Cativeiro.js";
 import Tipos_camarao from '../Models/Camarao.js';
+import UsuariosxSitios from '../Models/UsuarioxSitio.js';
+import Sitios from '../Models/Sitio.js'
 
 import multer from 'multer';
 import path from 'path';
@@ -13,35 +15,47 @@ const upload = multer({dest: "public/uploads"})
 
 
 
+//INICIAL LEVANDO A LISTAGEM DE CATIVEIROS DO SITIO
+router.get("/cativeiros", Auth, async (req, res) => {
+  try {
+      // Verifica o usuário logado na sessão
+      const userId = req.session.user.id;
 
-// Rota GET para /cativeiros
-router.get("/cativeiros", Auth, function (req, res) {
-  Cativeiros.findAll({
-    include: {
-      model: Tipos_camarao, // Relacionamento com o modelo Tipos_camarao
-      as: 'camarao',        // Nome da associação (usado no 'belongsTo')
-      attributes: ['nome'], // Campos que você quer trazer da tabela 'Tipos_camarao'
-    }
-  })
-  .then((cativeiros) => {
-    res.render("cativeiros", { cativeiros: cativeiros });
-  })
-  .catch((error) => {
-    console.error("Erro ao buscar cativeiros:", error);
-    res.status(500).send("Erro ao buscar cativeiros.");
-  });
-});
-// Rota GET para exibir o formulário de criação de um novo tanque
+      // Encontra o sítio associado ao usuário
+      const sitioAssociado = await UsuariosxSitios.findOne({
+          where: { id_user: userId },
+          include: {
+              model: Sitios, // Certifique-se de que o modelo Sitios está associado
+              as: 'sitio'
+          }
+      });
 
-router.get("/cativeiros/new", Auth, function (req, res) {
-  const tipoId = req.query.tipoId;  // Captura o tipoId passado pela URL
-  Cativeiros.findAll().then((cativeiros) => {
-    res.render("tanquesNew", {
-      cativeiros: cativeiros,
-      tipoId: tipoId,  
-    });
-  });
+      if (!sitioAssociado) {
+          req.flash("error", "Nenhum sítio associado ao usuário.");
+          return res.redirect("/sitio"); // Redireciona para criar um sítio
+      }
+
+      // Busca os cativeiros associados ao sítio do usuário
+      const cativeiros = await Cativeiros.findAll({
+          where: { id_sitio: sitioAssociado.id_sitio },
+          include: {
+              model: Tipos_camarao,
+              as: 'camarao',
+              attributes: ['nome'] // Ajuste o atributo de acordo com seu modelo
+          }
+      });
+
+      // Renderiza a página de cativeiros
+      res.render("cativeiros", {
+          cativeiros: cativeiros,
+          sitio: sitioAssociado.sitio // Passa o sítio associado, se necessário
+      });
+  } catch (error) {
+      console.error("Erro ao buscar cativeiros:", error);
+      res.status(500).send("Erro ao buscar cativeiros.");
+  }
 });
+
 
 
 // Cadastro de cativeiros

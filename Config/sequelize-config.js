@@ -10,7 +10,7 @@ const connection = new Sequelize({
     username: 'root',
     password: '', 
     //Comente essa linha na primeira execução da aplicação
-    database: 'camarize',
+        database: 'camarize',
     timezone: '-03:00'
 })
 
