@@ -20,8 +20,11 @@ npm install
 npm start
 
 ```
+
+```json
 O servidor estará disponível em: http://localhost:3000
 
+```
 <br>
 
 
