@@ -3,10 +3,6 @@ Aplicativo Camarize By Progresus, 23.10.2024
 
 <br>
 
-# **APP 0.1 CAMARIZE**
-
-Este projeto é um aplicativo que utiliza Node.js e MySQL para gerenciamento eficiente. Siga os passos abaixo para configurar e inicializar o projeto localmente.
-
 ```bash
 # Clone o repositório
 git clone https://github.com/joaovitor101/APP-0.1-CAMARIZE.git
