@@ -1,7 +1,7 @@
 import express from "express";
-import Users from "../Models/Usuario.js";
+import Usuarios from "../Models/Usuario.js";
 import bcrypt from "bcrypt";
-import UsuariosxSitios from "../Models/UsuarioxSitio.js"; // Importa a tabela de associação
+import UsuariosxSitios from "../Models/UsuarioxSitio.js"; 
 import flash from "connect-flash";
 const router = express.Router();
 
@@ -37,7 +37,7 @@ router.post("/createUser", async (req, res) => {
     const { email, senha } = req.body;
     try {
         // Verifica se já existe um usuário com esse e-mail
-        const userExists = await Users.findOne({
+        const userExists = await Usuarios.findOne({
             where: { email: email }
         });
 
@@ -47,7 +47,7 @@ router.post("/createUser", async (req, res) => {
             const hash = bcrypt.hashSync(senha, salt);
 
             try {
-                const novo = await Users.create({
+                const novo = await Usuarios.create({
                     email: email,
                     senha: hash,
                 });
@@ -77,7 +77,7 @@ router.post("/createUser", async (req, res) => {
 router.post("/authenticate", async (req, res) => {
     const { email, senha } = req.body;
     try {
-        const user = await Users.findOne({
+        const user = await Usuarios.findOne({
             where: { email: email }
         });
 

@@ -21,7 +21,6 @@ import CamaroesController from "./Controllers/CamaroesController.js";
 import CativeirosController from "./Controllers/CativeirosController.js";
 import DietasController from "./Controllers/DietasController.js";
 import Condicoes_ideaisController from "./Controllers/Condicoes_ideaisController.js"
-import ClientesController from "./Controllers/ClientesController.js";
 import SitiosController from "./Controllers/SitiosController.js" 
 import UsersController from "./Controllers/UsersController.js";
 import DashboardControllers from "./Controllers/dashboardControllers.js";
@@ -62,7 +61,6 @@ app.use(
 app.use('/imgs', express.static('/imgs'));
 
 // Definindo o uso das rotas dos Controllers
-app.use("/", ClientesController)
 app.use("/", SitiosController)
 app.use("/", UsersController)
 app.use("/", DashboardControllers)
@@ -97,6 +95,7 @@ connection.authenticate().then(() => {
         Tipos_sensor.sync({ force: false }), 
         Sensores.sync({ force: false }), 
         UsuariosxSitios.sync({ force: false }), 
+
         //Alimentacao.sync({ force: false }), futuramente teremos essa tabela, pois armazenara dados a partir dos sensores 
         //SensoresXcativeiros.sync({ force: false }),
         //Relatorio_individual.sync({ force: false }), 
@@ -132,7 +131,7 @@ app.get("/", function(req, res) {
     res.render("index");
 });
 
-app.listen(8080, function(erro) {
+app.listen(3000, function(erro) {
     if (erro) {
         console.log("Ocorreu um erro!");
     } else {

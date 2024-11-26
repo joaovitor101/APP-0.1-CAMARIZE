@@ -3,7 +3,7 @@ import connection from "../config/sequelize-config.js";
 
 // Importação dos modelos relacionados
 import Sitios from './Sitio.js';
-import Users from './Usuario.js';
+import Usuarios from './Usuario.js';
 
 const UsuariosxSitios = connection.define('UsuariosxSitios', 
     {
@@ -17,7 +17,7 @@ const UsuariosxSitios = connection.define('UsuariosxSitios',
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: Users,  // Referência direta ao modelo Users
+          model: Usuarios,  // Referência direta ao modelo Users
           key: 'id_user',
         },
         onDelete: 'CASCADE',
@@ -41,10 +41,10 @@ const UsuariosxSitios = connection.define('UsuariosxSitios',
   );
 
 // Definindo as associações entre as tabelas
-Users.hasMany(UsuariosxSitios, { foreignKey: 'id_user' }); // Um usuário pode ter muitos 'UsuariosxSitios'
+Usuarios.hasMany(UsuariosxSitios, { foreignKey: 'id_user' }); // Um usuário pode ter muitos 'UsuariosxSitios'
 Sitios.hasMany(UsuariosxSitios, { foreignKey: 'id_sitio' }); // Um sítio pode ter muitos 'UsuariosxSitios'
 
-UsuariosxSitios.belongsTo(Users, { foreignKey: 'id_user' }); // 'UsuariosxSitios' pertence a 'Users'
+UsuariosxSitios.belongsTo(Usuarios, { foreignKey: 'id_user' }); // 'UsuariosxSitios' pertence a 'Users'
 UsuariosxSitios.belongsTo(Sitios, { foreignKey: 'id_sitio' }); // 'UsuariosxSitios' pertence a 'Sitios'
 
 // Exportando o modelo

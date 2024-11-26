@@ -1,7 +1,8 @@
 import Sequelize from "sequelize"
 import connection from "../config/sequelize-config.js";
+import DataTypes from 'sequelize';
 
-const Users = connection.define('user' ,{
+const Usuarios = connection.define('usuarios' ,{
     id_user: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -17,6 +18,10 @@ const Users = connection.define('user' ,{
         type: Sequelize.STRING,
         allowNull: false,
     },
+    foto_perfil:{
+        type: DataTypes.BLOB('long'),
+    allowNull: true,
+    },
 });
-Users.sync({force: false});
-export default Users
+Usuarios.sync({force: false});
+export default Usuarios
