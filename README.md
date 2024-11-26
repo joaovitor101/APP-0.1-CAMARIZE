@@ -28,26 +28,5 @@ npm start
 
 
 
-Mobile - Main Portrait<br>
-
-<div class="dois" style="display: flex;">
-<br>
-  
-![image](https://github.com/user-attachments/assets/88e56ddd-a62c-4edd-8896-8565ca2db01d)
-
-![image](https://github.com/user-attachments/assets/21abd537-ee5c-4642-b9ef-0b1ea14f8dd6)
-
-
-<br>
-
-</div>
-
-<br><br>
-Web
-![image](https://github.com/user-attachments/assets/9b50338d-b72e-48cc-91ce-2b0a726530ef)
-
-![image](https://github.com/user-attachments/assets/a324c62f-55ec-4890-b3eb-71e8e312a75c)
-
-
 
 
