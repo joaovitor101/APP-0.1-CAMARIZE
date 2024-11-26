@@ -18,6 +18,8 @@ npm install
 
 # Inicie o projeto
 npm start
+
+O servidor estará disponível em: https://localhost:3000
 ```
 
 <br>
