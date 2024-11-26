@@ -19,7 +19,9 @@ npm install
 # Inicie o projeto
 npm start
 
-O servidor estará disponível em: <a>https://localhost:3000<a>
+O servidor estará disponível em: 
+<a href="[URL_DO_DESTINO](https://localhost:3000)">[TEXTO_DO_LINK](https://localhost:3000)</a>
+
 ```
 
 <br>
