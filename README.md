@@ -20,7 +20,7 @@ npm install
 npm start
 
 O servidor estará disponível em: 
-<a href="[https://www.google.com](http://localhost:3000)">[Acesse o Google](http://localhost:3000)</a>
+<a href="http://localhost:3000">http://localhost:3000</a>
 
 
 ```
