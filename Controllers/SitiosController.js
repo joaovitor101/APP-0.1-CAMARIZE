@@ -6,17 +6,16 @@ import flash from 'connect-flash';
 const router = express.Router();
 
 // ROTA DE CADASTRO DE SÍTIO
-// ROTA DE CADASTRO DE SÍTIO
 router.get("/sitio", (req, res) => {
-    const userId = req.query.id; // Captura o ID do usuário da URL
+    const userId = req.query.id; //ID do usuário da URL
 
-    // Se o ID do usuário não for encontrado, redireciona para o login
+    // vai pro login
     if (!userId) {
         req.flash("error", "Usuário não autenticado.");
         return res.redirect("/login");
     }
 
-    // Renderiza o formulário de cadastro de sítio, passando o ID do usuário
+    //formulário de cadastro de sítio, passando o id do usuario
     res.render("sitio", {
         success: req.flash('success'),
         error: req.flash('error'),
@@ -25,26 +24,19 @@ router.get("/sitio", (req, res) => {
 });
 
 
-// ROTA DE CRIAÇÃO DE SÍTIO
+// ROTA DE CRIAÇÃO DE SÍTIO (POST)
 router.post("/createSitio", async (req, res) => {
     const { nome, rua, bairro, cidade, numero } = req.body;
-    const userId = req.body.id_user; // Corrigido para id_user
-
-    console.log("Dados recebidos:", { nome, rua, bairro, cidade, numero, userId }); // Para ver os dados que estão sendo enviados
+    const userId = req.body.id_user;
 
     try {
-        // Verifique se já existe um sítio com o nome informado
-        const sitioExistente = await Sitios.findOne({
-            where: { nome: nome }
-        });
-
-        console.log("Sítio já existente:", sitioExistente);
+        const sitioExistente = await Sitios.findOne({ where: { nome: nome } });
 
         if (sitioExistente) {
             req.flash("error", "O nome do sítio já existe. Escolha outro nome.");
-            return res.redirect(`/sitio?id=${userId}`);  // Redireciona para a página de cadastro de sítio
+            return res.redirect(`/sitio?id=${userId}`);
         } else {
-            const novositio = await Sitios.create({
+            const novoSitio = await Sitios.create({
                 nome: nome,
                 rua: rua,
                 bairro: bairro,
@@ -52,23 +44,26 @@ router.post("/createSitio", async (req, res) => {
                 numero: numero
             });
 
-            console.log("Novo ID do sítio:", novositio.get('id_sitio')); 
-
             // Associe o usuário ao sítio
             await UsuariosxSitios.create({
-                id_user: userId, // Usa o ID do usuário
-                id_sitio: novositio.id_sitio  
+                id_user: userId,
+                id_sitio: novoSitio.id_sitio
             });
 
+            // Armazenando id_sitio na sessão para que seja acessado em páginas subsequentes
+            req.session.id_sitio = novoSitio.id_sitio;
+
             req.flash("success", "Sítio cadastrado com sucesso!");
-            return res.redirect("/cativeiros");  // Redireciona para a página de cativeiros ou outra que você preferir
+            res.redirect("/cativeiros"); // Redireciona para o cadastro de cativeiros
         }
     } catch (error) {
-        console.log("Erro:", error); // Exibe o erro para facilitar a identificação
-        req.flash("error", "Ocorreu um erro ao tentar cadastrar o sítio. Tente novamente.");
-        return res.redirect(`/sitio?id=${userId}`);  // Redireciona de volta com erro
+        console.log("Erro:", error);
+        req.flash("error", "Erro ao cadastrar o sítio. Tente novamente.");
+        res.redirect(`/sitio?id=${userId}`);
     }
 });
+
+
 
 
 

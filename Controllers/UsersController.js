@@ -52,9 +52,9 @@ router.post("/createUser", async (req, res) => {
                     senha: hash,
                 });
 
-                // Após criar o usuário, redireciona para o cadastro de sítio
+                // redirecionando pra cadastro de sitio
                 req.flash("success", "Usuário registrado com sucesso! Registre seu sítio.");
-                res.redirect(`/sitio?id=${novo.id_user}`); // Aqui, use id_user
+                res.redirect(`/sitio?id=${novo.id_user}`); // passando o id do usuario
             } catch (error) {
                 console.log(error);
                 req.flash("error", "Erro ao criar usuário. Tente novamente!");
@@ -82,7 +82,6 @@ router.post("/authenticate", async (req, res) => {
         });
 
         if (user != null) {
-            // Verifica se a senha informada está correta
             const correct = bcrypt.compareSync(senha, user.senha);
 
             if (correct) {
@@ -91,8 +90,9 @@ router.post("/authenticate", async (req, res) => {
                     email: user.email,
                 };
 
+                // Caso você queira redirecionar para uma página de cativeiros, você pode incluir o id_sitio da sessão ou base de dados
                 req.flash("success", `Bem-vindo, ${user.email}!`);
-                res.redirect("/cativeiros"); // Redireciona para a página de cativeiros
+                res.redirect("/cativeiros"); 
             } else {
                 req.flash("error", "A senha informada está incorreta. Tente novamente!");
                 res.redirect("/login");

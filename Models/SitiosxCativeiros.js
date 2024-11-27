@@ -1,45 +1,49 @@
 import Sequelize from "sequelize";
 import connection from "../config/sequelize-config.js";
+import Sitios from './Sitio.js';  // Modelo de Sitios
+import Cativeiros from './Cativeiro.js';  // Modelo de Cativeiros
 
-// Importação dos modelos relacionados
-import Sitios from './Sitio.js';
-import Cativeiros from './Cativeiro.js';
-
-const SitiosxCativeiros = connection.define('SitiosxCativeiros',
-    {
-        id_sitio_cativeiro: {
+const SitiosXCativeiros = connection.define('SitiosXCativeiros', {
+    id_sitio_cativeiro: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-      },
-      id_sitio: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: Sitios, // Referência direta ao modelo importado
-          key: 'id_sitio',
-        },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-      },
-      id_cativeiro: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: Cativeiros, // Referência direta ao modelo importado
-          key: 'id_cativeiro',
-        },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-      },
     },
-    {
-      tableName: 'SitiosxCativeiros', // Usar nome em caixa baixa por padrão para tabelas
-      timestamps: false, // Caso sua tabela não tenha colunas createdAt e updatedAt
+    id_sitio: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'sitios',  // Nome da tabela
+            key: 'id_sitio',  // Chave primária 
+        },
+        onDelete: 'CASCADE',  
+        onUpdate: 'CASCADE',  
+    },
+    id_cativeiro: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'cativeiros',  
+            key: 'id_cativeiro',  
+        },
+        onDelete: 'CASCADE',  
+        onUpdate: 'CASCADE', 
     }
-  );
-  
-  // Exportando o modelo
-  export default SitiosxCativeiros;
-  
+}, {
+    tableName: 'SitiosXCativeiros'  
+});
+
+// Associação com o modelo Sitios
+SitiosXCativeiros.belongsTo(Sitios, {
+    foreignKey: 'id_sitio',  // Define a chave estrangeira para Sitios
+    as: 'sitio',  // Nome da associação reversa
+});
+
+// Associação com o modelo Cativeiros
+SitiosXCativeiros.belongsTo(Cativeiros, {
+    foreignKey: 'id_cativeiro',  
+    as: 'cativeiro',  
+});
+
+export default SitiosXCativeiros;
