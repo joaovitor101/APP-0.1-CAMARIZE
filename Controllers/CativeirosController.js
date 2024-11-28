@@ -9,7 +9,11 @@ import Tipos_camarao from '../Models/Camarao.js';
 import SitiosxCativeiros from '../Models/SitiosxCativeiros.js'; // Modelo de associação
 
 const router = express.Router();
-const upload = multer({ dest: "public/uploads" }); // Configuração básica para upload
+
+// Configuração do multer para upload simples
+const upload = multer({ 
+  dest: 'public/uploads' // Diretório para onde as fotos serão enviadas
+});
 
 // Rota para listar cativeiros
 router.get("/cativeiros", Auth, (req, res) => {
@@ -29,6 +33,7 @@ router.get("/cativeiros", Auth, (req, res) => {
     });
 });
 
+
 // Rota para exibir formulário de criação de cativeiros
 router.get("/cativeiros/new", Auth, (req, res) => {
   const { tipoId, id_sitio } = req.query;
@@ -47,51 +52,37 @@ router.get("/cativeiros/new", Auth, (req, res) => {
     });
 });
 
-// Rota para cadastrar um novo cativeiro
-router.post("/cativeiros/new", Auth, upload.single('file'), async (req, res) => {
+//cadastro de cativeiro e em seguida associcacao na entidade sitiosxcativeiros
+router.post("/cativeiros/new", upload.single('foto_cativeiro'), async (req, res) => {
   const { id_tipo_camarao, data_instalacao } = req.body;
-  console.log("id_tipo_camarao recebido:", id_tipo_camarao); // Verifique aqui
-
-  const id_sitio = req.session.user?.id_sitio; 
-
-  if (!id_sitio) {
-    req.flash("error", "Sítio não encontrado. Certifique-se de cadastrar um sítio.");
-    return res.redirect("/sitio");
-  }
+  const tipoId = id_tipo_camarao; // Obtém o tipo de camarão do campo oculto
+  const foto_cativeiro = req.file ? req.file.path : null; // Caminho do arquivo da foto
 
   try {
-    const novoCativeiro = await Cativeiros.create({
-      id_tipo_camarao,
-      foto_cativeiro: req.file ? req.file.filename : null,
-      data_instalacao: new Date(data_instalacao),
+    // Cria o cativeiro com o id_tipo_camarao
+    const cativeiro = await Cativeiros.create({
+      data_instalacao,
+      foto_cativeiro: foto_cativeiro, // Salva o caminho da foto
+      id_tipo_camarao: tipoId // Inclui o tipo de camarão aqui
     });
 
+    // Associa o cativeiro ao sítio
+    const id_sitio = req.session.sitioId; // Obtém o ID do sítio associado ao usuário logado
+    
     await SitiosxCativeiros.create({
       id_sitio,
-      id_cativeiro: novoCativeiro.id_cativeiro,
+      id_cativeiro: cativeiro.id,
+      id_tipo_camarao: tipoId // Assegura que o tipo de camarão também seja associado
     });
 
-    res.redirect(`/condicoes/new?id_tipo_camarao=${id_tipo_camarao}`);
+    req.flash('success', 'Cativeiro cadastrado e associado com sucesso!');
+    res.redirect('/cativeiros'); // Redireciona para a lista de cativeiros
+
   } catch (error) {
     console.error("Erro ao cadastrar cativeiro:", error);
-    res.status(500).send("Erro ao cadastrar o cativeiro.");
+    req.flash('error', 'Erro ao cadastrar cativeiro.');
+    res.redirect('/cativeiros/new');
   }
-});
-
-
-// Rota para excluir um cativeiro
-router.get("/cativeiros/delete/:id_cativeiro", Auth, (req, res) => {
-  const { id_cativeiro } = req.params;
-
-  Cativeiros.destroy({ where: { id_cativeiro } })
-    .then(() => {
-      req.flash('success', 'Cativeiro excluído com sucesso.');
-      res.redirect("/cativeiros");
-    })
-    .catch((error) => {
-      console.error("Erro ao excluir cativeiro:", error);
-      res.status(500).send("Erro ao excluir cativeiro.");
-    });
 });
 
 // Rota para exibir formulário de edição de cativeiro
@@ -119,24 +110,58 @@ router.get("/cativeiros/edit/:id_cativeiro", Auth, (req, res) => {
 });
 
 // Rota para atualizar um cativeiro
-router.post("/cativeiros/update", Auth, (req, res) => {
+router.post("/cativeiros/update", upload.single('foto_cativeiro'), Auth, async (req, res) => {
   const { id_cativeiro, id_tipo_camarao, data_instalacao, foto_cativeiro, temp_media_diaria, ph_medio_diario, amonia_media_diaria } = req.body;
 
+  // Verificar se o id_cativeiro e id_tipo_camarao existem
+  if (!id_cativeiro || !id_tipo_camarao) {
+    req.flash('error', 'Dados incompletos para atualização.');
+    return res.redirect(`/cativeiros/edit/${id_cativeiro}`);
+  }
+
+  // Se houver uma nova foto, use o caminho da nova foto, caso contrário, mantenha a foto existente
   const updateData = {
     id_tipo_camarao,
     data_instalacao: data_instalacao ? new Date(data_instalacao) : null,
-    foto_cativeiro,
+    foto_cativeiro: req.file ? req.file.path : foto_cativeiro, // Usando o caminho da nova foto ou mantendo a antiga
   };
 
-  Cativeiros.update(updateData, { where: { id_cativeiro } })
-    .then(() => {
-      req.flash('success', 'Cativeiro atualizado com sucesso.');
-      res.redirect("/cativeiros");
-    })
-    .catch((error) => {
-      console.error("Erro ao atualizar cativeiro:", error);
-      res.status(500).send("Erro ao atualizar cativeiro.");
-    });
+  try {
+    // Atualiza o cativeiro
+    await Cativeiros.update(updateData, { where: { id_cativeiro } });
+
+    req.flash('success', 'Cativeiro atualizado com sucesso.');
+    res.redirect("/cativeiros");
+  } catch (error) {
+    console.error("Erro ao atualizar cativeiro:", error);
+    req.flash('error', 'Erro ao atualizar cativeiro.');
+    res.redirect(`/cativeiros/edit/${id_cativeiro}`);
+  }
+});
+
+
+// Rota para excluir um cativeiro
+router.get("/cativeiros/delete/:id_cativeiro", Auth, async (req, res) => {
+  const { id_cativeiro } = req.params;
+
+  try {
+    // Verificar se o cativeiro existe
+    const cativeiro = await Cativeiros.findByPk(id_cativeiro);
+    if (!cativeiro) {
+      req.flash('error', 'Cativeiro não encontrado.');
+      return res.redirect("/cativeiros");
+    }
+
+    // Excluir o cativeiro
+    await Cativeiros.destroy({ where: { id_cativeiro } });
+
+    req.flash('success', 'Cativeiro excluído com sucesso.');
+    res.redirect("/cativeiros");
+  } catch (error) {
+    console.error("Erro ao excluir cativeiro:", error);
+    req.flash('error', 'Erro ao excluir cativeiro.');
+    res.status(500).send("Erro ao excluir cativeiro.");
+  }
 });
 
 export default router;

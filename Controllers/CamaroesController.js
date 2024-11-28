@@ -48,7 +48,7 @@ router.get("/camaroes/search", (req, res) => {
 // Rota para cadastrar um novo tipo de camarão
 router.post("/camaroes/new", (req, res) => {
   const { nome } = req.body;
-
+  
   Tipos_camarao.findOne({ where: { nome } })
     .then(existingCamarao => {
       if (existingCamarao) {
@@ -57,6 +57,7 @@ router.post("/camaroes/new", (req, res) => {
         Tipos_camarao.create({ nome })
           .then(newCamarao => {
             res.redirect(`/cativeiros/new?tipoId=${newCamarao.id_tipo_camarao}`);
+
           })
           .catch((error) => {
             console.log("Erro ao criar camarão:", error);

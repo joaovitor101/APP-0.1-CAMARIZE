@@ -17,7 +17,7 @@
                 <form action="/cativeiros/new" method="post" enctype="multipart/form-data">
                     <!-- Campo oculto para passar o ID do tipo de camarão -->
                     <input type="hidden" name="id_tipo_camarao" value="{{tipoId}}" />
-                  
+                    
                     <!-- Data de Instalação -->
                     <div class="form-group">
                       <label for="data_instalacao">
@@ -31,25 +31,14 @@
                         placeholder="Selecione a data de instalação" 
                         required />
                     </div>
-                  
+                    
                     <!-- Upload da Imagem do Tanque -->
                     <div class="form-group">
                       <label for="foto_cativeiro">
                         <p>Imagem do tanque:</p>
                       </label>
-                      <input 
-                        type="file" 
-                        name="file" 
-                        id="foto_cativeiro" 
-                        class="form-control" 
-                        accept="image/*" 
-                        required />
+                      <input type="file" name="foto_cativeiro" id="foto_cativeiro" class="form-control" accept="image/*" required />
                     </div>
-                  
-                    <!-- Seção para Relacionar Sensores -->
-                    <hr class="gradient-hr mb-4 mt-4">
-                    <h3 class="text-center">Relacione os Sensores:</h3>
-                    <!-- Adicione inputs para sensores aqui, se necessário -->
                   
                     <!-- Botão de Enviar -->
                     <div class="text-center mt-4">
@@ -58,8 +47,7 @@
                         value="Cadastrar" 
                         class="btn btn-primary" />
                     </div>
-                  </form>
-                  
+                  </form>                  
             </div>
         </div>
     </div>   

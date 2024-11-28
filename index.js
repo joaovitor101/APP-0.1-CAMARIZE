@@ -24,7 +24,6 @@ import UsersController from "./Controllers/UsersController.js";
 import DashboardControllers from "./Controllers/dashboardControllers.js";
 import Tipos_sensorController from "./Controllers/Tipos_sensorController.js";
 import Especif_camaraoController from "./Controllers/Especif_camaraoController.js";
-import SitiosxCativeirosControlller from './Controllers/SitiosxCativeirosController.js';
 import RelatoriosController from "./Controllers/relatoriosController.js";
 import NotificacoesController from './Controllers/NotificacoesController.js';
 import SensoresController from "./Controllers/SensoresController.js";
@@ -74,7 +73,6 @@ app.use("/", DietasController);
 app.use("/", Condicoes_ideaisController);
 app.use("/", Tipos_sensorController);
 app.use("/", Especif_camaraoController);
-app.use("/", SitiosxCativeirosControlller);
 app.use("/", RelatoriosController)
 app.use("/", NotificacoesController)
 app.use("/", SensoresController);

@@ -1,8 +1,8 @@
 import express from "express";
 import Usuarios from "../Models/Usuario.js";
 import bcrypt from "bcrypt";
-import UsuariosxSitios from "../Models/UsuarioxSitio.js"; 
-import Sitios from "../Models/Sitio.js"
+import UsuariosxSitios from "../Models/UsuarioxSitio.js";
+import Sitios from "../Models/Sitio.js";
 import flash from "connect-flash";
 const router = express.Router();
 
@@ -44,8 +44,8 @@ router.post("/createUser", async (req, res) => {
 
         if (userExists === null) {
             // Criação do usuário
-            const salt = bcrypt.genSaltSync(10);
-            const hash = bcrypt.hashSync(senha, salt);
+            const salt = await bcrypt.genSalt(10);
+            const hash = await bcrypt.hash(senha, salt);
 
             try {
                 const novo = await Usuarios.create({
@@ -72,52 +72,61 @@ router.post("/createUser", async (req, res) => {
     }
 });
 
-
-
 // ROTA DE LOGIN
 router.post("/authenticate", async (req, res) => {
     const { email, senha } = req.body;
     try {
+        // Verifique se o usuário já está logado
+        if (req.session.user) {
+            req.flash("error", "Você já está logado.");
+            return res.redirect("/cativeiros");
+        }
+
+        // Validar campos
+        if (!email || !senha) {
+            req.flash("error", "Por favor, preencha todos os campos.");
+            return res.redirect("/login");
+        }
+
         // Buscar o usuário pelo e-mail
         const user = await Usuarios.findOne({
             where: { email: email }
         });
 
         // Se o usuário for encontrado
-        if (user != null) {
+        if (user) {
             // Verificar a senha
-            const correct = bcrypt.compareSync(senha, user.senha);
+            const correct = await bcrypt.compare(senha, user.senha);
 
             if (correct) {
                 // BUSCA DO ID DO SITIO NA ENTIDADE ASSOCIATIVA USUARIOSXSITIOS
                 const usuarioSitio = await UsuariosxSitios.findOne({
-                    where: { id_user: user.id_user },  // Certifique-se de que está usando a coluna correta
+                    where: { id_user: user.id_user },
                     include: [{
-                        model: Sitios,  // Associe o modelo Sitios
-                        as: 'Sitio',    // Alias correto (deve ser 'Sitio' com 'S' maiúsculo)
-                        attributes: ['id_sitio']  // Pegue apenas o id_sitio
+                        model: Sitios,
+                        as: 'Sitio',
+                        attributes: ['id_sitio']
                     }]
                 });
-                
-                console.log(usuarioSitio);  // Adicionando log para depurar                
+
+                console.log(usuarioSitio);  // Adicionando log para depurar
 
                 // Se o usuário tem um sítio associado
-                if (usuarioSitio && usuarioSitio.Sitio) {  // Usando 'Sitio' com 'S' maiúsculo
-                    // Armazenar as informações do usuário e o id_sitio na sessão
+                if (usuarioSitio && usuarioSitio.Sitio) {
                     req.session.user = {
                         id: user.id_user,
                         email: user.email,
-                        id_sitio: usuarioSitio.Sitio.id_sitio // Armazenar o id_sitio na sessão
+                        id_sitio: usuarioSitio.Sitio.id_sitio
                     };
 
                     req.flash("success", `Bem-vindo, ${user.email}!`);
-                    res.redirect("/cativeiros");  // Redireciona para a página de cativeiros ou qualquer outra página desejada
+                    res.redirect("/cativeiros");
                 } else {
                     req.flash("error", "Você não está associado a nenhum sítio. Cadastre um sítio.");
-                    res.redirect("/sitio");  // Redireciona para a página de cadastro de sítio
+                    res.redirect("/sitio");
                 }
             } else {
-                req.flash("error", "A senha informada está incorreta. Tente novamente!");
+                req.flash("error", "E-mail ou senha incorretos. Tente novamente.");
                 res.redirect("/login");
             }
         } else {
@@ -130,7 +139,6 @@ router.post("/authenticate", async (req, res) => {
         res.redirect("/login");
     }
 });
-
 
 // ROTA DE LOGOUT
 router.get("/logout", (req, res) => {
@@ -150,11 +158,49 @@ router.get("/perfil", async (req, res) => {
         res.render("perfil", {
             successMessage: req.flash("success"),
             errorMessage: req.flash("error"),
-            user: req.session.user, // Passa as informações do usuário para o perfil
+            user: req.session.user,
         });
     } catch (error) {
         console.log(error);
     }
 });
+
+// ROTA DE MEU SÍTIO (Visualizar dados do sítio associado ao usuário)
+router.get("/meuSitio", async (req, res) => {
+    try {
+        if (!req.session.user) {
+            req.flash("error", "Você precisa estar logado para acessar os dados do sítio.");
+            return res.redirect("/login");
+        }
+
+        // Buscar o sítio associado ao usuário logado
+        const usuarioSitio = await UsuariosxSitios.findOne({
+            where: { id_user: req.session.user.id },
+            include: [ {
+                model: Sitios,
+                as: 'Sitio',
+                attributes: ['id_sitio', 'nome', 'rua', 'bairro', 'cidade', 'numero'] // Ajustando os atributos
+            }]
+        });
+
+        // Se o usuário estiver associado a um sítio
+        if (usuarioSitio && usuarioSitio.Sitio) {
+            res.render("meuSitio", {
+                user: req.session.user,
+                sitio: usuarioSitio.Sitio, // Passando as informações do sítio para a view
+                successMessage: req.flash("success"),
+                errorMessage: req.flash("error")
+            });
+        } else {
+            req.flash("error", "Você não está associado a nenhum sítio.");
+            res.redirect("/sitio"); // Caso não tenha um sítio associado
+        }
+    } catch (error) {
+        console.log(error);
+        req.flash("error", "Erro ao carregar os dados do sítio.");
+        res.redirect("/perfil"); // Redireciona para o perfil se houver erro
+    }
+});
+
 
 export default router;

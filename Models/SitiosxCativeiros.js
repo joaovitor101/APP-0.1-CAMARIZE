@@ -18,37 +18,37 @@ const SitiosXCativeiros = connection.define('SitiosXCativeiros', {
       model: 'Sitios',  // Nome da tabela
       key: 'id_sitio',  // Chave primária 
     },
-    onDelete: 'CASCADE',  // excluir
-    onUpdate: 'CASCADE',  // atualizar
+    onDelete: 'CASCADE',  // Excluir quando o sítio for deletado
+    onUpdate: 'CASCADE',  // Atualizar quando o sítio for alterado
   },
   id_cativeiro: {
     type: Sequelize.INTEGER,
     allowNull: false,
     references: {
-      model: 'Cativeiros',  
-      key: 'id_cativeiro',  
+      model: 'Cativeiros',  // Nome da tabela
+      key: 'id_cativeiro',  // Chave primária 
     },
-    onDelete: 'CASCADE',  
-    onUpdate: 'CASCADE', 
+    onDelete: 'CASCADE',  // Excluir quando o cativeiro for deletado
+    onUpdate: 'CASCADE',  // Atualizar quando o cativeiro for alterado
   }
 }, {
-  tableName: 'SitiosXCativeiros', 
-  timestamps: false, 
+  tableName: 'sitios_x_cativeiros', // Nome plural da tabela
+  timestamps: false,
 });
 
-//associação com Sitios
+// Associação com Sitios
 SitiosXCativeiros.belongsTo(Sitios, {
   foreignKey: 'id_sitio',  // Chave estrangeira
   as: 'sitio',  // Alias da associação
 });
 
-//associação com Cativeiros
+// Associação com Cativeiros
 SitiosXCativeiros.belongsTo(Cativeiros, {
-  foreignKey: 'id_cativeiro',  
-  as: 'cativeiro',  
+  foreignKey: 'id_cativeiro',  // Chave estrangeira
+  as: 'cativeiro',  // Alias da associação
 });
 
-// Sincronizando a tabela
+// Sincronizando a tabela (pode ser feito em um processo separado)
 SitiosXCativeiros.sync({ force: false }).then(() => {
   console.log("Tabela SitiosXCativeiros sincronizada com sucesso!");
 }).catch((error) => {

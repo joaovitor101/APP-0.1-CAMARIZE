@@ -32,44 +32,7 @@
     <title>Perfil</title>
   </head>
   <style>
-    html, body {
-      overflow: hidden; /* Remove as barras de rolagem da página */
-      height: 100%; /* Garante que a altura da página seja 100% */
-    }
-
-    .container-fluid {
-      width: 100%; /* Aumenta a largura para preencher toda a tela */
-      margin: 0; /* Remove a margem extra */
-      padding: 0; /* Remove o preenchimento */
-    }
-
-    body {
-      background: linear-gradient(to bottom, #FFC2C2, #AED5FF); /* Gradiente vertical */
-      background-attachment: fixed; /* O gradiente ficará fixo enquanto o conteúdo rola */
-      height: 100vh;
-      margin: 0;
-    }
-
-    .row {
-      margin-top: 0; /* Garante que a row começa no topo da tela */
-    }
-
-    @media screen and (max-width: 768px) {
-      .container {
-        margin-top: 10px;
-        width: 90%;
-      }
-    }
-
-    .password-container {
-      display: flex;
-      align-items: center;
-    }
-
-    .eye-icon {
-      cursor: pointer;
-      margin-left: 10px;
-    }
+    /* Estilos conforme você já tem definidos */
   </style>
   <body>
     <div class="container-fluid">
@@ -78,32 +41,30 @@
           <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
           </div>
           <h4 class="text-center">Perfil</h4>
-          <img src="/" alt="img" class="text-center p-2" />
+          <img src="./imgs/profile-icon.jpg" alt="img" class="mx-auto p-2" style="border-radius: 50%; width: 100px;"/>
+
     
           <!-- Seção com as informações do perfil -->
-          <div class="profile-info p-4 mt-4">
-            <div class="mt-4">
-              <p><strong>Nome:</strong> <span id="profile-name">João Silva</span></p>
-              <hr>
-              <p><strong>Email:</strong> <span id="profile-email">joao.silva@email.com</span></p>
-              <hr>
-              <!-- Senha com opção de visibilidade -->
-              <div class="password-container" style="gap: 15px;">
-                <label><strong>Senha:</strong></label>
-                <input
-                  type="password"
-                  id="password-field"
-                  class="password-input"
-                  value="senha-secreta"
-                  readonly
-                />
-                <img src="./imgs/olho.png" alt="Mostrar senha" id="toggle-password" class="toggle-password" style="position: absolute; right: 90px; width: 20px; height: auto; cursor: pointer;">
-              </div>
-              <hr>
-            </div>
-          </div>
-        </div>
-      </div>
+<div class="profile-info p-4 mt-4">
+  <div class="mt-4">
+    <p><strong>Código de usuário:</strong> <span id="profile-name">#<%= user.id %></span></p>
+    <hr>
+    <p><strong>Email:</strong> <span id="profile-email"><%= user.email %></span></p>
+    <hr>
+    <!-- Senha com opção de visibilidade -->
+    <div class="password-container" style="gap: 15px;">
+      <label><strong>Senha:</strong></label>
+      <input
+        type="password"
+        id="password-field"
+        class="password-input"
+        value="********" >
+      <img src="./imgs/olho.png" alt="Mostrar senha" id="toggle-password" class="toggle-password" style="position: absolute; right: 90px; width: 20px; height: auto; cursor: pointer;">
+    </div>
+    <hr>
+  </div>
+</div>
+
       <!-- Nav bottom -->
       <%- include('partials/nav_bottom_sem') %>
     </div>
