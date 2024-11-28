@@ -51,7 +51,7 @@ router.post("/createSitio", async (req, res) => {
             });
 
             // Armazenando id_sitio na sessão para que seja acessado em páginas subsequentes
-            req.session.id_sitio = novoSitio.id_sitio;
+            req.session.id_sitio = novoSitio.id_sitio;  // Aqui armazenamos o id_sitio na sessão
 
             req.flash("success", "Sítio cadastrado com sucesso!");
             res.redirect("/cativeiros"); // Redireciona para o cadastro de cativeiros
@@ -62,9 +62,6 @@ router.post("/createSitio", async (req, res) => {
         res.redirect(`/sitio?id=${userId}`);
     }
 });
-
-
-
 
 
 export default router;

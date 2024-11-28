@@ -53,38 +53,36 @@ router.get("/camaroes/search", (req, res) => {
 
 // Rota para cadastrar um novo tipo de camarão
 router.post("/camaroes/new", (req, res) => {
-  const { nome } = req.body;  // O nome do camarão vindo do formulário
+  const { nome } = req.body; // Nome do camarão
 
   // Verifica se o tipo de camarão já existe
-  Tipos_camarao.findOne({
-    where: { nome } // Verifica se já existe um camarão com o nome fornecido
-  })
-  .then(existingCamarao => {
-    if (existingCamarao) {
-      // Se já existe, pega o ID do tipo de camarão existente
-      const tipoId = existingCamarao.id_tipo_camarao;
-      // Redireciona para o cadastro de cativeiro, passando o ID do tipo de camarão
-      res.redirect(`/cativeiros/new?tipoId=${tipoId}`);
-    } else {
-      // Caso não exista, cria o novo tipo de camarão
-      Tipos_camarao.create({ nome })
-        .then(newCamarao => {
-          // Após criar, pega o ID do tipo de camarão recém-criado
-          const tipoId = newCamarao.id_tipo_camarao;
-          // Redireciona para o cadastro de cativeiro, passando o ID do tipo de camarão
-          res.redirect(`/cativeiros/new?tipoId=${tipoId}`);
-        })
-        .catch((error) => {
-          console.log("Erro ao criar camarão:", error);
-          res.status(500).send("Erro ao criar tipo de camarão.");
-        });
-    }
-  })
-  .catch((error) => {
-    console.log("Erro ao verificar duplicidade:", error);
-    res.status(500).send("Erro ao verificar duplicidade.");
-  });
+  Tipos_camarao.findOne({ where: { nome } })
+    .then(existingCamarao => {
+      if (existingCamarao) {
+        // Se já existe, pega o ID do tipo de camarão existente
+        const tipoId = existingCamarao.id_tipo_camarao;
+        // Redireciona para o cadastro de cativeiro, passando o ID do tipo de camarão
+        res.redirect(`/cativeiros/new?tipoId=${tipoId}`);
+      } else {
+        // Caso não exista, cria o novo tipo de camarão
+        Tipos_camarao.create({ nome })
+          .then(newCamarao => {
+            const tipoId = newCamarao.id_tipo_camarao;
+            // Redireciona para o cadastro de cativeiro, passando o ID do tipo de camarão
+            res.redirect(`/cativeiros/new?tipoId=${tipoId}`);
+          })
+          .catch((error) => {
+            console.log("Erro ao criar camarão:", error);
+            res.status(500).send("Erro ao criar tipo de camarão.");
+          });
+      }
+    })
+    .catch((error) => {
+      console.log("Erro ao verificar duplicidade:", error);
+      res.status(500).send("Erro ao verificar duplicidade.");
+    });
 });
+
 
 
 // Rota para excluir um tipo de camarão

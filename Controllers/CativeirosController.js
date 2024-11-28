@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-
+import UsuariosxSitios from '../Models/UsuarioxSitio.js';
 import Cativeiros from "../Models/Cativeiro.js";
 import Tipos_camarao from '../Models/Camarao.js';
 import SitiosxCativeiros from '../Models/SitiosxCativeiros.js';  // Importando o modelo de associação
@@ -16,7 +16,7 @@ router.get("/cativeiros", Auth, function (req, res) {
     include: {
       model: Tipos_camarao, // Relacionamento com o modelo Tipos_camarao
       as: 'camarao',        
-      attributes: ['nome'], // puxando o nome do camarao para exibir ali na table da view cativeiros
+      attributes: ['nome'], // puxando o nome do camarão para exibir ali na table da view cativeiros
     }
   })
   .then((cativeiros) => {
@@ -28,66 +28,59 @@ router.get("/cativeiros", Auth, function (req, res) {
   });
 });
 
-// Rota GET para exibir o formulário de criação de um novo tanque
+// GET para formulário de criação de cativeiro
 router.get("/cativeiros/new", Auth, function (req, res) {
-  //pegando da url
+  // Pegando os parâmetros da URL
   const tipoId = req.query.tipoId;
   const id_sitio = req.query.id_sitio;
 
-  // Verificando se id_sitio está sendo passado corretamente
+  // Verificando se o id_sitio foi passado corretamente
   console.log("id_sitio recebido:", id_sitio); // Debug
 
+  // Buscar todos os cativeiros (se necessário para a view)
   Cativeiros.findAll().then((cativeiros) => {
     res.render("tanquesNew", {
       cativeiros: cativeiros,
-      tipoId: tipoId,
-      id_sitio: id_sitio,  // Passando o valor de id_sitio para a view
+      tipoId: tipoId,    // Passando o valor de tipoId para a view
+      id_sitio: id_sitio, // Passando o valor de id_sitio para a view
     });
-  }).catch(error => {
+  }).catch((error) => {
     console.error("Erro ao buscar cativeiros:", error);
     res.status(500).send("Erro ao buscar cativeiros.");
   });
 });
 
-// Cadastro de cativeiros
-router.post("/cativeiros/new", Auth, upload.single('file'), (req, res) => {
-  const { id_tipo_camarao, data, id_sitio } = req.body;  // Dados enviados no formulário
+// Rota de cadastro de cativeiros
+router.post("/cativeiros/new", Auth, upload.single('file'), async (req, res) => {
+  const { id_tipo_camarao, data_instalacao } = req.body;
+  const id_sitio = req.session.user.id_sitio;  // Acessando o id_sitio armazenado na sessão
 
-  // Verificações
-  console.log("ID Tipo de Camarão:", id_tipo_camarao);
-  console.log("Data de Instalação:", data);
-  console.log("ID do Sítio:", id_sitio);  // Verificando o id_sitio
-
-  // Validação
-  if (!id_tipo_camarao || !data || !id_sitio) {
-    return res.status(400).send("Erro: Tipo de camarão, data de instalação e sítio são obrigatórios.");
+  // Verifica se o id_sitio está presente
+  if (!id_sitio) {
+    req.flash("error", "Sítio não encontrado. Certifique-se de cadastrar um sítio.");
+    return res.redirect("/sitio");
   }
 
-  const data_instalacao = new Date(data);
-  if (isNaN(data_instalacao)) {
-    return res.status(400).send("Erro: Data inválida.");
-  }
-
-  // Criar o cativeiro
-  Cativeiros.create({
-    id_tipo_camarao: id_tipo_camarao,
-    foto_cativeiro: req.file ? req.file.filename : null,
-    data_instalacao: data_instalacao,
-  })
-  .then((novoCativeiro) => {
-    // assim que o cativeiro é criado, tambem é associado ao seu sitio, assim comecara um melhor controle para que cada usuario possa visualizar os cativeirps pertencentes aos seus sitios apenas
-    return SitiosxCativeiros.create({
-      id_sitio: id_sitio,  // Id do sítio associado
-      id_cativeiro: novoCativeiro.id_cativeiro  // Id do novo cativeiro criado
+  // Criação do cativeiro
+  try {
+    const novoCativeiro = await Cativeiros.create({
+      id_tipo_camarao: id_tipo_camarao,
+      foto_cativeiro: req.file ? req.file.filename : null,
+      data_instalacao: new Date(data_instalacao),
     });
-  })
-  .then(() => {
-    res.redirect(`/condicoes/new?id_tipo_camarao=${id_tipo_camarao}`);  // Redireciona após o cadastro
-  })
-  .catch((error) => {
-    console.log("Erro ao cadastrar o cativeiro:", error);
+
+    // Relaciona o cativeiro ao sítio
+    await SitiosxCativeiros.create({
+      id_sitio: id_sitio,  // Obtém o id_sitio da sessão
+      id_cativeiro: novoCativeiro.id_cativeiro,
+    });
+
+    // Redireciona para a página de condições do cativeiro
+    res.redirect(`/condicoes/new?id_tipo_camarao=${id_tipo_camarao}`);
+  } catch (error) {
+    console.log("Erro ao cadastrar cativeiro:", error);
     res.status(500).send("Erro ao cadastrar o cativeiro.");
-  });
+  }
 });
 
 // Excluir cativeiro
@@ -113,7 +106,7 @@ router.get("/cativeiros/edit/:id_cativeiro", (req, res) => {
   const id = req.params.id_cativeiro;
   Cativeiros.findByPk(id).then((cativeiro) => {
     if (!cativeiro) {
-      return res.status(404).send("Tanque não encontrado");
+      return res.status(404).send("Cativeiro não encontrado");
     }
 
     // Formatar a data no backend
@@ -133,10 +126,19 @@ router.get("/cativeiros/edit/:id_cativeiro", (req, res) => {
 router.post("/cativeiros/update", (req, res) => {
   const { id_cativeiro, id_tipo_camarao, data_instalacao, foto_cativeiro, temp_media_diaria, ph_medio_diario, amonia_media_diaria } = req.body;
 
-  Cativeiros.update(
-    { id_tipo_camarao, data_instalacao, foto_cativeiro, temp_media_diaria, ph_medio_diario, amonia_media_diaria },
-    { where: { id_cativeiro } }
-  )
+  // Atualiza apenas os campos preenchidos
+  const updateData = {
+    id_tipo_camarao,
+    data_instalacao,
+    foto_cativeiro,
+    temp_media_diaria: temp_media_diaria || null,
+    ph_medio_diario: ph_medio_diario || null,
+    amonia_media_diaria: amonia_media_diaria || null,
+  };
+
+  Cativeiros.update(updateData, {
+    where: { id_cativeiro }
+  })
   .then(() => {
     res.redirect("/cativeiros");
   })

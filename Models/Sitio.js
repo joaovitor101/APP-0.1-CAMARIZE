@@ -1,46 +1,44 @@
-// ORM - Sequelize
-import Sequelize from "sequelize"
+import Sequelize from "sequelize";
+import connection from "../config/sequelize-config.js";
 
-// Configuração do Sequelize
-import connection from "../config/sequelize-config.js"
-
-// .define cria a trabela no banco
+// Definindo o modelo Sitios
 const Sitios = connection.define('Sitios', {
+  id_sitio: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  nome: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  rua: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  bairro: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  cidade: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  numero: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+}, {
+  tableName: 'Sitios',
+  timestamps: false,  
+});
 
-    id_sitio: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-      },
-    nome:{
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-
-    rua:{
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-
-    bairro: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    cidade: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    numero: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-    },
-    }, 
-    {
-    tableName: 'Sitios',
-    });
-
-// Não força a criação da tabela caso já exista
-Sitios.sync({force: false})
+// Sincronizando
+Sitios.sync({ force: false }).then(() => {
+  console.log("Tabela Sitios sincronizada com sucesso!");
+}).catch((error) => {
+  console.log("Erro ao sincronizar a tabela Sitios: ", error);
+});
 
 export default Sitios;
