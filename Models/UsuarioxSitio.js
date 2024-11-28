@@ -27,7 +27,7 @@ const UsuariosxSitios = connection.define('UsuariosxSitios',
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: Sitios,  // Referência direta ao modelo Sitios
+          model: Sitios, 
           key: 'id_sitio',
         },
         onDelete: 'CASCADE',
@@ -40,13 +40,13 @@ const UsuariosxSitios = connection.define('UsuariosxSitios',
     }
   );
 
-// Definindo as associações entre as tabelas
-Usuarios.hasMany(UsuariosxSitios, { foreignKey: 'id_user' }); // Um usuário pode ter muitos 'UsuariosxSitios'
-Sitios.hasMany(UsuariosxSitios, { foreignKey: 'id_sitio' }); // Um sítio pode ter muitos 'UsuariosxSitios'
+//associações entre as tabelas
+Usuarios.hasMany(UsuariosxSitios, { foreignKey: 'id_user', as: 'UsuariosSitios' }); 
+Sitios.hasMany(UsuariosxSitios, { foreignKey: 'id_sitio', as: 'SitiosUsuarios' }); 
 
-// Definir os alias nas associações
-UsuariosxSitios.belongsTo(Usuarios, { foreignKey: 'id_user' }); // 'UsuariosxSitios' pertence a 'Usuarios'
-UsuariosxSitios.belongsTo(Sitios, { as: 'sitio', foreignKey: 'id_sitio' }); // 'UsuariosxSitios' pertence a 'Sitios' com alias
+UsuariosxSitios.belongsTo(Usuarios, { foreignKey: 'id_user', as: 'Usuario' }); 
+UsuariosxSitios.belongsTo(Sitios, { foreignKey: 'id_sitio', as: 'Sitio' }); // Alias adicionado aqui
+
 
 // Exportando o modelo
 export default UsuariosxSitios;

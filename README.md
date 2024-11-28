@@ -1,25 +1,31 @@
 # APP-0.1-CAMARIZE
 Aplicativo Camarize By Progresus, 23.10.2024
 
-Mobile - Main Portrait<br>
-
-<div class="dois" style="display: flex;">
-<br>
-  
-![image](https://github.com/user-attachments/assets/88e56ddd-a62c-4edd-8896-8565ca2db01d)
-
-![image](https://github.com/user-attachments/assets/21abd537-ee5c-4642-b9ef-0b1ea14f8dd6)
-
-
 <br>
 
-</div>
+```bash
+# Clone o repositório
+git clone https://github.com/joaovitor101/APP-0.1-CAMARIZE.git
 
-<br><br>
-Web
-![image](https://github.com/user-attachments/assets/9b50338d-b72e-48cc-91ce-2b0a726530ef)
+# Acesse o diretório do projeto
+cd APP-0.1-CAMARIZE
 
-![image](https://github.com/user-attachments/assets/a324c62f-55ec-4890-b3eb-71e8e312a75c)
+# Instale as dependências
+npm install
+
+# Certifique-se de que o MySQL está ativo no XAMPP
+# Abra o XAMPP Control Panel e clique em Start no módulo MySQL.
+
+# Inicie o projeto
+npm start
+
+```
+
+```json
+"url": "http://localhost:3000"
+```
+<br>
+
 
 
 

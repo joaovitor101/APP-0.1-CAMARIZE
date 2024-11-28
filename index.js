@@ -1,5 +1,5 @@
 import express from 'express';
-import connection from './config/sequelize-config.js'
+import connection from './config/sequelize-config.js';
 const app = express()
 
 //importar models aqui
@@ -14,24 +14,22 @@ import Sitios from './Models/Sitio.js';
 import Sensores from './Models/Sensor.js';
 import UsuariosxSitios from './Models/UsuarioxSitio.js';
 
-
-
 //importar controllers aqui
 import CamaroesController from "./Controllers/CamaroesController.js";
 import CativeirosController from "./Controllers/CativeirosController.js";
 import DietasController from "./Controllers/DietasController.js";
 import Condicoes_ideaisController from "./Controllers/Condicoes_ideaisController.js"
-import SitiosController from "./Controllers/SitiosController.js" 
+import SitiosController from "./Controllers/SitiosController.js"; 
 import UsersController from "./Controllers/UsersController.js";
 import DashboardControllers from "./Controllers/dashboardControllers.js";
 import Tipos_sensorController from "./Controllers/Tipos_sensorController.js";
 import Especif_camaraoController from "./Controllers/Especif_camaraoController.js";
 import SitiosxCativeirosControlller from './Controllers/SitiosxCativeirosController.js';
-import RelatoriosController from "./Controllers/relatoriosController.js"
-import NotificacoesController from './Controllers/NotificacoesController.js'
+import RelatoriosController from "./Controllers/relatoriosController.js";
+import NotificacoesController from './Controllers/NotificacoesController.js';
 import SensoresController from "./Controllers/SensoresController.js";
 
-
+// Configurações do Express
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -44,18 +42,24 @@ app.use(express.static('public'))
 import flash from "express-flash";
 import session from "express-session";
 
-
-
+// Usando o flash
 app.use(flash());
 
+// Usando session
 app.use(
-	session({
-		secret: "lojasecret",
-		cookie: { maxAge: 3600000 },
-		saveUninitialized: false,
-		resave: false,
-	})
+  session({
+    secret: "lojasecret",
+    cookie: { maxAge: 3600000 },
+    saveUninitialized: false,
+    resave: false,
+  })
 );
+
+// Rota para teste de mensagem de sucesso
+app.get('/set-flash', (req, res) => {
+  req.flash('success', 'Mensagem de sucesso!');
+  res.redirect('/');
+});
 
 // Permite capturar dados vindos de formulários
 app.use('/imgs', express.static('/imgs'));
@@ -74,7 +78,6 @@ app.use("/", SitiosxCativeirosControlller);
 app.use("/", RelatoriosController)
 app.use("/", NotificacoesController)
 app.use("/", SensoresController);
-
 
 // Realizando a conexão com o banco de dados
 connection.authenticate().then(() => {
@@ -95,17 +98,13 @@ connection.authenticate().then(() => {
         Tipos_sensor.sync({ force: false }), 
         Sensores.sync({ force: false }), 
         UsuariosxSitios.sync({ force: false }), 
-
-        //Alimentacao.sync({ force: false }), futuramente teremos essa tabela, pois armazenara dados a partir dos sensores 
-        //SensoresXcativeiros.sync({ force: false }),
-        //Relatorio_individual.sync({ force: false }), 
-        //Parametros_atuais.sync({ force: false }), 
-        
-        
-        //Recomendacoes.sync({ force: false }), 
-        //Relatorio_geral.sync({ force: false }), 
-        //Notificacoes.sync({ force: false })
-
+        // Alimentacao.sync({ force: false }), futuramente teremos essa tabela, pois armazenara dados a partir dos sensores 
+        // SensoresXcativeiros.sync({ force: false }),
+        // Relatorio_individual.sync({ force: false }), 
+        // Parametros_atuais.sync({ force: false }), 
+        // Recomendacoes.sync({ force: false }), 
+        // Relatorio_geral.sync({ force: false }), 
+        // Notificacoes.sync({ force: false })
     ]);
 }).then(() => {
     console.log("Tabelas sincronizadas com sucesso");
@@ -113,24 +112,15 @@ connection.authenticate().then(() => {
     console.log("Erro na conexão ou criação do banco:", error);
 });
 
-
-
 // ROTA PRINCIPAL
 app.get("/", (req, res) => {
-	res.render("index", {
-		successMessage: req.flash("success"),
-		errorMessage: req.flash("error"),
-	});
+    res.render("index", {
+        successMessage: req.flash("success"),
+        errorMessage: req.flash("error"),
+    });
 });
 
-// app.post("/upload", upload.single("file"), (req, res) =>{
-//     res.send("Arquivo Recebido !")
-// })
-// INICIA O SERVIDOR NA PORTA 8080
-app.get("/", function(req, res) {
-    res.render("index");
-});
-
+// INICIA O SERVIDOR NA PORTA 3000
 app.listen(3000, function(erro) {
     if (erro) {
         console.log("Ocorreu um erro!");
