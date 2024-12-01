@@ -235,41 +235,7 @@ router.post("/perfil/update", Auth, upload.single('foto_perfil'), async (req, re
     }
 });
   
-// ROTA DE MEU SÍTIO 
-router.get("/meuSitio", async (req, res) => {
-    try {
-        if (!req.session.user) {
-            req.flash("error", "Você precisa estar logado para acessar os dados do sítio.");
-            return res.redirect("/login");
-        }
 
-        // Buscar o sítio associado ao usuário logado
-        const usuarioSitio = await UsuariosxSitios.findOne({
-            where: { id_user: req.session.user.id },
-            include: [ {
-                model: Sitios,
-                as: 'Sitio',
-                attributes: ['id_sitio', 'nome', 'rua', 'bairro', 'cidade', 'numero'] 
-            }]
-        });
-
-        if (usuarioSitio && usuarioSitio.Sitio) {
-            res.render("meuSitio", {
-                user: req.session.user,
-                sitio: usuarioSitio.Sitio, 
-                successMessage: req.flash("success"),
-                errorMessage: req.flash("error")
-            });
-        } else {
-            req.flash("error", "Você não está associado a nenhum sítio.");
-            res.redirect("/sitio"); 
-        }
-    } catch (error) {
-        console.log(error);
-        req.flash("error", "Erro ao carregar os dados do sítio.");
-        res.redirect("/perfil"); 
-    }
-});
 
 
 export default router;

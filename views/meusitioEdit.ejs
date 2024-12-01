@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/cadastro_ejs.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Edição do Sítio</title>
+</head>
+<body>
+    <div class="form-container">
+        <h2 class="text-left text-2xl font-bold p-4">Edição do meu Sítio</h2>
+        <hr class="gradient-hr mb-4">
+
+        <form action="/meuSitio/update" method="post" enctype="multipart/form-data">
+            <!-- Foto do Sítio -->
+            <div class="mb-4">
+                <label for="foto_sitio" class="block text-sm font-medium text-gray-700">Foto do Sítio</label>
+                <div class="flex items-center">
+                    <img src="<%= sitio.foto_sitio ? '/uploads/' + sitio.foto_sitio : '/imgs/criacao-e-cultivo-de-camarao.jpg' %>" alt="Foto do Sítio" style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px;">
+                    <input type="file" name="foto_sitio" accept="image/*" class="ml-4 mt-2">
+                </div>
+            </div>
+
+            <!-- Campos de Texto para Editar Dados do Sítio -->
+            <div class="mb-4">
+                <label for="nome" class="block text-sm font-medium text-gray-700">Nome do Sítio</label>
+                <input type="text" id="nome" name="nome" value="<%= sitio.nome %>" placeholder="Nome do Sítio" class="form-control" >
+            </div>
+
+            <div class="mb-4">
+                <label for="rua" class="block text-sm font-medium text-gray-700">Rua</label>
+                <input type="text" id="rua" name="rua" value="<%= sitio.rua %>" placeholder="Rua" class="form-control" >
+            </div>
+
+            <div class="mb-4">
+                <label for="bairro" class="block text-sm font-medium text-gray-700">Bairro</label>
+                <input type="text" id="bairro" name="bairro" value="<%= sitio.bairro %>" placeholder="Bairro" class="form-control" >
+            </div>
+
+            <div class="mb-4">
+                <label for="cidade" class="block text-sm font-medium text-gray-700">Cidade</label>
+                <input type="text" id="cidade" name="cidade" value="<%= sitio.cidade %>" placeholder="Cidade" class="form-control" >
+            </div>
+
+            <div class="mb-4">
+                <label for="numero" class="block text-sm font-medium text-gray-700">Número</label>
+                <input type="text" id="numero" name="numero" value="<%= sitio.numero %>" placeholder="Número" class="form-control" >
+            </div>
+
+            <button type="submit" class="btn-custom">Atualizar Sítio</button>
+        </form>
+    </div>
+
+</body>
+</html>

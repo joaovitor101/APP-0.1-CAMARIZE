@@ -1,4 +1,4 @@
-import Sequelize from "sequelize";
+import Sequelize, { DataTypes } from "sequelize";  // Corrigido para importar DataTypes
 import connection from "../config/sequelize-config.js";
 
 // Definindo o modelo Sitios
@@ -28,6 +28,10 @@ const Sitios = connection.define('Sitios', {
   numero: {
     type: Sequelize.INTEGER,
     allowNull: false,
+  },
+  foto_sitio: {
+    type: DataTypes.BLOB('long'),  // Corrigido: DataTypes deve ser usado aqui
+    allowNull: true,
   },
 }, {
   tableName: 'Sitios',

@@ -69,7 +69,8 @@
       <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
       </div>
       <h3 class="text-center">Meu Sítio</h3>
-      <img src="./imgs/criacao-e-cultivo-de-camarao.jpg" alt="img" class="text-center p-2"/>
+      <img src="<%= sitio.foto_sitio ? '/uploads/' + sitio.foto_sitio : '/imgs/criacao-e-cultivo-de-camarao.jpg' %>" alt="Foto do Sítio" style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px;">
+      <a href="meuSitio/edit/">Editar</a>
 
       <!-- Seção com as informações do perfil -->
       <div class="profile-info p-4 mt-4">
