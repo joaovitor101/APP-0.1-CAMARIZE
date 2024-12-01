@@ -6,7 +6,7 @@ import Sitios from "../Models/Sitio.js";
 import flash from "connect-flash";
 const router = express.Router();
 
-// ROTA DE LOGIN
+// FORM DE LOGIN
 router.get("/login", async (req, res) => {
     try {
         res.render("login", {

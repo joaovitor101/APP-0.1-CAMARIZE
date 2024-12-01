@@ -7,7 +7,7 @@ import UsuariosxSitios from '../Models/UsuarioxSitio.js';
 import Sitios from "../Models/Sitio.js";
 import Cativeiros from "../Models/Cativeiro.js";
 import Tipos_camarao from '../Models/Camarao.js';
-import SitiosxCativeiros from '../Models/SitiosxCativeiros.js';
+import SitiosXCativeiros from '../Models/SitiosxCativeiros.js';
 import Usuarios from '../Models/Usuario.js';
 
 const router = express.Router();
@@ -25,58 +25,39 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-//listar cativeiros de acordo com o sitio 
-router.get('/cativeiros', async (req, res) => {
+// Rota de cativeiros
+router.get("/cativeiros", Auth, async (req, res) => {
   try {
-    // 1. Verificar se o usuário está autenticado
-    if (!req.session.user || !req.session.user.id) {
-      return res.status(401).send("Usuário não autenticado.");
-    }
+      const id_usuario = req.user.id; // A informação do usuário estará disponível em req.user
+      const id_sitio = req.user.id_sitio; // A informação do sítio também estará aqui
 
-    const id_usuario = req.session.user.id; // Obtém o id do usuário logado
+      console.log(`ID do Usuário: ${id_usuario}`);
+      console.log(`ID do Sítio: ${id_sitio}`);
 
-    // 2. Obter o ID do sítio associado ao usuário logado
-    const usuarioSItio = await UsuariosxSitios.findOne({ where: { id_user: id_usuario } });
-    if (!usuarioSItio) {
-        req.flash('error', 'Sítio do usuário não encontrado.');
-        return res.redirect('/cativeiros');
-    }
+      // Buscando os cativeiros associados ao sítio do usuário
+      const cativeiros = await SitiosXCativeiros.findAll({
+          where: { id_sitio: id_sitio },
+          include: [
+              {
+                  model: Cativeiros,
+                  as: 'cativeiro',
+                  include: [{
+                      model: Tipos_camarao,
+                      as: 'camarao',
+                      attributes: ['nome']
+                  }]
+              }
+          ]
+      });
 
-    const id_sitio = usuarioSItio.id_sitio; // Obtém o id_sitio associado ao usuário
-
-    // 3. Buscar cativeiros associados ao id_sitio na tabela SitiosXCativeiros
-    const cativeiros = await SitiosxCativeiros.findAll({
-      where: { id_sitio: id_sitio },
-      include: [
-        {
-          model: Cativeiros,
-          as: 'cativeiro', // Trazendo os cativeiros associados
-          include: [{
-            model: Tipos_camarao,
-            as: 'camarao',
-            attributes: ['nome'] // Seleciona o nome do tipo de camarão
-          }]
-        }
-      ]
-    });
-
-    // 4. Se não houver cativeiros, retorna uma mensagem informando
-    if (!cativeiros || cativeiros.length === 0) {
-      return res.render("cativeiros", { message: "Nenhum cativeiro encontrado para o seu sítio." });
-    }
-
-    // 5. Passa os cativeiros para a view
-    const cativeirosData = cativeiros.map(item => item.cativeiro);
-
-    // Aqui, a variável cativeirosData precisa ser passada para o EJS
-    res.render("cativeiros", { cativeiros: cativeirosData });
+      // Passar os cativeiros para a view
+      res.render("cativeiros", { cativeiros: cativeiros });
 
   } catch (error) {
-    console.error("Erro ao buscar cativeiros:", error);
-    res.status(500).send("Erro ao buscar cativeiros.");
+      console.error("Erro ao buscar cativeiros:", error);
+      res.status(500).send("Erro ao buscar cativeiros.");
   }
 });
-
 
 // Rota para exibir o formulário de criação de um novo cativeiro
 router.get("/cativeiros/new", (req, res) => {
