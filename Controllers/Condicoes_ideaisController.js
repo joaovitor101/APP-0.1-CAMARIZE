@@ -1,6 +1,5 @@
 import express from 'express';
 const router = express.Router();
-
 import Condicoes_ideais from "../Models/Condicao_ideal.js";
 
 // Rota principal - Exibir condições
@@ -43,6 +42,7 @@ router.post("/condicoes/new", (req, res) => {
         return res.status(400).send("Valores inválidos para temperatura, pH ou amônia.");
     }
 
+    // Criação das condições ideais
     Condicoes_ideais.create({
         id_tipo_camarao,
         temp_ideal: tempIdeal,
@@ -50,6 +50,7 @@ router.post("/condicoes/new", (req, res) => {
         amonia_ideal: amoniaIdeal
     })
     .then(() => {
+        // Após a criação, redireciona para a próxima etapa, passando o id_tipo_camarao como parâmetro
         res.redirect(`/dietas/new?id_tipo_camarao=${id_tipo_camarao}`);
     })
     .catch((error) => {

@@ -1,6 +1,5 @@
 import express from 'express';
 import Tipos_camarao from "../Models/Camarao.js";  
-import Cativeiros from "../Models/Cativeiro.js";
 import { Op } from 'sequelize';
 
 const router = express.Router();
@@ -29,6 +28,8 @@ router.get("/camaroes", (req, res) => {
 router.get("/camaroes/search", (req, res) => {
   const searchTerm = req.query.term;
 
+  console.log("Buscando tipos de camarão com o termo:", searchTerm); // Log de depuração
+
   Tipos_camarao.findAll({
     where: {
       nome: {
@@ -48,16 +49,20 @@ router.get("/camaroes/search", (req, res) => {
 // Rota para cadastrar um novo tipo de camarão
 router.post("/camaroes/new", (req, res) => {
   const { nome } = req.body;
-  
+
+  console.log("Nome do camarão para criar:", nome); // Log para verificar o nome
+
   Tipos_camarao.findOne({ where: { nome } })
     .then(existingCamarao => {
       if (existingCamarao) {
+        console.log("Camarão já existente. Redirecionando para criação de cativeiro.");
+        // Se o tipo de camarão já existir, redireciona para a criação do cativeiro
         res.redirect(`/cativeiros/new?tipoId=${existingCamarao.id_tipo_camarao}`);
       } else {
         Tipos_camarao.create({ nome })
           .then(newCamarao => {
+            console.log("Novo camarão criado:", newCamarao); // Log do novo camarão criado
             res.redirect(`/cativeiros/new?tipoId=${newCamarao.id_tipo_camarao}`);
-
           })
           .catch((error) => {
             console.log("Erro ao criar camarão:", error);
@@ -69,41 +74,6 @@ router.post("/camaroes/new", (req, res) => {
     .catch((error) => {
       console.log("Erro ao verificar duplicidade:", error);
       req.flash('error', 'Erro ao verificar duplicidade.');
-      res.redirect('/camaroes');
-    });
-});
-
-// Rota para excluir um tipo de camarão
-router.get("/camaroes/delete/:id_tipo_camarao", (req, res) => {
-  const id = req.params.id_tipo_camarao;
-
-  Tipos_camarao.destroy({
-    where: { id_tipo_camarao: id }
-  })
-  .then(() => {
-    req.flash('success', 'Tipo de camarão excluído com sucesso.');
-    res.redirect("/camaroes");
-  })
-  .catch((error) => {
-    console.log("Erro ao excluir camarão:", error);
-    req.flash('error', 'Erro ao excluir tipo de camarão.');
-    res.redirect("/camaroes");
-  });
-});
-
-// Rota para exibir formulário de edição de um tipo de camarão
-router.get("/camaroes/edit/:id_tipo_camarao", (req, res) => {
-  const id = req.params.id_tipo_camarao;
-
-  Tipos_camarao.findByPk(id)
-    .then((camarao) => {
-      res.render("camaraoEdit", { 
-        camarao
-      });
-    })
-    .catch((error) => {
-      console.log("Erro ao buscar camarão para edição:", error);
-      req.flash('error', 'Erro ao buscar camarão para edição.');
       res.redirect('/camaroes');
     });
 });

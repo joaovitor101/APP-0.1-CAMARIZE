@@ -47,7 +47,7 @@ app.use(flash());
 // Usando session
 app.use(
   session({
-    secret: "lojasecret",
+    secret: "camarizesecret",
     cookie: { maxAge: 3600000 },
     saveUninitialized: false,
     resave: false,

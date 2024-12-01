@@ -52,11 +52,4 @@ Cativeiros.belongsTo(Tipos_camarao, {
   as: 'camarao',  //associação 
 });
 
-// Sincronizando
-Cativeiros.sync({ force: false }).then(() => {
-  console.log("Tabela Cativeiros sincronizada com sucesso!");
-}).catch((error) => {
-  console.log("Erro ao sincronizar a tabela Cativeiros: ", error);
-});
-
 export default Cativeiros;

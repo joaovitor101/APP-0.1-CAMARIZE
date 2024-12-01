@@ -1,9 +1,8 @@
 import Sequelize from "sequelize";
 import connection from "../config/sequelize-config.js";
-import Sitios from './Sitio.js';  // Modelo de Sitios
-import Cativeiros from './Cativeiro.js';  // Modelo de Cativeiros
+import Sitios from './Sitio.js';  // Importando o modelo de Sitios
+import Cativeiros from './Cativeiro.js';  // Importando o modelo de Cativeiros
 
-// Definindo o modelo de relacionamento SitiosXCativeiros
 const SitiosXCativeiros = connection.define('SitiosXCativeiros', {
   id_sitio_cativeiro: {
     type: Sequelize.INTEGER,
@@ -15,44 +14,37 @@ const SitiosXCativeiros = connection.define('SitiosXCativeiros', {
     type: Sequelize.INTEGER,
     allowNull: false,
     references: {
-      model: 'Sitios',  // Nome da tabela
-      key: 'id_sitio',  // Chave primária 
+      model: 'Sitios',
+      key: 'id_sitio',
     },
-    onDelete: 'CASCADE',  // Excluir quando o sítio for deletado
-    onUpdate: 'CASCADE',  // Atualizar quando o sítio for alterado
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
   },
   id_cativeiro: {
     type: Sequelize.INTEGER,
     allowNull: false,
     references: {
-      model: 'Cativeiros',  // Nome da tabela
-      key: 'id_cativeiro',  // Chave primária 
+      model: 'Cativeiros',
+      key: 'id_cativeiro',
     },
-    onDelete: 'CASCADE',  // Excluir quando o cativeiro for deletado
-    onUpdate: 'CASCADE',  // Atualizar quando o cativeiro for alterado
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
   }
 }, {
-  tableName: 'sitios_x_cativeiros', // Nome plural da tabela
+  tableName: 'sitios_x_cativeiros', // Nome da tabela
   timestamps: false,
 });
 
 // Associação com Sitios
 SitiosXCativeiros.belongsTo(Sitios, {
-  foreignKey: 'id_sitio',  // Chave estrangeira
-  as: 'sitio',  // Alias da associação
+  foreignKey: 'id_sitio',
+  as: 'sitio',
 });
 
 // Associação com Cativeiros
 SitiosXCativeiros.belongsTo(Cativeiros, {
-  foreignKey: 'id_cativeiro',  // Chave estrangeira
-  as: 'cativeiro',  // Alias da associação
-});
-
-// Sincronizando a tabela (pode ser feito em um processo separado)
-SitiosXCativeiros.sync({ force: false }).then(() => {
-  console.log("Tabela SitiosXCativeiros sincronizada com sucesso!");
-}).catch((error) => {
-  console.log("Erro ao sincronizar a tabela SitiosXCativeiros: ", error);
+  foreignKey: 'id_cativeiro',
+  as: 'cativeiro',
 });
 
 export default SitiosXCativeiros;

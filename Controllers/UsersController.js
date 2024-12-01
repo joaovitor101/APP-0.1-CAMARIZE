@@ -104,8 +104,8 @@ router.post("/authenticate", async (req, res) => {
                     where: { id_user: user.id_user },
                     include: [{
                         model: Sitios,
-                        as: 'Sitio',
-                        attributes: ['id_sitio']
+                        as: 'Sitio', // Usando o alias da associação
+                        attributes: ['id_sitio'] // Apenas o id do sítio
                     }]
                 });
 
@@ -139,6 +139,7 @@ router.post("/authenticate", async (req, res) => {
         res.redirect("/login");
     }
 });
+
 
 // ROTA DE LOGOUT
 router.get("/logout", (req, res) => {
