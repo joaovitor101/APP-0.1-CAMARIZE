@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/tanqueEdit_ejs.css">
+    <link rel="stylesheet" href="/css/tanquesNew_ejs.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -22,51 +23,29 @@
                 <hr>
 
             <div class="card-body">
-                <form action="/cativeiros/update" method="post">
-                    
-                    <input class="form-control" type="text" name="local" placeholder="codigo" id="local" value="<%= cativeiro.local %>" required>
-                    
-                    <input class="form-control" type="date" name="data" id="data" value="<%= cativeiro.data instanceof Date && !isNaN(cativeiro.data) ? cativeiro.data.toISOString().split('T')[0] : '' %>" required>
-                    <hr>
-                    <label class="flex items-center justify-between p-3 border rounded-lg bg-gray-100 cursor-pointer">
-                        <span class="text-gray-500">Selecionar foto</span>
-                        <input type="file" id="foto_sensor" name="foto_sensor" class="hidden" accept="image/*" required>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                        </svg>
-                    </label>
-                    <!-- Área de preview da imagem -->
-                    <div class="mt-4" id="image-preview-container" style="display: none;">
-                        <img id="image-preview" src="" alt="Preview da imagem" class="max-w-xs" />
+                <form action="/cativeiros/update" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                      <label for="data_instalacao">
+                        <p>Data de Instalação:</p>
+                      </label>
+                      <input type="date" name="data_instalacao" id="data_instalacao" class="form-control" value="<%= cativeiro.data_instalacao.toISOString().split('T')[0] %>" required />
                     </div>
-                    <br>
-                    <label>Relacione o cativeiro aos sensores</label>
-                    <select class="form-control" name="tipo" required>
-                        <option value="">Sensor de temperatura</option>
-                        <option value="tipo1">Tipo 1</option>
-                        <option value="tipo2">Tipo 2</option>
-                        <option value="tipo3">Tipo 3</option>
-                    </select>
-
-                    <select class="form-control" name="status" required>
-                        <option value="">Sensor de Ph da água</option>
-                        <option value="ativo">Ativo</option>
-                        <option value="inativo">Inativo</option>
-                        <option value="manutencao">Em Manutenção</option>
-                    </select>
-
-                    <select class="form-control" name="prioridade" required>
-                        <option value="">Sensor de amônia</option>
-                        <option value="alta" class="text-dark">Alta</option>
-                        <option value="media" class="text-dark">Média</option>
-                        <option value="baixa" class="text-dark">Baixa</option>
-                    </select>
-                    
-                    <input type="hidden" name="id" value="<%= cativeiro.id %>">
-                    
-                    <br>
-                    <input type="submit" class="btn" id="save" value="Salvar" onclick="return confirm('Você realmente deseja alterar os dados do cativeiro <%= cativeiro.nome %>?')">
-                </form>
+                  
+                    <!-- Upload da Imagem do Tanque -->
+                    <div class="form-group">
+                      <label for="foto_cativeiro">
+                        <p>Imagem do tanque:</p>
+                      </label>
+                      <input type="file" id="foto_cativeiro" name="foto_cativeiro">
+                        <% if (cativeiro.foto_cativeiro) { %>
+                            <img src="/uploads/<%= cativeiro.foto_cativeiro %>" alt="Foto Atual" style="width: 200px;">
+                        <% } %>
+                    </div>
+    
+                    <div class="text-center mt-4">
+                      <input type="submit" value="Cadastrar" class="btn " style="color: white;"/>
+                    </div>
+                  </form>   
             </div>
         </div>
     </div>

@@ -167,33 +167,42 @@
     </div>
 
     <script>
+      // Variável de controle para a direção da ordenação
       let isAscending = true;
-
-      document.getElementById('updown').addEventListener('click', function() {
+    
+      // Adiciona evento de clique no botão para alternar a ordenação
+      document.getElementById('updown').addEventListener('click', function () {
         const sensorItems = document.querySelectorAll('.sensor-item');
-
+    
         // Mapeia os itens da tabela para um array de objetos com as informações necessárias
         const sensorArray = Array.from(sensorItems).map(item => {
           const id = parseInt(item.querySelector('p:nth-child(2)').textContent.replace('#', '').trim());
-          const foto_sensor = item.querySelector('img').src.split('/').pop();
+          const foto_sensor = item.querySelector('img[src*="/uploads"]').getAttribute('src'); // Busca a imagem do sensor com base em `/uploads`
           const descricao = item.querySelector('p:nth-child(1)').textContent;
+    
+          // Log para depuração
+          console.log('ID:', id, 'Descrição:', descricao, 'Imagem:', foto_sensor);
+    
           return { id_sensor: id, foto_sensor: foto_sensor, descricao: descricao, element: item };
         });
-
-        // Função de ordenação
+    
+        // Alterna a direção da ordenação
+        isAscending = !isAscending;
+    
+        // Função de ordenação (mergeSort)
         function mergeSort(arr, ascending) {
           if (arr.length <= 1) return arr;
-
+    
           const mid = Math.floor(arr.length / 2);
           const left = mergeSort(arr.slice(0, mid), ascending);
           const right = mergeSort(arr.slice(mid), ascending);
-
+    
           return merge(left, right, ascending);
         }
-
+    
         function merge(left, right, ascending) {
           let result = [], leftIndex = 0, rightIndex = 0;
-
+    
           while (leftIndex < left.length && rightIndex < right.length) {
             if (ascending) {
               if (left[leftIndex].id_sensor < right[rightIndex].id_sensor) {
@@ -213,30 +222,28 @@
               }
             }
           }
-
+    
           return result.concat(left.slice(leftIndex), right.slice(rightIndex));
         }
-
-        // Alterna a direção da ordenação
-        isAscending = !isAscending;
-
+    
+        // Ordena os sensores com base na direção definida
         const sortedSensors = mergeSort(sensorArray, isAscending);
-
+    
         // Limpa a tabela
         const tanquesList = document.getElementById('tanquesList');
         tanquesList.innerHTML = '';
-
+    
         // Re-renderiza as linhas da tabela
         sortedSensors.forEach(sensor => {
           const row = document.createElement('tr');
           row.classList.add('sensor-item');
-
+    
           row.innerHTML = `
             <td style="position: relative; display: flex; align-items: center;">
               <div class="svg-left">
                 <img src="./imgs/canto_colorido.svg" alt="">
               </div>
-              <img src="/uploads/${sensor.foto_sensor}" alt="Sensor Image" />
+              <img src="${sensor.foto_sensor}" alt="Sensor Image" style="width: 80px; height: 80px; border-radius: 5px; object-fit: cover;" />
               <div style="display: flex; flex-direction: column;">
                 <p style="color: #333; font-size: 14px; margin: 0;">${sensor.descricao}</p>
                 <p style="color: #555; margin: 0;">#${sensor.id_sensor}</p>
@@ -251,10 +258,12 @@
               </a>
             </td>
           `;
-          
+    
           tanquesList.appendChild(row);
         });
       });
     </script>
+    
+    
   </body>
 </html>

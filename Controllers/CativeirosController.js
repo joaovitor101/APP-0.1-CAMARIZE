@@ -29,12 +29,12 @@ const upload = multer({ storage });
 router.get("/cativeiros", Auth, async (req, res) => {
   try {
       const id_usuario = req.user.id; // A informação do usuário estará disponível em req.user
-      const id_sitio = req.user.id_sitio; // A informação do sítio também estará aqui
+      const id_sitio = req.user.id_sitio; 
 
       console.log(`ID do Usuário: ${id_usuario}`);
       console.log(`ID do Sítio: ${id_sitio}`);
 
-      // Buscando os cativeiros associados ao sítio do usuário
+      // Buscando os cativeiros associados
       const cativeiros = await SitiosXCativeiros.findAll({
           where: { id_sitio: id_sitio },
           include: [
@@ -50,7 +50,7 @@ router.get("/cativeiros", Auth, async (req, res) => {
           ]
       });
 
-      // Passar os cativeiros para a view
+      // Passa os cativeiros 
       res.render("cativeiros", { cativeiros: cativeiros });
 
   } catch (error) {
@@ -153,6 +153,59 @@ router.post("/cativeiros/new", upload.single('foto_cativeiro'), async (req, res)
   }
 });
 
+// Rota para exibir o formulário de edição de cativeiro
+router.get("/cativeiros/edit/:id", Auth, async (req, res) => {
+  const { id } = req.params;
 
+  try {
+      // Buscar o cativeiro pelo ID
+      const cativeiro = await Cativeiros.findByPk(id);
+
+      if (!cativeiro) {
+          req.flash("error", "Cativeiro não encontrado.");
+          return res.redirect("/cativeiros");
+      }
+
+      // Renderizar o formulário de edição com os dados do cativeiro
+      res.render("cativeiroEdit", { cativeiro });
+  } catch (error) {
+      console.error("Erro ao buscar cativeiro para edição:", error);
+      req.flash("error", "Erro ao buscar cativeiro.");
+      res.redirect("/cativeiros");
+  }
+});
+
+// Rota para atualizar o cativeiro
+router.post("/cativeiros/update/:id", Auth, upload.single('foto_cativeiro'), async (req, res) => {
+  const { id } = req.params;
+  const { data_instalacao } = req.body;
+  const foto_cativeiro = req.file ? req.file.filename : null;
+
+  try {
+      // Buscar o cativeiro pelo ID
+      const cativeiro = await Cativeiros.findByPk(id);
+
+      if (!cativeiro) {
+          req.flash("error", "Cativeiro não encontrado.");
+          return res.redirect("/cativeiros");
+      }
+
+      // Atualizar os campos permitidos
+      cativeiro.data_instalacao = data_instalacao || cativeiro.data_instalacao;
+
+      if (foto_cativeiro) {
+          cativeiro.foto_cativeiro = foto_cativeiro;
+      }
+
+      await cativeiro.save();
+
+      req.flash("success", "Cativeiro atualizado com sucesso!");
+      res.redirect("/cativeiros");
+  } catch (error) {
+      console.error("Erro ao atualizar cativeiro:", error);
+      req.flash("error", "Erro ao atualizar o cativeiro.");
+      res.redirect("/cativeiros");
+  }
+});
 
 export default router;
