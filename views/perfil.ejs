@@ -62,12 +62,8 @@
           <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
           </div>
           <h4 class="text-center">Perfil</h4>
-          
-          <!-- Perfil e link de edição -->
           <div class="profile-header">
-            <!-- Se o usuário tiver uma foto de perfil, exibe ela, senão exibe uma imagem padrão -->
             <img src="<%= user.foto_perfil ? '/uploads/' + user.foto_perfil : '/imgs/profile-icon.jpg' %>" alt="img" class="mx-auto p-2" />
-            <!-- Link para editar o perfil -->
             <a href="/perfil/edit" class="edit-profile-link">Editar perfil</a>
         </div>
     
