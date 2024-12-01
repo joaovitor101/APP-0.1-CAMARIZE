@@ -32,7 +32,28 @@
     <title>Perfil</title>
   </head>
   <style>
-    /* Estilos conforme você já tem definidos */
+    /* Estilos para centralizar a foto e o link */
+    .profile-header {
+      display: flex;
+      justify-content: center; /* Centraliza os itens na linha */
+      align-items: center;     /* Centraliza verticalmente */
+      gap: 10px;               /* Espaço entre a foto e o link */
+      margin-top: 20px;        /* Espaço acima */
+    }
+    .profile-header img {
+      border-radius: 50%;
+      width: 100px;
+    }
+    .edit-profile-link {
+      text-decoration: none;
+      font-size: 14px;
+      color: #007bff;
+      cursor: pointer;
+      align-self: center; /* Garante que o link fique na altura correta */
+    }
+    .edit-profile-link:hover {
+      text-decoration: underline;
+    }
   </style>
   <body>
     <div class="container-fluid">
@@ -41,51 +62,58 @@
           <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
           </div>
           <h4 class="text-center">Perfil</h4>
-          <img src="./imgs/profile-icon.jpg" alt="img" class="mx-auto p-2" style="border-radius: 50%; width: 100px;"/>
-
+          
+          <!-- Perfil e link de edição -->
+          <div class="profile-header">
+            <!-- Se o usuário tiver uma foto de perfil, exibe ela, senão exibe uma imagem padrão -->
+            <img src="/uploads/<%= user.foto_perfil || 'profile-icon.jpg' %>" alt="img" class="mx-auto p-2" />
+            <!-- Link para editar o perfil -->
+            <a href="/perfil/edit" class="edit-profile-link">Editar perfil</a>
+        </div>
     
           <!-- Seção com as informações do perfil -->
-<div class="profile-info p-4 mt-4">
-  <div class="mt-4">
-    <p><strong>Código de usuário:</strong> <span id="profile-name">#<%= user.id %></span></p>
-    <hr>
-    <p><strong>Email:</strong> <span id="profile-email"><%= user.email %></span></p>
-    <hr>
-    <!-- Senha com opção de visibilidade -->
-    <div class="password-container" style="gap: 15px;">
-      <label><strong>Senha:</strong></label>
-      <input
-        type="password"
-        id="password-field"
-        class="password-input"
-        value="********" >
-      <img src="./imgs/olho.png" alt="Mostrar senha" id="toggle-password" class="toggle-password" style="position: absolute; right: 90px; width: 20px; height: auto; cursor: pointer;">
-    </div>
-    <a href="/logout">Sair</a>
-    <hr>
-  </div>
-</div>
+          <div class="profile-info p-4 mt-4">
+            <div class="mt-4">
+              <p><strong>Código de usuário:</strong> <span id="profile-name">#<%= user.id %></span></p>
+              <hr>
+              <p><strong>Email:</strong> <span id="profile-email"><%= user.email %></span></p>
+              <hr>
+              <!-- Senha com opção de visibilidade -->
+              <div class="password-container" style="gap: 15px;">
+                <label><strong>Senha:</strong></label>
+                <input
+                  type="password"
+                  id="password-field"
+                  class="password-input"
+                  value="********" >
+                <img src="./imgs/olho.png" alt="Mostrar senha" id="toggle-password" class="toggle-password" style="position: absolute; right: 90px; width: 20px; height: auto; cursor: pointer;">
+              </div>
+              <a href="/logout">Sair</a>
+              <hr>
+            </div>
+          </div>
 
-      <!-- Nav bottom -->
-      <%- include('partials/nav_bottom_sem') %>
-    </div>
+          <!-- Nav bottom -->
+          <%- include('partials/nav_bottom_sem') %>
+        </div>
 
-    <script>
-      // Função para alternar visibilidade da senha
-      document.getElementById('toggle-password').addEventListener('click', function() {
-        const passwordField = document.getElementById('password-field');
-        const icon = document.getElementById('toggle-password');
+        <script>
+          // Função para alternar visibilidade da senha
+          document.getElementById('toggle-password').addEventListener('click', function() {
+            const passwordField = document.getElementById('password-field');
+            const icon = document.getElementById('toggle-password');
 
-        if (passwordField.type === 'password') {
-          passwordField.type = 'text';  // Exibe a senha
-          icon.classList.remove('fa-eye'); // Remove o ícone de olho fechado
-          icon.classList.add('fa-eye-slash'); // Adiciona o ícone de olho aberto
-        } else {
-          passwordField.type = 'password'; // Oculta a senha
-          icon.classList.remove('fa-eye-slash'); // Remove o ícone de olho aberto
-          icon.classList.add('fa-eye'); // Adiciona o ícone de olho fechado
-        }
-      });
-    </script>
+            if (passwordField.type === 'password') {
+              passwordField.type = 'text';  // Exibe a senha
+              icon.classList.remove('fa-eye'); // Remove o ícone de olho fechado
+              icon.classList.add('fa-eye-slash'); // Adiciona o ícone de olho aberto
+            } else {
+              passwordField.type = 'password'; // Oculta a senha
+              icon.classList.remove('fa-eye-slash'); // Remove o ícone de olho aberto
+              icon.classList.add('fa-eye'); // Adiciona o ícone de olho fechado
+            }
+          });
+        </script>
+      </div>
   </body>
 </html>

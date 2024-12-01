@@ -3,9 +3,22 @@ import Usuarios from "../Models/Usuario.js";
 import bcrypt from "bcrypt";
 import UsuariosxSitios from "../Models/UsuarioxSitio.js";
 import Sitios from "../Models/Sitio.js";
-import flash from "connect-flash";
-const router = express.Router();
+import Auth from "../middleware/Auth.js";
+import multer from 'multer';
+import path from 'path';
+// Configuração simples do multer para upload de imagens
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/uploads');  // Diretório onde as imagens serão salvas
+    },
+    filename: (req, file, cb) => {
+        const uniqueName = `${Date.now()}-${Math.round(Math.random() * 1E9)}${path.extname(file.originalname)}`;
+        cb(null, uniqueName);  // Nome único para evitar sobrescrições
+    }
+});
 
+const upload = multer({ storage });  // Middleware do multer
+const router = express.Router();
 // FORM DE LOGIN
 router.get("/login", async (req, res) => {
     try {
@@ -148,7 +161,7 @@ router.get("/logout", (req, res) => {
     res.redirect("/"); // Redireciona para a página inicial
 });
 
-// ROTA DE PERFIL (Mostra o perfil do usuário logado)
+// ROTA DE PERFIL
 router.get("/perfil", async (req, res) => {
     try {
         if (!req.session.user) {
@@ -156,17 +169,73 @@ router.get("/perfil", async (req, res) => {
             return res.redirect("/login");
         }
 
+        const user = await Usuarios.findByPk(req.session.user.id);  // Pega os dados do usuário logado
+
         res.render("perfil", {
             successMessage: req.flash("success"),
             errorMessage: req.flash("error"),
-            user: req.session.user,
+            user  // Passa o usuário para a view
         });
     } catch (error) {
         console.log(error);
     }
 });
 
-// ROTA DE MEU SÍTIO (Visualizar dados do sítio associado ao usuário)
+// Rota edição de perfil
+router.get("/perfil/edit", Auth, async (req, res) => {
+    try {
+        const user = await Usuarios.findByPk(req.user.id);  
+
+        if (!user) {
+            return res.redirect("/perfil");  
+        }
+
+        res.render("perfilEdit", {
+            user  
+        });
+    } catch (error) {
+        console.error("Erro ao carregar dados de perfil:", error);
+        res.redirect("/perfil");  
+    }
+});
+
+
+// Rota de atualização do perfil
+router.post("/perfil/update", Auth, upload.single('foto_perfil'), async (req, res) => {
+    const { nome, email, senha } = req.body;
+    const foto_perfil = req.file ? req.file.filename : null;  // Se houver um arquivo, pega o nome do arquivo
+
+    try {
+        const user = await Usuarios.findByPk(req.user.id);
+        if (!user) {
+            req.flash("error", "Usuário não encontrado.");
+            return res.redirect("/perfil");
+        }
+
+        user.nome = nome || user.nome;  // Atualiza o nome se for fornecido
+        user.email = email || user.email;  // Atualiza o e-mail se for fornecido
+
+        // Se a senha for fornecida, atualiza a senha
+        if (senha) {
+            user.senha = bcrypt.hashSync(senha, 10); 
+        }
+
+        // Se a foto de perfil for enviada, atualiza o campo foto_perfil
+        if (foto_perfil) {
+            user.foto_perfil = foto_perfil;
+        }
+
+        await user.save();  // Salva as alterações no banco de dados
+        req.flash("success", "Perfil atualizado com sucesso!");
+        res.redirect("/perfil");  // Redireciona para a página de perfil
+    } catch (error) {
+        console.error("Erro ao atualizar perfil:", error);
+        req.flash("error", "Erro ao atualizar o perfil.");
+        res.redirect("/perfil/edit");
+    }
+});
+  
+// ROTA DE MEU SÍTIO 
 router.get("/meuSitio", async (req, res) => {
     try {
         if (!req.session.user) {
@@ -180,26 +249,25 @@ router.get("/meuSitio", async (req, res) => {
             include: [ {
                 model: Sitios,
                 as: 'Sitio',
-                attributes: ['id_sitio', 'nome', 'rua', 'bairro', 'cidade', 'numero'] // Ajustando os atributos
+                attributes: ['id_sitio', 'nome', 'rua', 'bairro', 'cidade', 'numero'] 
             }]
         });
 
-        // Se o usuário estiver associado a um sítio
         if (usuarioSitio && usuarioSitio.Sitio) {
             res.render("meuSitio", {
                 user: req.session.user,
-                sitio: usuarioSitio.Sitio, // Passando as informações do sítio para a view
+                sitio: usuarioSitio.Sitio, 
                 successMessage: req.flash("success"),
                 errorMessage: req.flash("error")
             });
         } else {
             req.flash("error", "Você não está associado a nenhum sítio.");
-            res.redirect("/sitio"); // Caso não tenha um sítio associado
+            res.redirect("/sitio"); 
         }
     } catch (error) {
         console.log(error);
         req.flash("error", "Erro ao carregar os dados do sítio.");
-        res.redirect("/perfil"); // Redireciona para o perfil se houver erro
+        res.redirect("/perfil"); 
     }
 });
 

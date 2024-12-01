@@ -154,12 +154,12 @@ router.post("/cativeiros/new", upload.single('foto_cativeiro'), async (req, res)
 });
 
 // Rota para exibir o formulário de edição de cativeiro
-router.get("/cativeiros/edit/:id", Auth, async (req, res) => {
-  const { id } = req.params;
+router.get("/cativeiros/edit/:id_cativeiro", Auth, async (req, res) => {
+  const { id_cativeiro } = req.params;
 
   try {
       // Buscar o cativeiro pelo ID
-      const cativeiro = await Cativeiros.findByPk(id);
+      const cativeiro = await Cativeiros.findByPk(id_cativeiro);
 
       if (!cativeiro) {
           req.flash("error", "Cativeiro não encontrado.");
@@ -175,15 +175,17 @@ router.get("/cativeiros/edit/:id", Auth, async (req, res) => {
   }
 });
 
+
+
 // Rota para atualizar o cativeiro
-router.post("/cativeiros/update/:id", Auth, upload.single('foto_cativeiro'), async (req, res) => {
-  const { id } = req.params;
+router.post("/cativeiros/update/:id_cativeiro", Auth, upload.single('foto_cativeiro'), async (req, res) => {
+  const { id_cativeiro } = req.params;
   const { data_instalacao } = req.body;
   const foto_cativeiro = req.file ? req.file.filename : null;
 
   try {
       // Buscar o cativeiro pelo ID
-      const cativeiro = await Cativeiros.findByPk(id);
+      const cativeiro = await Cativeiros.findByPk(id_cativeiro);
 
       if (!cativeiro) {
           req.flash("error", "Cativeiro não encontrado.");

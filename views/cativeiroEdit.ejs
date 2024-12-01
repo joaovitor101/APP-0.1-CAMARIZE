@@ -23,7 +23,7 @@
                 <hr>
 
             <div class="card-body">
-                <form action="/cativeiros/update" method="post" enctype="multipart/form-data">
+                <form action="/cativeiros/update/<%= cativeiro.id_cativeiro %>" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                       <label for="data_instalacao">
                         <p>Data de Instalação:</p>
@@ -37,15 +37,15 @@
                         <p>Imagem do tanque:</p>
                       </label>
                       <input type="file" id="foto_cativeiro" name="foto_cativeiro">
-                        <% if (cativeiro.foto_cativeiro) { %>
-                            <img src="/uploads/<%= cativeiro.foto_cativeiro %>" alt="Foto Atual" style="width: 200px;">
-                        <% } %>
+                      <% if (cativeiro.foto_cativeiro) { %>
+                        <img src="/uploads/<%= cativeiro.foto_cativeiro %>" alt="Foto Atual" style="width: 200px;">
+                      <% } %>
                     </div>
-    
+                  
                     <div class="text-center mt-4">
-                      <input type="submit" value="Cadastrar" class="btn " style="color: white;"/>
+                      <input type="submit" value="Atualizar" class="btn" style="color: white;" />
                     </div>
-                  </form>   
+                  </form>                  
             </div>
         </div>
     </div>
