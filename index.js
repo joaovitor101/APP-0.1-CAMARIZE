@@ -13,6 +13,7 @@ import SitiosxCativeiros from './Models/SitiosxCativeiros.js';
 import Sitios from './Models/Sitio.js';
 import Sensores from './Models/Sensor.js';
 import UsuariosxSitios from './Models/UsuarioxSitio.js';
+import SensoresxCativeiros from './Models/SensorxCativeiro.js';
 
 //importar controllers aqui
 import CamaroesController from "./Controllers/CamaroesController.js";
@@ -27,6 +28,7 @@ import Especif_camaraoController from "./Controllers/Especif_camaraoController.j
 import RelatoriosController from "./Controllers/relatoriosController.js";
 import NotificacoesController from './Controllers/NotificacoesController.js';
 import SensoresController from "./Controllers/SensoresController.js";
+import SensoresxCativeirosController from "./Controllers/SensoresxCativeirosController.js"; 
 
 // Configurações do Express
 app.use(express.urlencoded({ extended: true }));
@@ -76,7 +78,7 @@ app.use("/", Especif_camaraoController);
 app.use("/", RelatoriosController)
 app.use("/", NotificacoesController)
 app.use("/", SensoresController);
-
+app.use("/", SensoresxCativeirosController); 
 // Realizando a conexão com o banco de dados
 connection.authenticate().then(() => {
     console.log("Conexão feita com sucesso");
@@ -86,18 +88,18 @@ connection.authenticate().then(() => {
     console.log("Banco criado");
     // Sincronizar tabelas
     return Promise.all([
-        Tipos_camarao.sync({ force: false }), 
+        Tipos_camarao.sync({ force: false }),
+        Sitios.sync({ force: false }),  
         Condicoes_ideais.sync({ force: false }), 
         Dietas.sync({ force: false }), 
         Especif_camarao.sync({ force: false }),
-        Sitios.sync({ force: false }), 
         Cativeiros.sync({ force: false }),
         SitiosxCativeiros.sync({ force: false }),  
         Tipos_sensor.sync({ force: false }), 
         Sensores.sync({ force: false }), 
         UsuariosxSitios.sync({ force: false }), 
+        SensoresxCativeiros.sync({ force: false }),
         // Alimentacao.sync({ force: false }), futuramente teremos essa tabela, pois armazenara dados a partir dos sensores 
-        // SensoresXcativeiros.sync({ force: false }),
         // Relatorio_individual.sync({ force: false }), 
         // Parametros_atuais.sync({ force: false }), 
         // Recomendacoes.sync({ force: false }), 

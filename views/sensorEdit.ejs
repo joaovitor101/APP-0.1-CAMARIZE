@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/login_ejs.css">
+    <title>Editar Sensor</title>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2 class="text-left text-2xl font-bold p-2">Editar Sensor</h2>
+        <hr class="gradient-hr mb-4">
+        <!-- Formulário para editar o sensor -->
+        <form action="/sensores/update" method="post" enctype="multipart/form-data">
+            <!-- Campo oculto para o id_sensor -->
+            <input type="hidden" name="id_sensor" value="<%= sensor.id_sensor %>">
+
+            <!-- Dropdown para tipo de sensor -->
+            <div class="mb-4">
+                <label for="tipo_sensor" class="block text-gray-700 font-bold text-xl text-left">Sensor</label>
+                <select id="id_tipo_sensor" name="id_tipo_sensor" class="block w-full p-3 border rounded-lg text-gray-700 bg-gray-100 focus:ring focus:ring-blue-300 mt-3" required>
+                    <option value="" disabled>Selecione o componente</option>
+                    <option value="1" <%= sensor.id_tipo_sensor === 1 ? 'selected' : '' %>>Sensor medidor de PH</option>
+                    <option value="2" <%= sensor.id_tipo_sensor === 2 ? 'selected' : '' %>>Sensor medidor de temperatura</option>
+                    <option value="3" <%= sensor.id_tipo_sensor === 3 ? 'selected' : '' %>>Sensor medidor de amônia</option>  
+                    <option value="4" <%= sensor.id_tipo_sensor === 4 ? 'selected' : '' %>>Sensor medidor de nível de ração</option>
+                    <option value="5" <%= sensor.id_tipo_sensor === 5 ? 'selected' : '' %>>Motor dispensador de ração</option>   
+                </select>
+            </div>
+
+            <!-- Apelido do Sensor -->
+            <div class="mb-4">
+                <label for="apelido" class="block text-gray-700 font-bold text-xl text-left">Apelido do Sensor</label>
+                <input type="text" id="apelido" name="apelido" class="block w-full p-3 border rounded-lg text-gray-700 bg-gray-100 focus:ring focus:ring-blue-300 mt-3" placeholder="Digite o apelido do sensor" required value="<%= sensor.apelido %>">
+            </div>
+
+            <!-- Foto do Sensor -->
+            <div class="mb-6">
+                <label class="flex items-center justify-between p-3 border rounded-lg bg-gray-100 cursor-pointer">
+                    <span class="text-gray-500">Selecionar foto</span>
+                    <input type="file" id="foto_sensor" name="foto_sensor" class="hidden" accept="image/*">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                </label>
+                <% if (sensor.foto_sensor) { %>
+                    <div class="mt-4">
+                        <img id="image-preview" src="/uploads/<%= sensor.foto_sensor %>" alt="Preview da imagem" class="max-w-xs" />
+                    </div>
+                <% } %>
+            </div>
+
+            <!-- Botão de atualização -->
+            <button type="submit" class="block w-full text-white font-medium py-2 rounded-lg text-center shadow-lg hover:opacity-90">
+                Atualizar Sensor
+            </button>
+        </form>
+    </div>
+    <img src="/imgs/camarize.png" class="w-48 mt-4" alt="">
+</body>
+</html>

@@ -15,11 +15,11 @@ const Cativeiros = connection.define('Cativeiros', {
     type: Sequelize.INTEGER,
     allowNull: false,
     references: {
-      model: 'Tipos_camarao',  // Nome da tabela relacionada
-      key: 'id_tipo_camarao',  // Chave primária de Tipos_camarao
+      model: 'Tipos_camarao',  // Nome da tabela
+      key: 'id_tipo_camarao',  // Chave primária
     },
-    onDelete: 'CASCADE',  // Comportamento ao excluir
-    onUpdate: 'CASCADE',  // Comportamento ao atualizar
+    onDelete: 'CASCADE',  //excluir
+    onUpdate: 'CASCADE',  //atualizar
   },
   data_instalacao: {
     type: Sequelize.DATE,

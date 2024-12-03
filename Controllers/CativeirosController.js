@@ -133,7 +133,7 @@ router.post("/cativeiros/new", upload.single('foto_cativeiro'), async (req, res)
 
       // Cadastro automático em sitios_x_cativeiros
       try {
-          await SitiosxCativeiros.create({
+          await SitiosXCativeiros.create({
               id_sitio: id_sitio,
               id_cativeiro: newCativeiro.id_cativeiro,
           });

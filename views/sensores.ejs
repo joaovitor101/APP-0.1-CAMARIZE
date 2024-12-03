@@ -145,6 +145,7 @@
                       <img src="/uploads/<%= sensor.foto_sensor %>" alt="Sensor Image" />
                       <div style="display: flex; flex-direction: column;">
                         <p style="color: #333; font-size: 14px; margin: 0;"><%= sensor.tipo_sensor.descricao %></p>
+                        <p style="color: #333; font-size: 12px; margin: 0;"><%= sensor.apelido %></p>
                         <p style="color: #555; margin: 0;">#<%= sensor.id_sensor %></p>
                       </div>
                     </td>                    
@@ -173,14 +174,15 @@
     
         // Mapeia os itens da tabela para um array de objetos com as informações necessárias
         const sensorArray = Array.from(sensorItems).map(item => {
-          const id = parseInt(item.querySelector('p:nth-child(2)').textContent.replace('#', '').trim());
-          const foto_sensor = item.querySelector('img[src*="/uploads"]').getAttribute('src'); // Busca a imagem do sensor com base em `/uploads`
+          const id = parseInt(item.querySelector('p:nth-child(3)').textContent.replace('#', '').trim());
+          const foto_sensor = item.querySelector('img[src*="/uploads"]').getAttribute('src'); // Busca a imagem do sensor
           const descricao = item.querySelector('p:nth-child(1)').textContent;
+          const apelido = item.querySelector('p:nth-child(2)').textContent; // Adiciona o apelido
     
           // Log para depuração
-          console.log('ID:', id, 'Descrição:', descricao, 'Imagem:', foto_sensor);
+          console.log('ID:', id, 'Descrição:', descricao, 'Apelido:', apelido, 'Imagem:', foto_sensor);
     
-          return { id_sensor: id, foto_sensor: foto_sensor, descricao: descricao, element: item };
+          return { id_sensor: id, foto_sensor: foto_sensor, descricao: descricao, apelido: apelido, element: item };
         });
     
         // Alterna a direção da ordenação
@@ -201,22 +203,16 @@
           let result = [], leftIndex = 0, rightIndex = 0;
     
           while (leftIndex < left.length && rightIndex < right.length) {
-            if (ascending) {
-              if (left[leftIndex].id_sensor < right[rightIndex].id_sensor) {
-                result.push(left[leftIndex]);
-                leftIndex++;
-              } else {
-                result.push(right[rightIndex]);
-                rightIndex++;
-              }
+            const comparison = ascending
+              ? left[leftIndex].id_sensor < right[rightIndex].id_sensor
+              : left[leftIndex].id_sensor > right[rightIndex].id_sensor;
+    
+            if (comparison) {
+              result.push(left[leftIndex]);
+              leftIndex++;
             } else {
-              if (left[leftIndex].id_sensor > right[rightIndex].id_sensor) {
-                result.push(left[leftIndex]);
-                leftIndex++;
-              } else {
-                result.push(right[rightIndex]);
-                rightIndex++;
-              }
+              result.push(right[rightIndex]);
+              rightIndex++;
             }
           }
     
@@ -243,6 +239,7 @@
               <img src="${sensor.foto_sensor}" alt="Sensor Image" style="width: 80px; height: 80px; border-radius: 5px; object-fit: cover;" />
               <div style="display: flex; flex-direction: column;">
                 <p style="color: #333; font-size: 14px; margin: 0;">${sensor.descricao}</p>
+                <p style="color: #333; font-size: 12px; margin: 0;">${sensor.apelido}</p> <!-- Adiciona apelido -->
                 <p style="color: #555; margin: 0;">#${sensor.id_sensor}</p>
               </div>
             </td>
@@ -260,6 +257,7 @@
         });
       });
     </script>
+    
     
     
   </body>

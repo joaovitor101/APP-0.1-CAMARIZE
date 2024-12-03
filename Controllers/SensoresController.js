@@ -1,5 +1,5 @@
 import express from 'express';
-import Sensores from "../Models/Sensor.js"; // Certifique-se de que esse caminho está correto
+import Sensores from "../Models/Sensor.js"; 
 import Tipos_sensor from "../Models/Tipos_sensor.js"; 
 import flash from 'connect-flash';
 import multer from 'multer';
@@ -8,7 +8,7 @@ const router = express.Router();
 
 const upload = multer({ dest: 'public/uploads/' });
 
-// Rota principal para listar os sensores
+//listar os sensores
 router.get("/sensores", async (req, res) => {
   try {
     const sensores = await Sensores.findAll({
@@ -30,7 +30,7 @@ router.get("/sensores", async (req, res) => {
     res.render("sensores", {
       successMessage: req.flash("success"),
       errorMessage: req.flash("error"),
-      sensores: sensoresOrdenados,  // Passando os dados ordenados para a view
+      sensores: sensoresOrdenados,  //dados p view
       highlight: highlight,  // Passando o ID do sensor a ser destacado
     });
   } catch (error) {
@@ -39,7 +39,7 @@ router.get("/sensores", async (req, res) => {
   }
 });
 
-// Rota para exibir o formulário de cadastro de sensor
+//formulário de cadastro de sensor
 router.get("/sensores/new", (req, res) => {
   res.render("sensorNew", {
     successMessage: req.flash("success"),
@@ -49,7 +49,7 @@ router.get("/sensores/new", (req, res) => {
 
 // Cadastro de sensores
 router.post("/sensores/new", Auth, upload.single('foto_sensor'), (req, res) => {
-  const { id_tipo_sensor, apelido } = req.body;  // Dados enviados no formulário
+  const { id_tipo_sensor, apelido } = req.body; 
 
   // Verificações
   if (!id_tipo_sensor || !apelido) {
@@ -64,7 +64,7 @@ router.post("/sensores/new", Auth, upload.single('foto_sensor'), (req, res) => {
   })
   .then((sensor) => {
     req.flash("success", "Sensor cadastrado com sucesso!");
-    res.redirect(`/sensores?highlight=${sensor.id_sensor}`);  // Passa o ID do sensor para destaque
+    res.redirect(`/sensores?highlight=${sensor.id_sensor}`);  
   })
   .catch((error) => {
     console.log("Erro ao cadastrar sensor:", error);
@@ -91,7 +91,7 @@ router.get("/sensores/edit/:id_sensor", (req, res) => {
   const id = req.params.id_sensor;
 
   Sensores.findByPk(id).then((sensor) => {
-    res.render("sensorEdit", {
+    res.render("sensorEdit", {  
       sensor: sensor
     });
   }).catch((error) => {

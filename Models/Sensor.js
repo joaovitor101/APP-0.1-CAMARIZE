@@ -41,4 +41,12 @@ Sensores.belongsTo(Tipos_sensor, {
   as: 'tipo_sensor',  // Alias para acessar os dados do Tipos_sensor
 });
 
+// Defina a associação entre Sensores e SensoresxCativeiros
+Sensores.associate = (models) => {
+  Sensores.hasMany(models.SensoresxCativeiros, {
+      foreignKey: 'id_sensor',
+      as: 'associacoes', // Nome da associação
+  });
+};
+
 export default Sensores;

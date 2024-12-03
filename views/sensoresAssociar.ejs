@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/login_ejs.css">
+    <title>Camarize</title>
+</head>
+<body>
+    <% if (messages.success && messages.success.length > 0) { %>
+        <div class="alert alert-success">
+            <%= messages.success %>
+        </div>
+    <% } %>
+    
+    <% if (messages.error && messages.error.length > 0) { %>
+        <div class="alert alert-danger">
+            <%= messages.error %>
+        </div>
+    <% } %>
+    
+    <div class="form-container">
+        <h2 class="text-left text-2xl font-bold p-2">Associar componente a um cativeiro</h2>
+        <hr class="gradient-hr mb-4">
+        <form action="/sensores/associar" method="post">
+            <!-- Dropdown -->
+            <div class="mb-4">
+                <label for="tipo_sensor" class="block text-gray-700 font-bold text-xl text-left">Sensor</label>
+                <select id="id_sensor" name="id_sensor" class="block w-full p-3 border rounded-lg text-gray-700 bg-gray-100 focus:ring focus:ring-blue-300 mt-3" required>
+                    <% sensores.forEach(sensor => { %>
+                        <option value="<%= sensor.id_sensor %>">
+                            <%= sensor.apelido || `Sensor #${sensor.id_sensor}` %> 
+                            (<%= sensor.tipo_sensor?.descricao || 'Tipo desconhecido' %>)
+                        </option>
+                    <% }) %>
+                  </select>                  
+                <select id="id_cativeiro" name="id_cativeiro" class="block w-full p-3 border rounded-lg text-gray-700 bg-gray-100 focus:ring focus:ring-blue-300 mt-3" required>
+                    <% cativeiros.forEach(cativeiro => { %>
+                        <option value="<%= cativeiro.id_cativeiro %>">
+                          Cativeiro #<%= cativeiro.id_cativeiro %>
+                        </option>
+                      <% }) %>
+                </select>
+            </div>
+            <!-- Botão -->
+            <button type="submit" class="block w-full text-white font-medium py-2 rounded-lg text-center shadow-lg hover:opacity-90">
+                Associar
+            </button>
+        </form>
+    </div>
+</body>
+</html>

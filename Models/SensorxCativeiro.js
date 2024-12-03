@@ -39,6 +39,10 @@ const SensoresxCativeiros = connection.define('SensoresxCativeiros',
       timestamps: false, // Caso sua tabela não tenha colunas createdAt e updatedAt
     }
   );
+
+//associacao
+SensoresxCativeiros.belongsTo(Sensores, { foreignKey: 'id_sensor', as: 'sensor' });
+Sensores.hasMany(SensoresxCativeiros, { foreignKey: 'id_sensor' });
   
   // Exportando o modelo
   export default SensoresxCativeiros;

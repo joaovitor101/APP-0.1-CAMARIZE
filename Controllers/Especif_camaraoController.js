@@ -5,31 +5,28 @@ import Especif_camarao from '../Models/Especif_camarao.js';
 import Condicoes_ideais from '../Models/Condicao_ideal.js';
 import Dietas from '../Models/Dieta.js';
 
-// Rota para cadastrar automaticamente na tabela especif_camarao
+// Rota cadastrar
 router.post('/especif_camarao/auto-cadastrar', async (req, res) => {
     try {
-        // Buscar todas as condições ideais
+        //condicoes ideais
         const condicoes = await Condicoes_ideais.findAll();
-
-        // Para cada condição, buscar a dieta correspondente
         for (const condicao of condicoes) {
             const id_tipo_camarao = condicao.id_tipo_camarao;
-
-            // Buscar a dieta correspondente para esse tipo de camarão através da tabela Especif_camarao
+            // Buscar a dieta
             const especif = await Especif_camarao.findOne({ 
                 where: { id_tipo_camarao }, 
-                include: [Dietas] // Inclui as dietas associadas ao tipo de camarão
+                include: [Dietas] 
             });
 
             if (!especif) {
                 console.error(`Nenhuma dieta encontrada para o tipo de camarão: ${id_tipo_camarao}`);
-                continue; // Pula para o próximo se não encontrar dieta
+                continue; 
             }
 
-            // Criar o registro na tabela Especif_camarao
+            // Criar
             await Especif_camarao.create({
                 id_tipo_camarao: id_tipo_camarao,
-                id_dieta: especif.Dieta.id_dieta,  // Agora pegamos a dieta correta
+                id_dieta: especif.Dieta.id_dieta, 
                 id_condicao: condicao.id_condicao,
             });
         }
