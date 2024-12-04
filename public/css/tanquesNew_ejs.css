@@ -10,18 +10,23 @@
 body, html {
     margin: 0;
     padding: 0;
-    height: 100%;
+    min-height: 100%; /* Garante que preencha o conteúdo, mas evita conflitos */
     overflow-x: hidden;
     background-color: #ffffff; /* Background mais claro */
 }
 
-.container {
+.container.centralizado {
     position: relative;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
+.container {
+    height: auto; /* Ajusta dinamicamente ao conteúdo */
+    min-height: 100vh; /* Apenas se precisar ocupar o mínimo da tela */
+}
+
 
 .card {
     background-color: #fff;

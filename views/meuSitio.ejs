@@ -39,7 +39,10 @@
 
     .container {
       background: #fff;
+      text-align: center; /* Centraliza os elementos */
+      padding-top: 20px;
     }
+
     body {
       background: linear-gradient(to bottom, #FFC2C2, #AED5FF); /* Gradiente vertical */
       background-attachment: fixed; /* O gradiente ficará fixo enquanto o conteúdo rola */
@@ -54,14 +57,37 @@
       }
     }
 
-    .password-container {
-      display: flex;
-      align-items: center;
+    .profile-container {
+      position: relative; /* Define o contêiner como referência para o posicionamento do ícone */
+      display: inline-block; /* Permite que o conteúdo ocupe apenas o espaço necessário */
     }
 
-    .eye-icon {
-      cursor: pointer;
-      margin-left: 10px;
+    .profile-img {
+      width: 150px; /* Tamanho da imagem */
+      height: 150px;
+      border-radius: 8px; /* Bordas arredondadas */
+      object-fit: cover; /* Mantém a proporção da imagem */
+    }
+
+    .editar {
+      position: absolute; /* Permite posicionar em relação ao contêiner */
+      bottom: 5px; /* Distância da base */
+      right: 5px; /* Distância da lateral direita */
+      background: white; /* Fundo para destacar o ícone */
+      border-radius: 50%; /* Bordas arredondadas */
+      padding: 5px; /* Ajusta o tamanho interno */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra opcional */
+      cursor: pointer; /* Indica que é clicável */
+    }
+
+    .edit-icon {
+      width: 20px; /* Tamanho do ícone */
+      height: 20px;
+    }
+
+    .profile-info p {
+      font-size: 16px; /* Ajusta o tamanho do texto */
+      color: #333; /* Cor do texto */
     }
   </style>
   <body>
@@ -69,17 +95,26 @@
       <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
       </div>
       <h3 class="text-center">Meu Sítio</h3>
-      <img src="<%= sitio.foto_sitio ? '/uploads/' + sitio.foto_sitio : '/imgs/criacao-e-cultivo-de-camarao.jpg' %>" alt="Foto do Sítio" style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px;">
-      <a href="meuSitio/edit/">Editar</a>
+      
+      <div class="profile-container">
+        <img 
+          src="<%= sitio.foto_sitio ? '/uploads/' + sitio.foto_sitio : '/imgs/criacao-e-cultivo-de-camarao.jpg' %>" 
+          alt="Foto do Sítio" 
+          class="profile-img"
+        />
+        <a href="meuSitio/edit/" class="editar">
+          <img src="./imgs/pencil-black.svg" alt="Editar" class="edit-icon">
+        </a>
+      </div>
 
       <!-- Seção com as informações do perfil -->
-      <div class="profile-info p-4 mt-4">
+      <div class="profile-info p-4 mt-4" style="text-align: left;">
         <div class="mt-4">
-          <p><strong>Nome do Sítio</strong> <span id="sitio-nome"><%= sitio.nome %></span></p>
-          <p><strong>Cidade</strong> <span id="sitio-email"><%= sitio.cidade %></span></p>
-          <p><strong>Bairro</strong> <span id="sitio-bairro"><%= sitio.bairro %></span></p>
-          <p><strong>Rua</strong> <span id="sitio-rua"><%= sitio.rua %></span></p>
-          <p><strong>Número</strong> <span id="sitio-numero"><%= sitio.numero %></span></p>
+          <p><strong>Nome do Sítio:</strong> <span id="sitio-nome"><%= sitio.nome %></span></p>
+          <p><strong>Cidade:</strong> <span id="sitio-email"><%= sitio.cidade %></span></p>
+          <p><strong>Bairro:</strong> <span id="sitio-bairro"><%= sitio.bairro %></span></p>
+          <p><strong>Rua:</strong> <span id="sitio-rua"><%= sitio.rua %></span></p>
+          <p><strong>Número:</strong> <span id="sitio-numero"><%= sitio.numero %></span></p>
         </div>
       </div>
 

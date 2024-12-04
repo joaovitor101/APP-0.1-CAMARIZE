@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/login_ejs.css">
+    <link rel="stylesheet" href="/css/dashboard_ejs.css" />
     <title>Cadastro de sensor</title>
 </head>
 <body>
@@ -62,44 +63,7 @@
             </button>
         </form>
     </div>
-    <img src="/imgs/camarize.png" class="w-48 mt-4" alt="">
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const flashMessage = document.getElementById("flash-message");
-            if (flashMessage) {
-                flashMessage.style.display = "block";  // Exibe o popup
-    
-                // Desaparece automaticamente após 3 segundos
-                setTimeout(() => {
-                    flashMessage.style.opacity = "0";  // Inicia transição para desaparecer
-                    setTimeout(() => {
-                        flashMessage.style.display = "none";
-                    }, 500);
-                }, 1500);
-            }
-
-            // Preview da imagem
-            const fileInput = document.getElementById('foto_sensor');
-            const imagePreviewContainer = document.getElementById('image-preview-container');
-            const imagePreview = document.getElementById('image-preview');
-
-            fileInput.addEventListener('change', function(event) {
-                const file = event.target.files[0];
-
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        // Exibe o container e a imagem
-                        imagePreviewContainer.style.display = 'block';
-                        imagePreview.src = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                } else {
-                    imagePreviewContainer.style.display = 'none';  // Oculta se não houver arquivo
-                }
-            });
-        });
-    </script>
+    <%- include('partials/nav_bottom_sem') %>
+    <%- include('partials/preview-imagem-sensor') %>
 </body>
 </html>

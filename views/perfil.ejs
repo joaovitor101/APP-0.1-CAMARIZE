@@ -32,28 +32,41 @@
     <title>Perfil</title>
   </head>
   <style>
-    /* Estilos para centralizar a foto e o link */
-    .profile-header {
-      display: flex;
-      justify-content: center; /* Centraliza os itens na linha */
-      align-items: center;     /* Centraliza verticalmente */
-      gap: 10px;               /* Espaço entre a foto e o link */
-      margin-top: 20px;        /* Espaço acima */
-    }
-    .profile-header img {
-      border-radius: 50%;
-      width: 100px;
-    }
-    .edit-profile-link {
-      text-decoration: none;
-      font-size: 14px;
-      color: #007bff;
-      cursor: pointer;
-      align-self: center; /* Garante que o link fique na altura correta */
-    }
-    .edit-profile-link:hover {
-      text-decoration: underline;
-    }
+ .profile-header {
+  display: flex;
+  justify-content: center; /* Centraliza todo o conteúdo horizontalmente */
+  margin-top: 20px; /* Ajuste conforme necessário */
+}
+
+.profile-container {
+  position: relative; /* Define o contêiner como referência para o posicionamento do ícone */
+  display: inline-block; /* Permite que o conteúdo ocupe apenas o espaço necessário */
+}
+
+.profile-img {
+  width: 100px; /* Tamanho da imagem */
+  height: 100px;
+  border-radius: 50%; /* Imagem redonda */
+  object-fit: cover; /* Mantém a proporção da imagem */
+}
+
+.editar {
+  position: absolute; /* Permite posicionar em relação ao contêiner */
+  bottom: 5px; /* Ajuste a distância da base */
+  right: 5px; /* Ajuste a distância da lateral direita */
+  background: white; /* Opcional: fundo para destacar o ícone */
+  border-radius: 50%; /* Bordas arredondadas para combinar com o design */
+  padding: 5px; /* Ajusta o tamanho interno */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra opcional */
+  cursor: pointer; /* Indica que é clicável */
+}
+
+.edit-icon {
+  width: 20px; /* Tamanho do ícone */
+  height: 20px;
+}
+
+
   </style>
   <body>
     <div class="container-fluid">
@@ -63,9 +76,19 @@
           </div>
           <h4 class="text-center">Perfil</h4>
           <div class="profile-header">
-            <img src="<%= user.foto_perfil ? '/uploads/' + user.foto_perfil : '/imgs/profile-icon.jpg' %>" alt="img" class="mx-auto p-2" />
-            <a href="/perfil/edit" class="edit-profile-link">Editar perfil</a>
-        </div>
+            <div class="profile-container">
+              <img 
+                src="<%= user.foto_perfil ? '/uploads/' + user.foto_perfil : '/imgs/profile-icon.jpg' %>" 
+                alt="img" 
+                class="profile-img" 
+              />
+              <a href="/perfil/edit" class="editar">
+                <img src="./imgs/pencil-black.svg" alt="Edit" class="edit-icon">
+              </a>
+            </div>
+          </div>
+          
+          
     
           <!-- Seção com as informações do perfil -->
           <div class="profile-info p-4 mt-4">
@@ -75,16 +98,27 @@
               <p><strong>Email:</strong> <span id="profile-email"><%= user.email %></span></p>
               <hr>
               <!-- Senha com opção de visibilidade -->
-              <div class="password-container" style="gap: 15px;">
-                <label><strong>Senha:</strong></label>
-                <input
-                  type="password"
-                  id="password-field"
-                  class="password-input"
-                  value="********" >
-                <img src="./imgs/olho.png" alt="Mostrar senha" id="toggle-password" class="toggle-password" style="position: absolute; right: 90px; width: 20px; height: auto; cursor: pointer;">
-              </div>
-              <a href="/logout">Sair</a>
+              
+              <a href="/logout" 
+   style="
+      display: inline-block; 
+      padding: 10px 20px; 
+      color: rgb(255, 255, 255); 
+      text-decoration: none; 
+      background: linear-gradient(to right, #FFC2C2, #AED5FF); 
+      border-radius: 20px; 
+      font-size: 16px; 
+      font-weight: bold; 
+      text-align: center; 
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   " 
+   onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 10px rgba(0, 0, 0, 0.2)';" 
+   onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 6px rgba(0, 0, 0, 0.1)';"
+>
+   Sair
+</a>
+
               <hr>
             </div>
           </div>
@@ -93,23 +127,7 @@
           <%- include('partials/nav_bottom_sem') %>
         </div>
 
-        <script>
-          // Função para alternar visibilidade da senha
-          document.getElementById('toggle-password').addEventListener('click', function() {
-            const passwordField = document.getElementById('password-field');
-            const icon = document.getElementById('toggle-password');
-
-            if (passwordField.type === 'password') {
-              passwordField.type = 'text';  // Exibe a senha
-              icon.classList.remove('fa-eye'); // Remove o ícone de olho fechado
-              icon.classList.add('fa-eye-slash'); // Adiciona o ícone de olho aberto
-            } else {
-              passwordField.type = 'password'; // Oculta a senha
-              icon.classList.remove('fa-eye-slash'); // Remove o ícone de olho aberto
-              icon.classList.add('fa-eye'); // Adiciona o ícone de olho fechado
-            }
-          });
-        </script>
+        
       </div>
   </body>
 </html>
