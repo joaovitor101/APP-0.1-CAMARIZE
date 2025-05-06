@@ -80,37 +80,33 @@ app.use("/", NotificacoesController)
 app.use("/", SensoresController);
 app.use("/", SensoresxCativeirosController); 
 // Realizando a conexão com o banco de dados
-connection.authenticate().then(() => {
+(async () => {
+  try {
+    await connection.authenticate();
     console.log("Conexão feita com sucesso");
 
-    return connection.query('CREATE DATABASE IF NOT EXISTS camarize;');
-}).then(() => {
+    await connection.query("CREATE DATABASE IF NOT EXISTS camarize;");
     console.log("Banco criado");
-    // Sincronizar tabelas
-    return Promise.all([
-        Tipos_camarao.sync({ force: false }),
-        Sitios.sync({ force: false }),  
-        Condicoes_ideais.sync({ force: false }), 
-        Dietas.sync({ force: false }), 
-        Especif_camarao.sync({ force: false }),
-        Cativeiros.sync({ force: false }),
-        SitiosxCativeiros.sync({ force: false }),  
-        Tipos_sensor.sync({ force: false }), 
-        Sensores.sync({ force: false }), 
-        UsuariosxSitios.sync({ force: false }), 
-        SensoresxCativeiros.sync({ force: false }),
-        // Alimentacao.sync({ force: false }), futuramente teremos essa tabela, pois armazenara dados a partir dos sensores 
-        // Relatorio_individual.sync({ force: false }), 
-        // Parametros_atuais.sync({ force: false }), 
-        // Recomendacoes.sync({ force: false }), 
-        // Relatorio_geral.sync({ force: false }), 
-        // Notificacoes.sync({ force: false })
-    ]);
-}).then(() => {
+
+    // Ordem importa aqui
+    await Tipos_camarao.sync({ force: false });
+    await Sitios.sync({ force: false });
+    await Condicoes_ideais.sync({ force: false });
+    await Dietas.sync({ force: false });
+    await Especif_camarao.sync({ force: false });
+    await Cativeiros.sync({ force: false });
+    await SitiosxCativeiros.sync({ force: false });
+    await Tipos_sensor.sync({ force: false });
+    await Sensores.sync({ force: false });
+    await UsuariosxSitios.sync({ force: false });
+    await SensoresxCativeiros.sync({ force: false });
+
     console.log("Tabelas sincronizadas com sucesso");
-}).catch((error) => {
+  } catch (error) {
     console.log("Erro na conexão ou criação do banco:", error);
-});
+  }
+})();
+
 
 // ROTA PRINCIPAL
 app.get("/", (req, res) => {
