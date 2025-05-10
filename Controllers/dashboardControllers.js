@@ -1,5 +1,7 @@
 import express from 'express';
 import SensoresxCativeiros from '../Models/SensorxCativeiro.js';
+import Parametros_atuais from '../Models/Parametros_atuais.js';
+
 import Sensores from '../Models/Sensor.js';
 
 const router = express.Router();
@@ -14,27 +16,32 @@ router.get("/dashboard/:id_cativeiro", async (req, res) => {
             where: { id_cativeiro },
             include: {
                 model: Sensores,
-                as: 'sensor',  // alias definido na associação
-                attributes: ['id_sensor', 'apelido', 'foto_sensor'],  // atributos que deseja retornar
+                as: 'sensor',
+                attributes: ['id_sensor', 'apelido', 'foto_sensor'],
             }
         });
 
-        // Verifica se encontrou sensores associados
+        // Buscar o último parâmetro registrado para esse cativeiro
+        const ultimoParametro = await Parametros_atuais.findOne({
+            where: { id_cativeiro },
+            order: [['datahora', 'DESC']]
+        });
+
         if (sensoresAssociados.length === 0) {
             req.flash('error', 'Nenhum sensor encontrado para este cativeiro.');
         }
 
-        // Passa as mensagens de flash e os sensores para o EJS
         res.render("dashboard", {
             success: req.flash('success'),
             error: req.flash('error'),
-            sensores: sensoresAssociados.map(item => item.sensor),  // Mapear os sensores
-            id_cativeiro: id_cativeiro  // Passar id_cativeiro para a view
+            sensores: sensoresAssociados.map(item => item.sensor),
+            dados: ultimoParametro, // <-- Aqui estão os dados dos sensores!
+            id_cativeiro
         });
     } catch (error) {
-        console.error('Erro ao carregar sensores associados ao cativeiro:', error);
-        req.flash('error', 'Erro ao carregar sensores.');
-        res.redirect('/dashboard');  // Redireciona em caso de erro
+        console.error('Erro ao carregar o dashboard:', error);
+        req.flash('error', 'Erro ao carregar dados do dashboard.');
+        res.redirect('/dashboard');
     }
 });
 

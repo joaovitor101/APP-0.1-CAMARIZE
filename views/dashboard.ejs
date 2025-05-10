@@ -152,7 +152,7 @@
             <div class="content d-flex align-items-center justify-content-start">
               <img src="/imgs/Sol.png" alt="icone_temp" class="icon" style="max-width: 40px; margin-right: 10px;">
               <div class="d-flex flex-column justify-content-center">
-                <span class="value" style="text-align: left;">27°</span>
+                <span class="value" style="text-align: left;"><%= dados?.temp_atual ?? 'N/A' %>°</span>
                 <div class="description" style="text-align: left;">Temperatura</div>
               </div>
             </div>
@@ -164,7 +164,7 @@
             <div class="content d-flex align-items-center justify-content-start">
               <img src="/imgs/ph.png" alt="icone_ph" class="icon" style="max-width: 40px; margin-right: 10px;">
               <div class="d-flex flex-column justify-content-center">
-                <span class="value" style="text-align: left;">7.5</span>
+                <span class="value" style="text-align: left;"><%= dados?.ph_atual ?? 'N/A' %></span>
                 <div class="description" style="text-align: left;">Nível de pH</div>
               </div>
             </div>
@@ -176,7 +176,7 @@
             <div class="content d-flex align-items-center justify-content-start">
               <img src="/imgs/amonia.png" alt="icone_amonia" class="icon" style="max-width: 40px; margin-right: 10px;">
               <div class="d-flex flex-column justify-content-center">
-                <span class="value" style="text-align: left;">0,05 mg/L</span>
+                <span class="value" style="text-align: left;"><%= dados?.amonia_atual ?? 'N/A' %> mg/L</span>
                 <div class="description" style="text-align: left;">Amônia Ionizada</div>
               </div>
             </div>
@@ -188,7 +188,7 @@
             <div class="content d-flex align-items-center justify-content-start">
               <img src="/imgs/amonia.png" alt="icone_temp" class="icon" style="max-width: 40px; margin-right: 10px;">
               <div class="d-flex flex-column justify-content-center">
-                <span class="value" style="text-align: left;">0,05 mg/L</span>
+                <span class="value" style="text-align: left;"><%= dados?.amonia_atual ?? 'N/A' %> mg/L</span>
                 <div class="description" style="text-align: left;">Amônia Não Ionizada</div>
               </div>
             </div>
@@ -220,7 +220,7 @@
         <tbody id="tanquesList">
             <% sensores.forEach(sensor => { %> <!-- Alterei para 'sensores', pois é a variável mapeada -->
                 <tr class="sensor-item" style="border-radius: 15px; background-color: white; box-shadow: 0 -1px 15px rgba(0, 0, 0, 0.1);">
-                    <td style="position: relative; display: flex; align-items: center; border-radius: 10px; padding-left: 0; margin: 0; height: 80px; oa">
+                    <td style="position: relative; display: flex; align-items: center; border-radius: 10px; padding-left: 0; margin: 0; height: 80px;">
                         <!-- Imagem na extremidade esquerda -->
                         <div class="svg-left" style="margin: 0; padding-left: 0;">
                             <img src="/imgs/canto_colorido.svg" alt="" style="width: 12px; height: auto; margin-left: 0; padding-left: 0;">
