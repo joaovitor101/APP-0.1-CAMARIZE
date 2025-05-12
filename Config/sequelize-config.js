@@ -8,10 +8,11 @@ const connection = new Sequelize({
     dialect: 'mysql',
     host: 'localhost',
     username: 'root',
-    password: '', 
+    password: '1234', 
     //Comente essa linha na primeira execução da aplicação
     database: 'camarize',
-    timezone: '-03:00'
+    timezone: '-03:00',
+    logging: false
 })
 
 export default connection

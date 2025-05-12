@@ -118,6 +118,6 @@ app.listen(3000, '0.0.0.0', (erro) => {
   if (erro) {
     console.log('Ocorreu um erro!');
   } else {
-    console.log('Servidor iniciado com sucesso!');
+    console.log('Servidor iniciado com sucesso!. Acesse http://localhost:3000');
   }
 });
