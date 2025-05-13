@@ -39,6 +39,23 @@ router.get("/sensores", async (req, res) => {
   }
 });
 
+router.get('/uploads/:id_sensor', async (req, res) => {
+  try {
+    const sensor = await Sensores.findByPk(req.params.id_sensor);
+
+    if (!sensor || !sensor.foto_sensor) {
+      return res.status(404).send('Imagem não encontrada');
+    }
+
+    res.setHeader('Content-Type', 'image/jpeg'); // ou 'image/png' dependendo do tipo
+    res.send(sensor.foto_sensor);
+  } catch (error) {
+    console.error("Erro ao buscar imagem:", error);
+    res.status(500).send('Erro ao buscar imagem');
+  }
+});
+
+
 //formulário de cadastro de sensor
 router.get("/sensores/new", (req, res) => {
   res.render("sensorNew", {
@@ -100,19 +117,30 @@ router.get("/sensores/edit/:id_sensor", (req, res) => {
   });
 });
 
-// Rota para atualizar sensor
-router.post("/sensores/update", (req, res) => {
-  const { id_sensor, id_tipo_sensor, apelido, foto_sensor } = req.body;
+router.post("/sensores/update", upload.single("foto_sensor"), async (req, res) => {
+  const { id_sensor, id_tipo_sensor, apelido } = req.body;
+  const foto_sensor = req.file ? req.file.buffer : null;
 
-  Sensores.update(
-    { id_tipo_sensor, apelido, foto_sensor },
-    { where: { id_sensor } }
-  ).then(() => {
+  try {
+    console.log("Foto enviada:", req.file ? "Sim" : "Não");
+
+    // Se nenhuma nova imagem foi enviada, mantém a antiga
+    const sensorExistente = await Sensores.findByPk(Number(id_sensor));
+
+    await Sensores.update({
+      id_tipo_sensor,
+      apelido,
+      foto_sensor: foto_sensor || sensorExistente.foto_sensor,
+    }, {
+      where: { id_sensor: Number(id_sensor) }
+    });
+
     res.redirect("/sensores");
-  }).catch((error) => {
-    console.log("Erro ao atualizar sensor:", error);
+  } catch (error) {
+    console.error("Erro ao atualizar sensor:", error);
     res.status(500).send("Erro ao atualizar sensor.");
-  });
+  }
 });
+
 
 export default router;

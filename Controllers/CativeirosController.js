@@ -210,4 +210,31 @@ router.post("/cativeiros/update/:id_cativeiro", Auth, upload.single('foto_cative
   }
 });
 
+
+// Rota para excluir um cativeiro
+router.get("/cativeiros/delete/:id_cativeiro", Auth, async (req, res) => {
+  const { id_cativeiro } = req.params;
+
+  try {
+    console.log("Tem certeza que deseja excluir o cativeiro?");
+      // Buscar o cativeiro pelo ID
+      const cativeiro = await Cativeiros.findByPk(id_cativeiro);
+
+      if (!cativeiro) {
+          req.flash("error", "Cativeiro não encontrado.");
+          return res.redirect("/cativeiros");
+      }
+
+      // Excluir o cativeiro
+      await cativeiro.destroy();
+
+      req.flash("success", "Cativeiro excluído com sucesso!");
+      res.redirect("/cativeiros");
+  } catch (error) {
+      console.error("Erro ao excluir cativeiro:", error);
+      req.flash("error", "Erro ao excluir o cativeiro.");
+      res.redirect("/cativeiros");
+  }
+});
+
 export default router;

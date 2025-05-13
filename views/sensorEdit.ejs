@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="/css/dashboard_ejs.css">
     <title>Editar Sensor</title>
 </head>
+<style>
+#image-preview{
+    width: 30%;
+};
+
+</style>
 <body>
 
     <div class="form-container">
@@ -48,7 +54,8 @@
                 </label>
                 <% if (sensor.foto_sensor) { %>
                     <div class="mt-4">
-                        <img id="image-preview" src="/uploads/<%= sensor.foto_sensor %>" alt="Preview da imagem" class="max-w-xs" />
+                        <img id="image-preview" src="/uploads/<%= sensor.id_sensor %>" alt="Preview da imagem" class="max-w-xs" />
+
                     </div>
                 <% } %>
             </div>
@@ -59,7 +66,7 @@
             </button>
         </form>
     </div>
-    <img src="/imgs/camarize.png" class="w-48 mt-4" alt="">
+
     <%- include('partials/nav_bottom_sem') %>
 </body>
 </html>
