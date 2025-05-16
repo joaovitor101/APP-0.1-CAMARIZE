@@ -1,5 +1,21 @@
 import Parametros_atuais from "../Models/Parametros_atuais.js";
 
+
+async function buscarUltimosSete() {
+  try {
+    const ultimos = await Parametros_atuais.findAll({
+      limit: 7,
+      order: [['datahora', 'DESC']],
+    });
+
+    return ultimos.reverse(); // opcional: para deixar do mais antigo ao mais recente
+  } catch (error) {
+    console.error("Erro ao buscar os últimos 7 parâmetros:", error);
+    throw error;
+  }
+}
+
+
 async function criar(req, res) {
   try {
     const { datahora, temp_atual, ph_atual, amonia_atual, id_cativeiro } = req.body;
@@ -39,4 +55,5 @@ async function buscarUltimo(req, res) {
 export default {
   criar,
   buscarUltimo,
+  buscarUltimosSete
 };

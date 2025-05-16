@@ -9,7 +9,7 @@ import Cativeiros from "../Models/Cativeiro.js";
 import Tipos_camarao from '../Models/Camarao.js';
 import SitiosXCativeiros from '../Models/SitiosxCativeiros.js';
 import Usuarios from '../Models/Usuario.js';
-
+import Parametros_Atuais from '../Models/Parametros_atuais.js';
 const router = express.Router();
 
 // Configuração do multer para upload de imagens

@@ -46,6 +46,11 @@ const Cativeiros = connection.define('Cativeiros', {
   timestamps: false,  
 });
 
+Cativeiros.belongsTo(Tipos_camarao, {
+  foreignKey: 'id_tipo_camarao',  // Chave estrangeira
+  as: 'tipo_camarao',  //associação 
+});
+
 //associação com Tipos_camarao
 Cativeiros.belongsTo(Tipos_camarao, {
   foreignKey: 'id_tipo_camarao',  // Chave estrangeira

@@ -36,9 +36,10 @@ const Condicoes_ideais = connection.define('Condicoes_ideais', {
 });
 
 // Associação com o modelo Tipos_camarao
-Condicoes_ideais.belongsTo(Tipos_camarao, {
-    foreignKey: 'id_tipo_camarao',  // Define a chave estrangeira que faz referência à tabela Tipos_camarao
-    as: 'camarao',  // Nome dado à associação reversa (não obrigatório, mas recomendado)
-});
+Tipos_camarao.hasOne(Condicoes_ideais, {
+    foreignKey: "id_tipo_camarao",
+    as: "condicoes_ideais"
+  });
 
+    
 export default Condicoes_ideais;
