@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-import connection from "../config/sequelize-config.js";
+import connection from "../Config/sequelize-config.js";
 import Cativeiros from './Cativeiro.js';
 
 const Parametros_Atuais = connection.define('Parametros_atuais', {

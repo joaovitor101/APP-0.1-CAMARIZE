@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-import connection from "../config/sequelize-config.js";
+import connection from "../Config/sequelize-config.js";
 
 const Dietas = connection.define(
   "Dietas",

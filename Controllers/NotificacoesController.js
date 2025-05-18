@@ -1,10 +1,10 @@
 import express from 'express';
 const router = express.Router();
 import { Sequelize } from 'sequelize';
-import Parametros_atuais from '../models/Parametros_atuais.js';
-import Condicoes_ideais from '../models/Condicao_ideal.js';
-import Cativeiros from '../models/Cativeiro.js';
-import Tipos_camarao from '../models/Camarao.js'; // Importante!
+import Parametros_atuais from '../Models/Parametros_atuais.js';
+import Condicoes_ideais from '../Models/Condicao_ideal.js';
+import Cativeiros from '../Models/Cativeiro.js';
+import Tipos_camarao from '../Models/Camarao.js'; // Importante!
 
 // Rota de notificações
 router.get('/notificacoes', async (req, res) => {

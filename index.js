@@ -1,5 +1,5 @@
 import express from 'express';
-import connection from './config/sequelize-config.js';
+import connection from './Config/sequelize-config.js';
 import cors from 'cors';
 import flash from 'express-flash';
 import session from 'express-session';
@@ -8,6 +8,7 @@ const app = express();
 
 // Importar routers e controllers
 import parametrosRoutes from './Routes/parametros.js';
+import dietasRoutes from "./Routes/dietas.js";
 import CamaroesController from './Controllers/CamaroesController.js';
 import CativeirosController from './Controllers/CativeirosController.js';
 import DietasController from './Controllers/DietasController.js';
@@ -67,7 +68,6 @@ app.use('/', UsersController);
 app.use('/', DashboardControllers);
 app.use('/', CamaroesController);
 app.use('/', CativeirosController);
-app.use('/', DietasController);
 app.use('/', Condicoes_ideaisController);
 app.use('/', Tipos_sensorController);
 app.use('/', Especif_camaraoController);
@@ -76,6 +76,7 @@ app.use('/', NotificacoesController);
 app.use('/', SensoresController);
 app.use('/', SensoresxCativeirosController);
 app.use('/', parametrosRoutes); // Corrigido: rota com router adequado
+app.use('/', dietasRoutes);
 
 // Conexão com o banco e sincronização
 (async () => {
