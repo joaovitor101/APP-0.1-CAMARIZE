@@ -21,16 +21,28 @@
     ></script>
     <link rel="stylesheet" href="/css/dashboard_ejs.css" />
     <title>Editar Tanque</title>
+    <style>
+      #save {
+        background: linear-gradient(
+          to right,
+          #ffc2c2,
+          #aed5ff
+        ); /* Gradiente de fundo */
+      }
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* vertical */
+        align-items: center;     /* horizontal */
+      }
+    </style>
   </head>
-  <style>
-    #save {
-      background: linear-gradient(
-        to right,
-        #ffc2c2,
-        #aed5ff
-      ); /* Gradiente de fundo */
-    }
-  </style>
   <body>
     <div class="container">
       <div class="card border-0">
@@ -83,7 +95,7 @@
               />
             </div>
           </form>
-          <form
+          <!-- <form
             action="/cativeiros/delete/<%= cativeiro.id_cativeiro %>"
             method="get"
             enctype="multipart/form-data"
@@ -97,7 +109,7 @@
                 style="color: white"
               />
             </div>
-          </form>
+          </form> -->
         </div>
       </div>
       <%- include('partials/nav_bottom_sem') %>
